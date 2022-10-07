@@ -14,16 +14,33 @@
             <form class="row g-3" method="POST" action="{{ url('/login-post') }}">
                 @csrf
                 <div class="col-12">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
+                    <label for="email" class="form-label">Username / Email</label>
+                    <input type="text"
+                        class="form-control @error('username')
+                        id-invalid
+                    @enderror"
+                        id="username" name="username" placeholder="Username or email">
+                    @error('username')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="col-12">
                     <label for="inputChoosePassword" class="form-label">Enter
                         Password</label>
                     <div class="input-group" id="show_hide_password">
-                        <input type="password" name="password" class="form-control border-end-0" id="inputChoosePassword"
-                            placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i
-                                class='bx bx-hide'></i></a>
+                        <input type="password" name="password"
+                            class="form-control border-end-0 @error('password')
+                            is-invalid
+                        @enderror"
+                            id="inputChoosePassword" placeholder="Enter Password"> <a href="javascript:;"
+                            class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+                        @error('password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-6">

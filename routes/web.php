@@ -18,12 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AuthController::class,'loginView']);
+Route::get('/', [AuthController::class,'loginView'])->name('login');
 Route::post('/login-post',[AuthController::class,'loginPost']);
 Route::get('/register', [AuthController::class,'registView']);
+Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
 
-Route::get('/dashboard',[DashboardConteroller::class,'index']);
-Route::resource('/request-market',MarketConteroller::class);
-Route::resource('/topup-diamon',TopupDiamonController::class);
-Route::resource('/topup-pangan',TopupPanganController::class);
-Route::resource('/product',ProductController::class);
+Route::group(["middleware"=>"auth"],function(){
+    Route::get('/dashboard',[DashboardConteroller::class,'index']);
+
+    Route::resource('/request-market',MarketConteroller::class);
+    Route::resource('/topup-diamon',TopupDiamonController::class);
+    Route::resource('/topup-pangan',TopupPanganController::class);
+    Route::resource('/product',ProductController::class);
+
+    Route::post('/logout',[AuthController::class,'logout']);
+});

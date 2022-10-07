@@ -20,11 +20,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="{{ asset('') }}assets/css/app.css" rel="stylesheet">
     <link href="{{ asset('') }}assets/css/icons.css" rel="stylesheet">
+    {{-- sweet alert --}}
+    <link rel="stylesheet" href="{{ asset('') }}assets/css/sweetalert2.min.css">
     <title>{{ isset($title) ? $title : '' }} | Tamakoci</title>
     @stack('style')
 </head>
 
 <body class="bg-login">
+    @if (session()->has('success'))
+        <div class="success-info" data-msg="{{ session('success') }}"></div>
+    @endif
+    @if (session()->has('error'))
+        <div class="error-info" data-msg="{{ session('error') }}"></div>
+    @endif
     <!--wrapper-->
     <div class="wrapper">
         <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
@@ -71,6 +79,54 @@
     </script>
     <!--app JS-->
     <script src="{{ asset('') }}assets/js/app.js"></script>
+    <script src="{{ asset('') }}assets/sweetalert/sweetalert2.all.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            var success = $('.success-info').data('msg');
+            var error = $('.error-info').data('msg');
+            var errorPost = $('.error-post').data('msg');
+
+            if (error) {
+                if (errorPost) {
+                    title = errorPost
+                } else {
+                    title = error
+                }
+                Toast.fire({
+                    icon: 'error',
+
+                    title: title
+                })
+            }
+            if (success) {
+                Toast.fire({
+                    icon: 'success',
+                    title: success
+                })
+            }
+            if (errorPost) {
+                $('#addModal').modal("show")
+                console.log('error post');
+            }
+        })
+    </script>
     @stack('script')
 </body>
 
