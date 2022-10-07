@@ -15,10 +15,12 @@ class CreateRequestMarketsTable extends Migration
     {
         Schema::create('request_markets', function (Blueprint $table) {
             $table->id();
+            $table->string('avatar')->nullable();
             $table->integer('customer');
             $table->string('product');
             $table->integer('qty');
             $table->string('satuan');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
