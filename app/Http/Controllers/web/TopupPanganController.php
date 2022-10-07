@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\TopupPangan;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class TopupPanganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Product';
-        $data['table'] = Product::all();
-        return view('product.index',$data);
+        $data['title'] = 'Topup Pangan';
+        $data['table'] = TopupPangan::all();
+        return view('topup.pangan',$data);
     }
 
     /**
@@ -40,13 +40,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name'=>'required',
-            'satuan'=>'required',
+            'pangan' => 'required',
+            'diamon' => 'required',
             'status'=>'required'
         ]);
         try {
-            Product::create($request->all());
-            return redirect()->back()->with('success','Porduct created!');
+            TopupPangan::create($request->all());
+            return redirect()->back()->with('success','Data created!');
         } catch (QueryException $th) {
             return redirect()->back()->with('error','Server Error');
             
@@ -84,15 +84,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cek = Product::find($id);
+        $cek = TopupPangan::find($id);
         if(!$cek){
-            return redirect()->back()->with('error','Product not found');
+            return redirect()->back()->with('error','Data not found!');
         }
         try {
             $cek->update($request->all());
-            return redirect()->back()->with('success','Product Updated');
+            return redirect()->back()->with('success','Data Updated');
         } catch (QueryException $th) {
-            return redirect()->back()->with('error','Server Error');
+            return redirect()->back()->with('error','Server error');
         }
     }
 
@@ -104,13 +104,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $cek = Product::find($id);
+        $cek = TopupPangan::find($id);
         if(!$cek){
-            return redirect()->back()->with('error','Product not found');
+            return redirect()->back()->with('error','Data not found');
         }
         try {
             $cek->delete();
-            return redirect()->back()->with('success','Product Deleted');
+            return redirect()->back()->with('success','Data Deleted');
         } catch (QueryException $th) {
             return redirect()->back()->with('error','Server Error');
         }

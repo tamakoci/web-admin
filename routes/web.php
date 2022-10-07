@@ -3,7 +3,8 @@ use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\DashboardConteroller;
 use App\Http\Controllers\web\MarketConteroller;
 use App\Http\Controllers\web\ProductController;
-use App\Http\Controllers\web\TopupController;
+use App\Http\Controllers\web\TopupDiamonController;
+use App\Http\Controllers\web\TopupPanganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,6 @@ Route::get('/register', [AuthController::class,'registView']);
 
 Route::get('/dashboard',[DashboardConteroller::class,'index']);
 Route::resource('/request-market',MarketConteroller::class);
-Route::get('/topup-diamon',[TopupController::class,'diamon']);
-Route::get('/topup-pangan',[TopupController::class,'pangan']);
+Route::resource('/topup-diamon',TopupDiamonController::class);
+Route::resource('/topup-pangan',TopupPanganController::class);
 Route::resource('/product',ProductController::class);

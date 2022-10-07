@@ -14,7 +14,8 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <button type="button" class="btn btn-success"><i class="bx bx-plus"></i> Add</button>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><i
+                        class="bx bx-plus"></i> Add</button>
             </div>
         </div>
     </div>
@@ -49,8 +50,15 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <a href="" class="btn btn-warning btn-sm">edit</a>
-                                    <a href="" class="btn btn-danger btn-sm">delete</a>
+                                    <form action="{{ url('topup-diamon/' . $t->id) }}" method="POST">
+                                        <button type="button" data-id="{{ $t->id }}"
+                                            data-diamon="{{ $t->diamon }}" data-price="{{ $t->price }}"
+                                            data-status="{{ $t->status }}"
+                                            class="btn btn-warning btn-sm editBtn">edit</button>
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm">delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -60,3 +68,165 @@
         </div>
     </div>
 @endsection
+@push('modal')
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    {{-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> --}}
+                    <div class="card-title d-flex align-items-center">
+                        <div>
+                            <i class="bx bx-add-to-queue me-1 font-22 text-info"></i>
+                        </div>
+                        <h5 class="mb-0 text-info">Add {{ $title }}</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="border p-4 rounded">
+                        {{-- <hr /> --}}
+                        <form action="" method="POST" id="formAdd">
+                            @csrf
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Diamon</label>
+                                <div class="col-sm-9">
+                                    <input type="number"
+                                        class="form-control @error('diamon')
+                                        is-invalid
+                                    @enderror"
+                                        id="diamon" name="diamon" placeholder="Enter Diamon"
+                                        value="{{ old('diamon') }}">
+                                    @error('diamon')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Price</label>
+                                <div class="col-sm-9">
+                                    <input type="number"
+                                        class="form-control @error('price')
+                                        is-invalid
+                                    @enderror"
+                                        id="price" name="price" placeholder="Enter Price"
+                                        value="{{ old('price') }}">
+                                    @error('price')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="satuan" class="col-sm-3 col-form-label">Status</label>
+                                <div class="col-sm-9">
+                                    <select name="status" id="status" class="form-select status">
+                                        <option value="1" selected>Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label"></label>
+                                <div class="col-sm-9">
+                                    <input type="submit" class="btn btn-primary px-5">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="edtModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    {{-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> --}}
+                    <div class="card-title d-flex align-items-center">
+                        <div>
+                            <i class="bx bx-add-to-queue me-1 font-22 text-info"></i>
+                        </div>
+                        <h5 class="mb-0 text-info">Add {{ $title }}</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="border p-4 rounded">
+                        {{-- <hr /> --}}
+                        <form action="" method="POST" id="formEdt">
+                            @csrf
+                            @method('put')
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Diamon</label>
+                                <div class="col-sm-9">
+                                    <input type="number"
+                                        class="form-control diamon @error('diamon')
+                                        is-invalid
+                                    @enderror"
+                                        id="diamon" name="diamon" placeholder="Enter Diamon"
+                                        value="{{ old('diamon') }}">
+                                    @error('diamon')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Price</label>
+                                <div class="col-sm-9">
+                                    <input type="number"
+                                        class="form-control price @error('price')
+                                        is-invalid
+                                    @enderror"
+                                        id="price" name="price" placeholder="Enter Price"
+                                        value="{{ old('price') }}">
+                                    @error('price')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="satuan" class="col-sm-3 col-form-label status">Status</label>
+                                <div class="col-sm-9">
+                                    <select name="status" id="status" class="form-select status">
+                                        <option value="1" selected>Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label"></label>
+                                <div class="col-sm-9">
+                                    <input type="submit" class="btn btn-primary px-5">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endpush
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('.editBtn').on('click', function(e) {
+                const id = $(this).data('id'),
+                    diamon = $(this).data('diamon'),
+                    price = $(this).data('price'),
+                    status = $(this).data('status');
+                $('#edtModal').modal('show');
+                $('#formEdt').attr('action', "{{ url('/topup-diamon') }}" + "/" + id)
+                $('.diamon').val(diamon)
+                $('.price').val(price)
+                $('.status').val(status)
+            })
+        })
+    </script>
+@endpush

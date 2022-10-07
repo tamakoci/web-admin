@@ -49,7 +49,7 @@
                                 </td>
                                 <td class="text-end">
                                     <form action="{{ url('product/' . $t->id) }}" method="POST">
-                                        <button data-id="{{ $t->id }}" data-name="{{ $t->name }}"
+                                        <button type="button" data-id="{{ $t->id }}" data-name="{{ $t->name }}"
                                             data-satuan="{{ $t->satuan }}" data-status="{{ $t->status }}"
                                             class="btn btn-warning btn-sm editBtn">edit</button>
                                         @csrf
@@ -164,7 +164,7 @@
                                         is-invalid
                                     @enderror name"
                                         id="name" name="name" placeholder="Enter Product Name"
-                                        value="{{ old('customer') }}">
+                                        value="{{ old('name') }}">
                                     @error('name')
                                         <div class="invalid-feedback">
                                             {{ $message }}
