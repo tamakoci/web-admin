@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Market;
+use App\Models\Product;
 use App\Models\RequestMarket;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -19,7 +20,9 @@ class MarketConteroller extends Controller
     public function index()
     {
         $data['title'] = 'Request Market';
-        $data['table'] = Market::all();
+        $data['table'] = Market::with('product')->get();
+        // dd($data);
+        $data['product'] = Product::where('status',true)->get();
         return view('market.index',$data);
     }
 
@@ -41,12 +44,12 @@ class MarketConteroller extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $validator = $request->validate([
             'image' => 'required',
-            'customer' => 'required|unique:request_markets,customer',
-            'product' => 'required',
+            'customer' => 'required|unique:markets,customer',
+            'product_id' => 'required',
             'qty' => 'required',
-            'satuan'=>'required',
             'status'=>'required'
         ]);
         if (!isset($request->image)) {
@@ -61,7 +64,13 @@ class MarketConteroller extends Controller
             $file->move($location,$filename);
             $filepath = "files/images/".$filename;
             $request['avatar'] = $filepath;
-            Market::create($request->all());
+            Market::create([
+                "avatar" => $filepath,
+                "customer"=>$request->customer,
+                "product_id"=>$request->product_id,
+                "qty"=>$request->qty,
+                "status"=>$request->status
+            ]);
             return redirect()->back()->with('success','Request Market created');
         } catch (QueryException $e) {
             return redirect()->back()->with('error','Server error!');

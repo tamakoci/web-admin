@@ -96,9 +96,9 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td><img src="{{ asset($t->avatar) }}" alt="image{{ $t->customer }}" width="100px"></td>
                                 <td>{{ $t->customer }}</td>
-                                <td>{{ $t->product }}</td>
+                                <td>{{ $t->product->name }}</td>
                                 <td>{{ $t->qty }}</td>
-                                <td>{{ $t->satuan }}</td>
+                                <td>{{ $t->product->satuan }}</td>
                                 <td>
                                     @if ($t->status == 1)
                                         <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
@@ -107,12 +107,12 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <button data-id="{{ $t->id }}" data-cust="{{ $t->customer }}"
-                                        data-ava="{{ $t->avatar }}" data-product="{{ $t->product }}"
-                                        data-qty="{{ $t->qty }}" data-satuan="{{ $t->satuan }}"
-                                        data-status="{{ $t->status }}"
-                                        class="btn btn-warning btn-sm btnEdit">edit</button>
                                     <form action="{{ url('request-market') . '/' . $t->id }}" method="POST">
+                                        <button type="button" data-id="{{ $t->id }}"
+                                            data-cust="{{ $t->customer }}" data-ava="{{ $t->avatar }}"
+                                            data-product="{{ $t->product->id }}" data-qty="{{ $t->qty }}"
+                                            data-status="{{ $t->status }}" data-avatar="{{ $t->avatar }}"
+                                            class="btn btn-warning btn-sm btnEdit">edit</button>
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger btn-sm">delete</button>
@@ -163,14 +163,20 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="product" class="col-sm-3 col-form-label">Product</label>
+                                <label for="product" class="col-sm-3 col-form-label">Produk</label>
                                 <div class="col-sm-9">
-                                    <input type="text"
-                                        class="form-control @error('product')
-                                        id-invalid
-                                    @enderror"
-                                        id="product" name="product" placeholder="Product" value="{{ old('product') }}">
-                                    @error('product')
+                                    <select name="product_id" id="product_id"
+                                        class="form-select @error('product_id')
+                                        is-invalid
+                                    @enderror">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($product as $p)
+                                            <option value="{{ $p->id }}"
+                                                {{ old('product') == $p->id ? 'selected' : '' }}>
+                                                {{ $p->name . ' - ' . $p->satuan }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('satuan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -193,27 +199,7 @@
                                 </div>
 
                             </div>
-                            <div class="row mb-3">
-                                <label for="satuan" class="col-sm-3 col-form-label">Satuan</label>
-                                <div class="col-sm-9">
-                                    <select name="satuan" id="satuan"
-                                        class="form-select @error('satuan')
-                                        is-invalid
-                                    @enderror">
-                                        <option selected disabled>--pilih</option>
-                                        <option value="liter" {{ old('satuan') == 'liter' ? 'liter' : '' }}>Liter
-                                        </option>
-                                        <option value="kg" {{ old('satuan') == 'kg' ? 'kg' : '' }}>Kg</option>
-                                        <option value="butir" {{ old('satuan') == 'butir' ? 'butir' : '' }}>butir
-                                        </option>
-                                    </select>
-                                    @error('satuan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="row mb-3">
                                 <label for="satuan" class="col-sm-3 col-form-label">Status</label>
                                 <div class="col-sm-9">
@@ -309,10 +295,24 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="product" class="col-sm-3 col-form-label">Product</label>
+                                <label for="product" class="col-sm-3 col-form-label">Produk</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control product" id="product" name="product"
-                                        placeholder="Product">
+                                    <select name="product_id" id="product_id"
+                                        class="form-select product @error('product_id')
+                                        is-invalid
+                                    @enderror">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($product as $p)
+                                            <option value="{{ $p->id }}"
+                                                {{ old('product') == $p->id ? 'selected' : '' }}>
+                                                {{ $p->name . ' - ' . $p->satuan }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('satuan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -320,16 +320,6 @@
                                 <div class="col-sm-9">
                                     <input type="number" class="form-control qty" id="qty" name="qty"
                                         placeholder="Jumlah">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="satuan" class="col-sm-3 col-form-label">Satuan</label>
-                                <div class="col-sm-9">
-                                    <select name="satuan" id="satuan" class="form-select satuan">
-                                        <option value="liter">Liter</option>
-                                        <option value="kg">Kg</option>
-                                        <option value="butir">butir</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -487,7 +477,8 @@
                 product = $(this).data("product"),
                 qty = $(this).data("qty"),
                 satuan = $(this).data("satuan"),
-                status = $(this).data("status");
+                status = $(this).data("status"),
+                avatar = $(this).data("avatar");
             $("#editModal").modal("show");
             $('.customer').val(customer)
             $('.product').val(product)
@@ -495,6 +486,7 @@
             $('.satuan').val(satuan)
             $('.status').val(status)
             $('#formEdt').attr("action", "{{ url('request-market') }}" + '/' + id);
+            $('.updatepreview').attr('src', `{{ asset('${avatar}') }}`)
         })
     </script>
 @endpush

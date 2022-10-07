@@ -9,4 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    public function market(){
+        return $this->hasMany(Market::class);
+    }
 }
