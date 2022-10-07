@@ -27,6 +27,9 @@
             </a>
             <ul>
                 <li>
+                    <a href="{{ url('/product') }}"><i class="bx bx-right-arrow-alt"></i>Product</a>
+                </li>
+                <li>
                     <a href="{{ url('/request-market') }}"><i class="bx bx-right-arrow-alt"></i>Request Market</a>
                 </li>
                 <li>

@@ -46,6 +46,9 @@
     @if (session()->has('errorPost'))
         <div class="error-post" data-msg="{{ session('errorPost') }}"></div>
     @endif
+    @if ($errors->any())
+        <div class="error-post" data-msg="Invalid Input!"></div>
+    @endif
     <!--wrapper-->
     <div class="wrapper">
         <!--sidebar wrapper -->

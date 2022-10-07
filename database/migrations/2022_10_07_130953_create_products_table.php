@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRequestMarketsTable extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateRequestMarketsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request_markets', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('avatar')->nullable();
-            $table->integer('customer');
-            $table->string('product');
-            $table->integer('qty');
-            $table->string('satuan');
+            $table->string('name',20);
+            $table->string('satuan',10);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
@@ -32,6 +29,6 @@ class CreateRequestMarketsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request_markets');
+        Schema::dropIfExists('products');
     }
 }

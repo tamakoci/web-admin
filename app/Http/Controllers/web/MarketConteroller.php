@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Market;
 use App\Models\RequestMarket;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Stmt\Return_;
 
 class MarketConteroller extends Controller
 {
@@ -21,7 +19,7 @@ class MarketConteroller extends Controller
     public function index()
     {
         $data['title'] = 'Request Market';
-        $data['table'] = RequestMarket::all();
+        $data['table'] = Market::all();
         return view('market.index',$data);
     }
 
@@ -63,7 +61,7 @@ class MarketConteroller extends Controller
             $file->move($location,$filename);
             $filepath = "files/images/".$filename;
             $request['avatar'] = $filepath;
-            RequestMarket::create($request->all());
+            Market::create($request->all());
             return redirect()->back()->with('success','Request Market created');
         } catch (QueryException $e) {
             return redirect()->back()->with('error','Server error!');
@@ -102,7 +100,7 @@ class MarketConteroller extends Controller
     public function update(Request $request, $id)
     {
         // dd($request->all());
-        $data = RequestMarket::find($id);
+        $data = Market::find($id);
         if(!$data){
             return redirect()->back()->with('error','Update gagal, data tidak ditemukan!');
         }
@@ -133,7 +131,7 @@ class MarketConteroller extends Controller
      */
     public function destroy($id)
     {
-        $find = RequestMarket::find($id);
+        $find = Market::find($id);
         if ($find) {
             $find->delete();
            return redirect()->back()->with('success','Request Market Deleted');
