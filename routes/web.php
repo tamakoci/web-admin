@@ -3,6 +3,7 @@ use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\DashboardConteroller;
 use App\Http\Controllers\web\MarketConteroller;
 use App\Http\Controllers\web\ProductController;
+use App\Http\Controllers\web\TernakController;
 use App\Http\Controllers\web\TopupDiamonController;
 use App\Http\Controllers\web\TopupPanganController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,6 @@ Route::group(["middleware"=>"auth"],function(){
     Route::resource('/topup-diamon',TopupDiamonController::class);
     Route::resource('/topup-pangan',TopupPanganController::class);
     Route::resource('/product',ProductController::class);
-
+    Route::resource('/ternak',TernakController::class);
     Route::post('/logout',[AuthController::class,'logout']);
 });

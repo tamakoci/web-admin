@@ -18,7 +18,7 @@ class TopupDiamonController extends Controller
     {
         $data['title'] = 'Topup Diamon';
         $data['table'] = TopupDiamon::all();
-        return view('topup.diamon',$data);
+        return view('masterdata.topup-diamon',$data);
     }
 
     /**

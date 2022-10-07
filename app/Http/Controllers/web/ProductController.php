@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $data['title'] = 'Product';
         $data['table'] = Product::all();
-        return view('product.index',$data);
+        return view('masterdata.product',$data);
     }
 
     /**

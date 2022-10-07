@@ -18,7 +18,7 @@ class TopupPanganController extends Controller
     {
         $data['title'] = 'Topup Pangan';
         $data['table'] = TopupPangan::all();
-        return view('topup.pangan',$data);
+        return view('masterdata.topup-pangan',$data);
     }
 
     /**

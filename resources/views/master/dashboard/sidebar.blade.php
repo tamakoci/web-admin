@@ -27,10 +27,13 @@
             </a>
             <ul>
                 <li>
-                    <a href="{{ url('/product') }}"><i class="bx bx-right-arrow-alt"></i>Product</a>
+                    <a href="{{ url('/ternak') }}"><i class="bx bx-right-arrow-alt"></i>Ternak</a>
                 </li>
                 <li>
-                    <a href="{{ url('/request-market') }}"><i class="bx bx-right-arrow-alt"></i>Request Market</a>
+                    <a href="{{ url('/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a>
+                </li>
+                <li>
+                    <a href="{{ url('/request-market') }}"><i class="bx bx-right-arrow-alt"></i>Market</a>
                 </li>
                 <li>
                     <a href="{{ url('/topup-diamon') }}"><i class="bx bx-right-arrow-alt"></i>Topup Diamon</a>

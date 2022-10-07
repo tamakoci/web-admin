@@ -3,27 +3,22 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Market;
-use App\Models\Product;
-use App\Models\RequestMarket;
+use App\Models\Ternak;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
-class MarketConteroller extends Controller
+class TernakController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        $data['title'] = 'Request Market';
-        $data['table'] = Market::with('product')->get();
-        // dd($data);
-        $data['product'] = Product::where('status',true)->get();
-        return view('masterdata.market',$data);
+        $data['title'] = 'Ternak';
+        $data['table'] = Ternak::all();
+        return view('masterdata.ternak',$data);
     }
 
     /**
@@ -44,12 +39,13 @@ class MarketConteroller extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $validator = $request->validate([
+         $validator = $request->validate([
             'image' => 'required',
-            'customer' => 'required|unique:markets,customer',
-            'product_id' => 'required',
-            'qty' => 'required',
+            'name' => 'required',
+            'price' => 'required',
+            'min_benefit' => 'required',
+            'max_benefit' => 'required',
+            'duration' => 'required',
             'status'=>'required'
         ]);
         if (!isset($request->image)) {
@@ -64,14 +60,8 @@ class MarketConteroller extends Controller
             $file->move($location,$filename);
             $filepath = "files/images/".$filename;
             $request['avatar'] = $filepath;
-            Market::create([
-                "avatar" => $filepath,
-                "customer"=>$request->customer,
-                "product_id"=>$request->product_id,
-                "qty"=>$request->qty,
-                "status"=>$request->status
-            ]);
-            return redirect()->back()->with('success','Request Market created');
+            Ternak::create($request->all());
+            return redirect()->back()->with('success','Ternak created');
         } catch (QueryException $e) {
             return redirect()->back()->with('error','Server error!');
         }
@@ -108,8 +98,7 @@ class MarketConteroller extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
-        $data = Market::find($id);
+        $data = Ternak::find($id);
         if(!$data){
             return redirect()->back()->with('error','Update gagal, data tidak ditemukan!');
         }
@@ -129,8 +118,7 @@ class MarketConteroller extends Controller
         } catch (QueryException $e) {
             return redirect()->back()->with('error','Server Error!');
             
-        }
-    }
+        }    }
 
     /**
      * Remove the specified resource from storage.
@@ -140,10 +128,10 @@ class MarketConteroller extends Controller
      */
     public function destroy($id)
     {
-        $find = Market::find($id);
+        $find = Ternak::find($id);
         if ($find) {
             $find->delete();
-           return redirect()->back()->with('success','Request Market Deleted');
+           return redirect()->back()->with('success','Ternak Deleted');
         } else {
            return redirect()->back()->with('error','Data not found');
         }

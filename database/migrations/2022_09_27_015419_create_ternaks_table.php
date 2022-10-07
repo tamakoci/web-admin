@@ -21,6 +21,7 @@ class CreateTernaksTable extends Migration
             $table->integer('max_benefit');
             $table->integer('duration');
             $table->string('avatar')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
