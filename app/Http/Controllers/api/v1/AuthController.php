@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuthUser;
 use App\Models\User;
+use App\Models\UserTernak;
+use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +38,7 @@ class AuthController extends Controller
             ]);
             return response()->json([
                 'status' => "200",
-                'message' => 'User created successfully',
+                'message' => 'User Sucessuly Registed',
                 'data' => $user
             ], Response::HTTP_OK);
        } catch (QueryException $e) {
@@ -51,6 +55,16 @@ class AuthController extends Controller
             'username' => 'required',
             'password' => 'required'
         ]);
+        $user = User::where('username',$request->username)->first();
+        if(!$user){
+            $user = User::where('email',$request->username)->first();
+        }
+        if(!$user){
+            return response()->json(['error'=>'User Not Found'],404);
+        }
+        if(!Hash::check($request->password,$user->password)){
+            return response()->json(['error'=>'Wrong username password'],401);  
+        }
         // return response()->json($request->all());
         if ($validate->fails()) {
             return response()->json(['error' => $validate->getMessageBag()], Response::HTTP_UNAUTHORIZED);
@@ -63,7 +77,7 @@ class AuthController extends Controller
                 ], Response::HTTP_UNAUTHORIZED);
             }
         } catch (JWTException $e) {
-            return $credentials;
+            // return $credentials;
             return response()->json([
                 	'status' => 500,
                 	'message' => 'Could not create token.',
@@ -72,7 +86,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Login Success',
-            'token' => $token,
+            'token' => $token
         ]);
     }
     public function logout(Request $request)
@@ -101,14 +115,5 @@ class AuthController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    public function get_user(Request $request)
-    {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
- 
-        $user = JWTAuth::authenticate($request->token);
- 
-        return response()->json(['user' => $user]);
-    }
+    
 }

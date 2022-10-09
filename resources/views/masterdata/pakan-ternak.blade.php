@@ -28,10 +28,8 @@
                     <thead class="table-light">
                         <tr>
                             <td>No</td>
-                            <th>Pakan</th>
-                            <th>Equal to</th>
-                            <th>Diamon</th>
-                            <th>Status</th>
+                            <th>Ternak</th>
+                            <th>pakan</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -39,21 +37,12 @@
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $t->ternak->name }}</td>
                                 <td>{{ $t->pakan }}</td>
-                                <td>{{ '=' }}</td>
-                                <td>{{ $t->diamon }}</td>
-                                <td>
-                                    @if ($t->status == 1)
-                                        <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
-                                    @else
-                                        <span class="badge bg-gradient-bloody text-white shadow-sm w-100">Inactive</span>
-                                    @endif
-                                </td>
                                 <td class="text-end">
-                                    <form action="{{ url('topup-pakan/' . $t->id) }}" method="POST">
+                                    <form action="{{ url('pakan-ternak/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
-                                            data-diamon="{{ $t->diamon }}" data-pakan="{{ $t->pakan }}"
-                                            data-status="{{ $t->status }}"
+                                            data-ternak="{{ $t->ternak->id }}" data-pakan="{{ $t->pakan }}"
                                             class="btn btn-warning btn-sm editBtn">edit</button>
                                         @csrf
                                         @method('delete')
@@ -88,44 +77,40 @@
                         <form action="" method="POST" id="formAdd">
                             @csrf
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">pakan</label>
+                                <label for="satuan" class="col-sm-3 col-form-label">Ternak</label>
+                                <div class="col-sm-9">
+                                    <select name="ternak_id" id="ternak"
+                                        class="form-select @error('ternak_id')
+                                        is-invalid
+                                    @enderror ternak_id">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($ternak as $t)
+                                            <option value="{{ $t->id }}"
+                                                {{ old('ternak_id') == $t->id ? 'selected' : '' }}>{{ $t->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('ternak_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Pakan</label>
                                 <div class="col-sm-9">
                                     <input type="number"
                                         class="form-control @error('pakan')
-                                        is-invalid
-                                        @enderror"
-                                        id="pakan" name="pakan" placeholder="Enter pakan"
-                                        value="{{ old('pakan') }}">
-                                    @error('price')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Diamon</label>
-                                <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control @error('diamon')
                                             is-invalid
                                         @enderror"
-                                        id="diamon" name="diamon" placeholder="Enter Diamon"
-                                        value="{{ old('diamon') }}">
-                                    @error('diamon')
+                                        id="pakan" name="pakan" placeholder="Tambahkan pakan"
+                                        value="{{ old('pakan') }}">
+                                    @error('pakan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="satuan" class="col-sm-3 col-form-label">Status</label>
-                                <div class="col-sm-9">
-                                    <select name="status" id="status" class="form-select status">
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -149,7 +134,7 @@
                         <div>
                             <i class="bx bx-add-to-queue me-1 font-22 text-info"></i>
                         </div>
-                        <h5 class="mb-0 text-info">Edit {{ $title }}</h5>
+                        <h5 class="mb-0 text-info">Add {{ $title }}</h5>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -160,44 +145,40 @@
                             @csrf
                             @method('put')
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">pakan</label>
+                                <label for="satuan" class="col-sm-3 col-form-label">Ternak</label>
+                                <div class="col-sm-9">
+                                    <select name="ternak_id" id="ternak"
+                                        class="form-select @error('ternak_id')
+                                        is-invalid
+                                    @enderror ternak_id">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($ternak as $t)
+                                            <option value="{{ $t->id }}"
+                                                {{ old('ternak_id') == $t->id ? 'selected' : '' }}>{{ $t->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('ternak_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Pakan</label>
                                 <div class="col-sm-9">
                                     <input type="number"
-                                        class="form-control edtPakan @error('pakan')
-                                        is-invalid
-                                    @enderror"
-                                        id="pakan" name="pakan" placeholder="Enter pakan"
+                                        class="form-control pakan @error('pakan')
+                                            is-invalid
+                                        @enderror"
+                                        id="pakan" name="pakan" placeholder="Tambahkan pakan"
                                         value="{{ old('pakan') }}">
                                     @error('pakan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Diamon</label>
-                                <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control edtDiamon @error('diamon')
-                                        is-invalid
-                                    @enderror"
-                                        id="diamon" name="diamon" placeholder="Enter Diamon"
-                                        value="{{ old('diamon') }}">
-                                    @error('diamon')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="satuan" class="col-sm-3 col-form-label status">Status</label>
-                                <div class="col-sm-9">
-                                    <select name="status" id="status" class="form-select edtStatus">
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -218,15 +199,12 @@
         $(document).ready(function() {
             $('.editBtn').on('click', function(e) {
                 const id = $(this).data('id'),
-                    pakan = $(this).data('pakan'),
-                    diamon = $(this).data('diamon'),
-                    status = $(this).data('status');
+                    ternak = $(this).data('ternak'),
+                    pakan = $(this).data('pakan');
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('/topup-pakan') }}" + "/" + id)
-
-                $('.edtPakan').val(pakan)
-                $('.edtDiamon').val(diamon)
-                $('.edtStatus').val(status)
+                $('#formEdt').attr('action', "{{ url('/pakan-ternak') }}" + "/" + id);
+                $('.ternak_id').val(ternak);
+                $('.pakan').val(pakan);
             })
         })
     </script>

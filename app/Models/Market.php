@@ -13,4 +13,8 @@ class Market extends Model
     public function product(){
         return $this->belongsTo(Product::class,'product_id');
     }
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

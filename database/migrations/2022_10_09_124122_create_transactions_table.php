@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserWalletsTable extends Migration
+class CreateTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateUserWalletsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_wallets', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('diamon')->default(0);
-            $table->integer('pakan')->default(0);
-            $table->string('hasil_ternak')->nullable();
+            $table->integer('last_amount')->default(0);
+            $table->integer('final_amount')->default(0);
+            $table->string('trx_type',5);
+            $table->string('detail');
+            $table->string('trx_id');
             $table->foreign('user_id')
                     ->references('id')
                     ->on('users')
@@ -35,6 +37,6 @@ class CreateUserWalletsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_wallets');
+        Schema::dropIfExists('transactions');
     }
 }

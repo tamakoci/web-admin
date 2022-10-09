@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class MarketController extends Controller
 {
     public function market(){
-        $data = Market::orderBy('customer','asc')->get(['id','customer','product','qty']);
+        $data = Market::with('product')->where('status',true)->orderBy('customer','asc')->get();
         return response()->json([
             'status'    => 200,
             'msg'       => 'Request customer on marker',

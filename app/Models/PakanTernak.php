@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class PakanTernak extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+    
+    public function ternak(){
+        return $this->belongsTo(Ternak::class,'ternak_id');
+    }
 }

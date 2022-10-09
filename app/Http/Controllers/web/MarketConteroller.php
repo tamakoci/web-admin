@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Market;
 use App\Models\Product;
 use App\Models\RequestMarket;
+use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,8 @@ class MarketConteroller extends Controller
     {
         $data['title'] = 'Request Market';
         $data['table'] = Market::with('product')->get();
-        // dd($data);
+        // $test = UserWallet::where('user_id',2)->latest("id")->first();
+        // dd(json_decode($test->hasil_ternak));
         $data['product'] = Product::where('status',true)->get();
         return view('masterdata.market',$data);
     }

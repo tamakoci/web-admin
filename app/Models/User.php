@@ -28,6 +28,8 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        "created_at",
+        "updated_at"
     ];
 
     /**
@@ -45,5 +47,13 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public function getAvatar()
+    {
+        if($this->avatar) {
+            return url('/public/uploads/avatar/'.$this->avatar);
+        } else {
+            return url('/public/assets/images/profile.png');
+        }
     }
 }

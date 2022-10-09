@@ -33,13 +33,16 @@
                     <a href="{{ url('/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a>
                 </li>
                 <li>
+                    <a href="{{ url('/pakan-ternak') }}"><i class="bx bx-right-arrow-alt"></i>Pakan Ternak</a>
+                </li>
+                <li>
                     <a href="{{ url('/request-market') }}"><i class="bx bx-right-arrow-alt"></i>Market</a>
                 </li>
                 <li>
                     <a href="{{ url('/topup-diamon') }}"><i class="bx bx-right-arrow-alt"></i>Topup Diamon</a>
                 </li>
                 <li>
-                    <a href="{{ url('/topup-pangan') }}"><i class="bx bx-right-arrow-alt"></i>Topup Pangan</a>
+                    <a href="{{ url('/topup-pakan') }}"><i class="bx bx-right-arrow-alt"></i>Topup Pakan</a>
                 </li>
             </ul>
         </li>

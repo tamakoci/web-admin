@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Models\TopupPangan;
+use App\Models\TopupPakan;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
-class TopupPanganController extends Controller
+class TopupPakanController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+     public function index()
     {
-        $data['title'] = 'Topup Pangan';
-        $data['table'] = TopupPangan::all();
+        $data['title'] = 'Topup Pakan';
+        $data['table'] = TopupPakan::all();
         return view('masterdata.topup-pangan',$data);
     }
 
@@ -40,12 +40,12 @@ class TopupPanganController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'pangan' => 'required',
+            'pakan' => 'required',
             'diamon' => 'required',
             'status'=>'required'
         ]);
         try {
-            TopupPangan::create($request->all());
+            TopupPakan::create($request->all());
             return redirect()->back()->with('success','Data created!');
         } catch (QueryException $th) {
             return redirect()->back()->with('error','Server Error');
@@ -84,7 +84,7 @@ class TopupPanganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cek = TopupPangan::find($id);
+        $cek = TopupPakan::find($id);
         if(!$cek){
             return redirect()->back()->with('error','Data not found!');
         }
@@ -104,7 +104,7 @@ class TopupPanganController extends Controller
      */
     public function destroy($id)
     {
-        $cek = TopupPangan::find($id);
+        $cek = TopupPakan::find($id);
         if(!$cek){
             return redirect()->back()->with('error','Data not found');
         }

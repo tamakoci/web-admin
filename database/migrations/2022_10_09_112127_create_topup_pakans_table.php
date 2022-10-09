@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTopupPangansTable extends Migration
+class CreateTopupPakansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTopupPangansTable extends Migration
      */
     public function up()
     {
-        Schema::create('topup_pangans', function (Blueprint $table) {
+        Schema::create('topup_pakans', function (Blueprint $table) {
             $table->id();
-            $table->integer('pangan');
+            $table->integer('pakan');
             $table->integer('diamon');
             $table->boolean('status')->default(true);
             $table->timestamps();
@@ -29,6 +29,6 @@ class CreateTopupPangansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('topup_pangans');
+        Schema::dropIfExists('topup_pakans');
     }
 }

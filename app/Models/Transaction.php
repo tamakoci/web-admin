@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TopupPangan extends Model
+class Transaction extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
 
+    public static function trxID($type){
+        return $type . time();
+    }
+    
 }
