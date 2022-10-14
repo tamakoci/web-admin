@@ -13,5 +13,8 @@ class Transaction extends Model
     public static function trxID($type){
         return $type . time();
     }
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
     
 }

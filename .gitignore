@@ -1,9 +1,5 @@
 /node_modules
-/public/hot
-/public/storage
 /public/files
-/storage/*.key
-/vendor
 .env
 .env.backup
 .phpunit.result.cache
@@ -14,4 +10,4 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-# /.zip
+/*.zip

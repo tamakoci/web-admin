@@ -95,7 +95,7 @@
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><img src="{{ asset($t->avatar) }}" alt="image{{ $t->customer }}" width="100px"></td>
+                                <td><img src="{{ $t->avatar }}" alt="image{{ $t->customer }}" width="100px"></td>
                                 <td>{{ $t->name }}</td>
                                 <td>{{ $t->price }}</td>
                                 <td>{{ $t->min_benefit }}</td>
@@ -561,7 +561,7 @@
             $('.duration').val(duration)
             $('.status').val(status)
             $('#formEdt').attr("action", "{{ url('ternak') }}" + '/' + id);
-            $('.updatepreview').attr('src', `{{ asset('${avatar}') }}`)
+            $('.updatepreview').attr('src', `${avatar}`)
         })
     </script>
 @endpush

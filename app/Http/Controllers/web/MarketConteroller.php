@@ -64,8 +64,7 @@ class MarketConteroller extends Controller
             // upload file location
             $location = "public/files/images/";
             $file->move($location,$filename);
-            $filepath = "files/images/".$filename;
-            $request['avatar'] = $filepath;
+            $filepath = asset('')."files/images/".$filename;
             Market::create([
                 "avatar" => $filepath,
                 "customer"=>$request->customer,
@@ -123,7 +122,7 @@ class MarketConteroller extends Controller
                 
                 $file->move($location,$filename);
             
-                $filepath = "files/images/".$filename;
+                $filepath = asset('')."files/images/".$filename;
                 $request['avatar'] = $filepath;
             }
             $data->update($request->all());

@@ -58,7 +58,7 @@ class TernakController extends Controller
             // upload file location
             $location = "public/files/images/";
             $file->move($location,$filename);
-            $filepath = "files/images/".$filename;
+            $filepath =  asset('') . "files/images/".$filename;
             $request['avatar'] = $filepath;
             Ternak::create($request->all());
             return redirect()->back()->with('success','Ternak created');
@@ -110,7 +110,7 @@ class TernakController extends Controller
                 
                 $file->move($location,$filename);
             
-                $filepath = "files/images/".$filename;
+                $filepath =  asset('')  . "files/images/".$filename;
                 $request['avatar'] = $filepath;
             }
             $data->update($request->all());
@@ -118,7 +118,8 @@ class TernakController extends Controller
         } catch (QueryException $e) {
             return redirect()->back()->with('error','Server Error!');
             
-        }    }
+        }    
+    }
 
     /**
      * Remove the specified resource from storage.

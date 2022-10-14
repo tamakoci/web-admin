@@ -21,59 +21,88 @@ class AuthController extends Controller
 
 
     public function register(Request $request){
-        $validator = Validator::make($request->all(),[
+        $validation = [
             'username'=>'required|min:5|unique:users,username',
-            'email' => 'required|email|unique:users,email',
+            'phone'=>'required|unique:users,phone',
             'password' => 'required|confirmed|min:6',
             'password_confirmation'=>'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->getMessageBag()],Response::HTTP_UNAUTHORIZED);
+        ];
+        if(isset($request->email) || $request->email != null){
+            $validation['email'] = 'required|email|unique:users,email';
         }
-       try {
+        if(isset($request->user_ref) || $request->user_ref != null){
+            $validation['user_ref'] = 'required|min:5';
+        }
+        // return $request->all();
+        $validator = Validator::make($request->all(),$validation);
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => 401,
+                "message"=>"Validation Error!",
+                'errors' => $validator->getMessageBag()],Response::HTTP_UNAUTHORIZED);
+        }
+        try{
             $user = User::create([
                 'email' => $request->email,
                 'username' => $request->username,
+                'phone'=>$request->phone,
+                'user_ref'=>$request->user_ref,
                 'password' =>  Hash::make($request->password)
             ]);
             return response()->json([
                 'status' => "200",
                 'message' => 'User Sucessuly Registed',
-                'data' => $user
+                'data' => User::find($user->id)
             ], Response::HTTP_OK);
-       } catch (QueryException $e) {
+        }catch (QueryException $e) {
             return response()->json([
                 'status' => "401",
                 'message' => 'Failed to create user',
                 'data' => $e->errorInfo
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
-       }
+        }
     }
     public function authenticate(Request $request){
-        $credentials = $request->only('username', 'password');
-        $validate = Validator::make($credentials,[
+        $validator = Validator::make($request->all(),[
             'username' => 'required',
             'password' => 'required'
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Error Validation',
+                'errors' => $validator->getMessageBag()
+            ],Response::HTTP_UNAUTHORIZED);
+        }
         $user = User::where('username',$request->username)->first();
         if(!$user){
             $user = User::where('email',$request->username)->first();
         }
+        $errors = [];
+        // return response()->json(['data'=>$request->username]);
         if(!$user){
-            return response()->json(['error'=>'User Not Found'],404);
+            return response()->json([
+                'status'=>401,
+                'message' => 'Error Validation',
+                'errors'=> [
+                    'username' => ['Username not found']
+                ]],401);
         }
         if(!Hash::check($request->password,$user->password)){
-            return response()->json(['error'=>'Wrong username password'],401);  
+            return response()->json([
+                'status' => 401,
+                'message' => 'Error Validation',
+                'errors'=> [
+                    'password' => ['Wrong password']
+                ]],401);
         }
-        // return response()->json($request->all());
-        if ($validate->fails()) {
-            return response()->json(['error' => $validate->getMessageBag()], Response::HTTP_UNAUTHORIZED);
-        }
+        
         try {
-            if(!$token = JWTAuth::attempt($credentials)){
+            if(!$token = JWTAuth::attempt($request->all())){
                 return response()->json([
                 	'status' => "401",
                 	'message' => 'Login credentials are invalid.',
+                    'token' => '-'
                 ], Response::HTTP_UNAUTHORIZED);
             }
         } catch (JWTException $e) {

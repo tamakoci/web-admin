@@ -118,10 +118,10 @@ class TopupController extends Controller
             }
             Transaction::create([
                 'user_id' => $user->id,
-                'last_amount' => $wallet->pakan,
-                'final_amount'=> $wallet->pakan + $pakan->pakan,
-                'trx_type'=>'+',
-                'detail'=>'Topup Pakan By Diamon, '.$dm.' DM -> '.$dm - $pakan->diamon .' DM',
+                'last_amount' => $wallet->diamon,
+                'final_amount'=> $wallet->diamon - $pakan->diamon,
+                'trx_type'=>'-',
+                'detail'=>'Topup Pakan By Diamon',
                 'trx_id' => Transaction::trxID('TP')
             ]);
             UserWallet::create([

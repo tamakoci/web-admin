@@ -1,6 +1,8 @@
 <?php
 use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\DashboardConteroller;
+use App\Http\Controllers\web\LandingController;
+use App\Http\Controllers\web\ManageUserController;
 use App\Http\Controllers\web\MarketConteroller;
 use App\Http\Controllers\web\PakanTernakController;
 use App\Http\Controllers\web\ProductController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\web\TernakController;
 use App\Http\Controllers\web\TopupDiamonController;
 use App\Http\Controllers\web\TopupPakanController;
 use App\Http\Controllers\web\TopupPanganController;
+use App\Http\Controllers\web\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Route::get('/',[LandingController::class,'index']);
 Route::get('/', [AuthController::class,'loginView'])->name('login');
 Route::post('/login-post',[AuthController::class,'loginPost']);
 Route::get('/register', [AuthController::class,'registView']);
@@ -28,7 +31,6 @@ Route::post('/register-post',[AuthController::class,'registPost'])->name('regist
 
 Route::group(["middleware"=>"auth"],function(){
     Route::get('/dashboard',[DashboardConteroller::class,'index']);
-
     Route::resource('/request-market',MarketConteroller::class);
     Route::resource('/topup-diamon',TopupDiamonController::class);
     Route::resource('/topup-pakan',TopupPakanController::class);
@@ -36,4 +38,10 @@ Route::group(["middleware"=>"auth"],function(){
     Route::resource('/ternak',TernakController::class);
     Route::resource('/pakan-ternak',PakanTernakController::class);
     Route::post('/logout',[AuthController::class,'logout']);
+
+    Route::group(['prefix'=>'admin'],function(){
+        Route::resource('/manage-user',ManageUserController::class);
+        Route::resource('/transaction',TransactionController::class);
+    });
 });
+

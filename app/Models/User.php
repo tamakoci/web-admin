@@ -51,9 +51,25 @@ class User extends Authenticatable implements JWTSubject
     public function getAvatar()
     {
         if($this->avatar) {
-            return url('/public/uploads/avatar/'.$this->avatar);
+            return $this->avatar;
         } else {
-            return url('/public/assets/images/profile.png');
+            return asset('avatar.png');
         }
+    }
+    public function getStatus(){
+        // return $this->status;
+        if ($this->status == 1){
+            return '<span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>';
+        }else{
+            return '<span class="badge bg-gradient-bloody text-white shadow-sm w-100">Inactive</span>';
+        }
+    }
+    public function getRole(){
+        $role = UserRole::find($this->user_role);
+        return '<span class="badge bg-gradient-blooker text-white shadow-sm w-100">'.$role->role_name.'</span>';
+    }
+
+    public function transaction(){
+        return $this->hasMany(Transaction::class);
     }
 }

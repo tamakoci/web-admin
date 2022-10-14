@@ -34,7 +34,9 @@ Route::group(['prefix'=>'v1'],function(){
         Route::post('buy-ternak',[TernakController::class,'buyTernak']);
         Route::get('user-info', [UserController::class, 'get_user']);
         Route::get('user-ternak',[TernakController::class,'userTernak']);
+        Route::put('tutor-update/{id}',[UserController::class,'updateTutor']);
         Route::get('logout', [AuthController::class, 'logout']);
+        
     });
 });
 
