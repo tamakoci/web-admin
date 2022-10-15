@@ -37,12 +37,11 @@
     <div class="wrapper">
         <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
             <div class="container-fluid">
-                <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
-                    <div class="col mx-auto">
+                <div class="row">
+                    <div class="col-xl-7 mx-auto">
                         <div class="card">
                             <div class="card-body">
                                 @yield('content')
-
                             </div>
                         </div>
                     </div>

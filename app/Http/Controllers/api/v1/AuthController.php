@@ -41,12 +41,18 @@ class AuthController extends Controller
                 "message"=>"Validation Error!",
                 'errors' => $validator->getMessageBag()],Response::HTTP_UNAUTHORIZED);
         }
+        $cek_ref = User::where('user_ref',$request->user_ref)->first();
+        if(!$cek_ref){
+            $referal = null;
+        }else{
+            $referal = $cek_ref->id;
+        }
         try{
             $user = User::create([
                 'email' => $request->email,
                 'username' => $request->username,
                 'phone'=>$request->phone,
-                'user_ref'=>$request->user_ref,
+                ' '=>$referal,
                 'password' =>  Hash::make($request->password)
             ]);
             return response()->json([

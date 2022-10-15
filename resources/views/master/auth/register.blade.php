@@ -1,6 +1,6 @@
 @extends('master.auth.index')
 @section('content')
-    <div class="border p-4 rounded mt-5">
+    <div class="border p-4 rounded">
         <div class="text-center">
             <h3 class="">Sign Up</h3>
             <p>Already have an account? <a href="{{ url('') }}">Sign in here</a>
@@ -12,7 +12,8 @@
         <div class="form-body">
             <form class="row g-3" method="POST" action="{{ route('regist') }}">
                 @csrf
-                <div class="col-12">
+
+                <div class="col-6">
                     <label for="username" class="form-label">username</label>
                     <input type="text" name="username"
                         class="form-control @error('username')
@@ -25,7 +26,20 @@
                         </div>
                     @enderror
                 </div>
-                <div class="col-12">
+                <div class="col-6">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" name="phone"
+                        class="form-control @error('phone')
+                        is-invalid
+                    @enderror"
+                        id="phone" placeholder="jhon321" value="{{ old('phone') }}">
+                    @error('phone')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="col-6">
                     <label for="inputEmailAddress" class="form-label">Email Address</label>
                     <input type="email" name="email"
                         class="form-control @error('email')
@@ -38,7 +52,20 @@
                         </div>
                     @enderror
                 </div>
-                <div class="col-12">
+                <div class="col-6">
+                    <label for="user_ref" class="form-label">Refferal</label>
+                    <input type="text" name="user_ref"
+                        class="form-control @error('user_ref')
+                        is-invalid
+                    @enderror"
+                        id="user_ref" placeholder="jhon321" value="{{ old('user_ref') }}">
+                    @error('user_ref')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="col-6">
                     <label for="inputChoosePassword" class="form-label">Password</label>
                     <div class="input-group" id="show_hide_password">
                         <input type="password" name="password"
@@ -54,7 +81,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                     <label for="inputChoosePassword" class="form-label">Retype Password</label>
                     <div class="input-group" id="show_hide_password">
                         <input type="password" name="password_confirmation"
@@ -70,6 +97,10 @@
                         @enderror
                     </div>
                 </div>
+                {{-- <div class="login-separater text-center"> <span>OPTIONAL</span>
+                    <hr />
+                </div> --}}
+
                 <div class="col-12">
                     <div class="form-check form-switch">
                         <input class="form-check-input" name="check" type="checkbox" id="flexSwitchCheckChecked" checked>
