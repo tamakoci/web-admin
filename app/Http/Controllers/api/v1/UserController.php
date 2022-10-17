@@ -57,7 +57,8 @@ class UserController extends Controller
             ]
         ]);
     }
-    public function updateTutor(Request $request, $id){
+    public function updateTutor(){
+        $id = Auth::user()->id;
         $data = User::find($id);
         if(!$data){
             return response()->json([
