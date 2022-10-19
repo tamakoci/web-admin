@@ -13,6 +13,10 @@ class UserWallet extends Model
         "created_at",
         "updated_at"
     ];
+    public static function getWallet(){
+        return UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
+    }
+
     public function hasilTernak()
     {
         return json_decode($this->hasil_ternak);

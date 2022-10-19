@@ -312,12 +312,12 @@
                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <img src="{{ auth()->user()->getAvatar() }}" class="user-img" alt="user avatar">
                       <div class="user-info ps-3">
-                          <p class="user-name mb-0">{{ auth()->user()->username }}</p>
+                          <p class="user-name mb-0">{{ strtoupper(auth()->user()->username) }}</p>
                           <p class="designattion mb-0">{!! auth()->user()->getRole() !!}</p>
                       </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item" href="javascript:;"><i
+                      <li><a class="dropdown-item" href="{{ url('user-profile') }}"><i
                                   class="bx bx-user"></i><span>Profile</span></a>
                       </li>
                       <li>

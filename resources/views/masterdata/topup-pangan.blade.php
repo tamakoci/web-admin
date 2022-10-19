@@ -149,7 +149,7 @@
                         <div>
                             <i class="bx bx-add-to-queue me-1 font-22 text-info"></i>
                         </div>
-                        <h5 class="mb-0 text-info">Edit {{ $title }}</h5>
+                        <h5 class="mb-0 text-info">Update {{ $title }}</h5>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

@@ -33,6 +33,7 @@ Route::group(['prefix'=>'v1'],function(){
         Route::post('buy-pakan',[TopupController::class,'buyPakan']);
         Route::post('buy-ternak',[TernakController::class,'buyTernak']);
         Route::get('user-info', [UserController::class, 'get_user']);
+        Route::get('user-bisnis',[UserController::class,'bisnisUser']);
         Route::get('tutor-update',[UserController::class,'updateTutor']);
         Route::get('user-ternak',[TernakController::class,'userTernak']);
         Route::get('logout', [AuthController::class, 'logout']);

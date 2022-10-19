@@ -77,7 +77,7 @@
     </div>
     <!--end wrapper-->
     <!--start switcher-->
-    @include('master.dashboard.switcher')
+    {{-- @include('master.dashboard.switcher') --}}
     <!-- witcher to change thame color-->
     <!--end switcher-->
     <!-- Bootstrap JS -->

@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\web\AuthController;
+use App\Http\Controllers\web\BankController;
 use App\Http\Controllers\web\DashboardConteroller;
 use App\Http\Controllers\web\LandingController;
 use App\Http\Controllers\web\ManageUserController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\web\TopupDiamonController;
 use App\Http\Controllers\web\TopupPakanController;
 use App\Http\Controllers\web\TopupPanganController;
 use App\Http\Controllers\web\TransactionController;
+use App\Http\Controllers\web\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +39,10 @@ Route::group(["middleware"=>"auth"],function(){
     Route::resource('/product',ProductController::class);
     Route::resource('/ternak',TernakController::class);
     Route::resource('/pakan-ternak',PakanTernakController::class);
+    Route::resource('/bank',BankController::class);
+    Route::get('user-profile',[UserController::class,'index']);
+    Route::put('user-profile/{id}',[UserController::class,'updateUser']);
+    Route::get('generate-referal',[UserController::class,'refGenerate']);
     Route::post('/logout',[AuthController::class,'logout']);
 
     Route::group(['prefix'=>'admin'],function(){

@@ -52,7 +52,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'username' => $request->username,
                 'phone'=>$request->phone,
-                ' '=>$referal,
+                'ref_to'=>$referal,
                 'password' =>  Hash::make($request->password)
             ]);
             return response()->json([

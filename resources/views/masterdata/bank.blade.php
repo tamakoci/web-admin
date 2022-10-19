@@ -28,9 +28,8 @@
                     <thead class="table-light">
                         <tr>
                             <td>No</td>
-                            <th>Diamon</th>
-                            <th>Equal to</th>
-                            <th>Price</th>
+                            <th>Bank</th>
+                            <th>Bank Code</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -39,9 +38,8 @@
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $t->diamon }}</td>
-                                <td>{{ '=' }}</td>
-                                <td>{{ $t->price }}</td>
+                                <td>{{ $t->name }}</td>
+                                <td>{{ $t->code }}</td>
                                 <td>
                                     @if ($t->status == 1)
                                         <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
@@ -50,10 +48,9 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <form action="{{ url('topup-diamon/' . $t->id) }}" method="POST">
-                                        <button type="button" data-id="{{ $t->id }}"
-                                            data-diamon="{{ $t->diamon }}" data-price="{{ $t->price }}"
-                                            data-status="{{ $t->status }}"
+                                    <form action="{{ url('bank/' . $t->id) }}" method="POST">
+                                        <button type="button" data-id="{{ $t->id }}" data-bank="{{ $t->name }}"
+                                            data-code="{{ $t->code }}" data-status="{{ $t->status }}"
                                             class="btn btn-warning btn-sm editBtn">edit</button>
                                         @csrf
                                         @method('delete')
@@ -88,15 +85,14 @@
                         <form action="" method="POST" id="formAdd">
                             @csrf
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Diamon</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Bank</label>
                                 <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control @error('diamon')
+                                    <input type="text"
+                                        class="form-control @error('bank')
                                         is-invalid
                                     @enderror"
-                                        id="diamon" name="diamon" placeholder="Enter Diamon"
-                                        value="{{ old('diamon') }}">
-                                    @error('diamon')
+                                        id="bank" name="bank" placeholder="Enter bank" value="{{ old('bank') }}">
+                                    @error('bank')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -104,15 +100,14 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Price</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Code</label>
                                 <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control @error('price')
+                                    <input type="text"
+                                        class="form-control @error('code')
                                         is-invalid
                                     @enderror"
-                                        id="price" name="price" placeholder="Enter Price"
-                                        value="{{ old('price') }}">
-                                    @error('price')
+                                        id="code" name="code" placeholder="Bank Code" value="{{ old('code') }}">
+                                    @error('code')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -160,15 +155,15 @@
                             @csrf
                             @method('put')
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Diamon</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Bank</label>
                                 <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control diamon @error('diamon')
+                                    <input type="text"
+                                        class="form-control bank @error('bank')
                                         is-invalid
                                     @enderror"
-                                        id="diamon" name="diamon" placeholder="Enter Diamon"
-                                        value="{{ old('diamon') }}">
-                                    @error('diamon')
+                                        id="bank" name="bank" placeholder="Enter bank"
+                                        value="{{ old('bank') }}">
+                                    @error('bank')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -176,15 +171,15 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Price</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Code</label>
                                 <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control price @error('price')
+                                    <input type="text"
+                                        class="form-control bank-code @error('code')
                                         is-invalid
                                     @enderror"
-                                        id="price" name="price" placeholder="Enter Price"
-                                        value="{{ old('price') }}">
-                                    @error('price')
+                                        id="code" name="code" placeholder="Bank Code"
+                                        value="{{ old('code') }}">
+                                    @error('code')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -218,13 +213,14 @@
         $(document).ready(function() {
             $('.editBtn').on('click', function(e) {
                 const id = $(this).data('id'),
-                    diamon = $(this).data('diamon'),
-                    price = $(this).data('price'),
+                    bank = $(this).data('bank'),
+                    code = $(this).data('code'),
                     status = $(this).data('status');
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('/topup-diamon') }}" + "/" + id)
-                $('.diamon').val(diamon)
-                $('.price').val(price)
+                $('#formEdt').attr('action', "{{ url('bank') }}" + "/" + id)
+                $('.bank').val(bank)
+                $('.bank-code').val(code)
+                // console.log(code);
                 $('.status').val(status)
             })
         })
