@@ -30,6 +30,7 @@
                             <td>No</td>
                             <th>Name</th>
                             <th>Satuan</th>
+                            <th> = ?DM</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -40,6 +41,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $t->name }}</td>
                                 <td>{{ $t->satuan }}</td>
+                                <td>{{ $t->dm }}</td>
                                 <td>
                                     @if ($t->status == 1)
                                         <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
@@ -50,7 +52,8 @@
                                 <td class="text-end">
                                     <form action="{{ url('product/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}" data-name="{{ $t->name }}"
-                                            data-satuan="{{ $t->satuan }}" data-status="{{ $t->status }}"
+                                            data-satuan="{{ $t->satuan }}" data-dm="{{ $t->dm }}"
+                                            data-status="{{ $t->status }}"
                                             class="btn btn-warning btn-sm editBtn">edit</button>
                                         @csrf
                                         @method('delete')
@@ -110,6 +113,22 @@
                                         id="satuan" name="satuan" placeholder="Enter Satuan Produk"
                                         value="{{ old('satuan') }}">
                                     @error('satuan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Setara Diamon</label>
+                                <div class="col-sm-9">
+                                    <input type="text"
+                                        class="form-control @error('dm')
+                                        is-invalid
+                                    @enderror "
+                                        id="dm" name="dm" placeholder="Enter Diamon"
+                                        value="{{ old('dm') }}">
+                                    @error('dm')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -189,6 +208,22 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Setara Diamon</label>
+                                <div class="col-sm-9">
+                                    <input type="text"
+                                        class="form-control @error('dm')
+                                        is-invalid
+                                    @enderror dm"
+                                        id="dm" name="dm" placeholder="Enter Diamon"
+                                        value="{{ old('dm') }}">
+                                    @error('dm')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
                                 <label for="satuan" class="col-sm-3 col-form-label">Status</label>
                                 <div class="col-sm-9">
                                     <select name="status" id="status" class="form-select status">
@@ -217,12 +252,14 @@
                 const id = $(this).data('id'),
                     name = $(this).data('name'),
                     satuan = $(this).data('satuan'),
-                    status = $(this).data('status')
+                    dm = $(this).data('dm')
+                status = $(this).data('status')
 
                 $('#edtModal').modal('show');
                 $('#formEdt').attr('action', "{{ url('/product') }}" + "/" + id)
                 $('.name').val(name);
                 $('.satuan').val(satuan);
+                $('.dm').val(dm);
                 $('.status').val(status);
 
             })

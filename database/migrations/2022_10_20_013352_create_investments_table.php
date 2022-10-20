@@ -16,8 +16,10 @@ class CreateInvestmentsTable extends Migration
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('ternak_id');
-            $table->string('transaction',11);
+            $table->unsignedBigInteger('user_ternak');
+            $table->string('transaction',15);
+            $table->integer('remains');
+            $table->integer('commision');
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->foreign('user_id')
@@ -25,9 +27,9 @@ class CreateInvestmentsTable extends Migration
                     ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->foreign('ternak_id')
+            $table->foreign('user_ternak')
                     ->references('id')
-                    ->on('ternaks')
+                    ->on('user_ternaks')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
         });

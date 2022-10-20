@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Investment;
 use App\Models\PakanTernak;
 use App\Models\Ternak;
 use App\Models\Transaction;
 use App\Models\UserTernak;
 use App\Models\UserWallet;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +42,7 @@ class TernakController extends Controller
             Response::HTTP_OK);
     }
     public function buyTernak(Request $request){
-         $validate = Validator::make($request->all(),[
+        $validate = Validator::make($request->all(),[
             'ternak_id' => 'required'
         ]);
         if($validate->fails()){
@@ -61,13 +64,16 @@ class TernakController extends Controller
             if($dm < $ternak->price){
                 return response()->json(['status'=>402,'message'=>'Diamon tidak cukup'],Response::HTTP_PAYMENT_REQUIRED);
             }
+            
+            $trxID = Transaction::trxID('BT');
             Transaction::create([
                 'user_id' => $user->id,
                 'last_amount' => $dm,
+                'trx_amount'   => $ternak->price,
                 'final_amount'=> $dm - $ternak->price,
                 'trx_type'=>'-',
                 'detail'=>'Buy Ternak By Diamon',
-                'trx_id' => Transaction::trxID('BT')
+                'trx_id' => $trxID
             ]);
             UserWallet::create([
                 'user_id'=>$user->id,
@@ -91,11 +97,76 @@ class TernakController extends Controller
     }
     public function userTernak(){
         $user = Auth::user();
-        $ternak = UserTernak::with('ternak')->where(['user_id'=>$user->id,'status'=>true])->get();
+        $ternak = UserTernak::getUserTernak();
         return response()->json([
             'status'=>200,
-            'message'=>'User Ternak',
+            'message'=>'Ternak '.$user->username,
             'Data'=>$ternak
         ]);
+    }
+    public function beriPakan(Request $request){
+        $user = Auth::user();
+        $validate = Validator::make($request->all(),[
+            'pakan_id' => 'required',
+            'ternak_id'=>'required'
+        ]);
+        if($validate->fails()){
+            return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
+        }
+        $pakan = PakanTernak::find($request->pakan_id); 
+        $userTernak = UserTernak::where('ternak_id',$pakan->ternak_id)->where('ternak_id',$request->ternak_id)->where('status',1)->first();
+        if(!$userTernak){
+            return response()->json(['status'=>'404','message'=>'Anda tidak memiliki ternak dengan pakan tsb!',],404);
+        }
+        $wallet = UserWallet::getWallet();
+        if($wallet->pakan < $pakan->pakan){
+            return response()->json(['status'=>'401','message'=>'Pakan Tidak Cukup',],401);
+        }
+        $ternak = Ternak::find($request->ternak_id);
+        $buyDate = $userTernak->buy_date;
+        $now = Carbon::now();
+        $datetime1 = new DateTime($buyDate);
+        $datetime2 = new DateTime($now);
+        $interval = $datetime1->diff($datetime2);
+        $days = $interval->format('%a');//now do whatever you like with $days
+        if($days > $ternak->duration){
+            return response()->json(['status'=>'401','message'=>'Ternak Not Falid',],401);
+            $userTernak->update(['status'=>0]);
+        }
+        $commision = rand($ternak->min_benefit,$ternak->max_benefit);
+        // return $commision;
+        DB::beginTransaction();
+        try {
+            $trxID = Transaction::trxID('BT');
+            Investment::create([
+                'user_id' => $user->id,
+                'user_ternak'=>$userTernak->id,
+                'transaction'=>$trxID,
+                'remains'=> $ternak->duration - $days,
+                'commision'=>$commision,
+                'status'=>1
+            ]);
+            Transaction::create([
+                'user_id' => $user->id,
+                'last_amount' => $wallet->diamon,
+                'trx_amount'   => $commision,
+                'final_amount'=> $wallet->diamon + $commision,
+                'trx_type'=>'+',
+                'detail'=>'Buy Ternak By Diamon',
+                'trx_id' => $trxID
+            ]);
+            UserWallet::create([
+                'user_id'=>$user->id,
+                'diamon'=>$wallet->diamon + $commision,
+                'pakan'=>$wallet->pakan,
+                'hasil_ternak' => $wallet->hasil_ternak
+            ]);
+            DB::commit();
+            return response()->json(['status'=>200,'message'=>"Beri Pakan Success"]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status'=>500,'error'=>$e->getMessage()]);
+            // throw $e;
+        }
     }
 }

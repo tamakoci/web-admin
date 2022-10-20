@@ -16,6 +16,9 @@ class UserWallet extends Model
     public static function getWallet(){
         return UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
     }
+    public static function test(){
+        return UserWallet::where('user_id',2)->orderByDesc('id')->first();
+    }
 
     public function hasilTernak()
     {

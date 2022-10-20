@@ -30,7 +30,7 @@ Route::get('/', [AuthController::class,'loginView'])->name('login');
 Route::post('/login-post',[AuthController::class,'loginPost']);
 Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
-
+Route::get('/test', [UserController::class,'test2']);
 Route::group(["middleware"=>"auth"],function(){
     Route::get('/dashboard',[DashboardConteroller::class,'index']);
     Route::resource('/request-market',MarketConteroller::class);
@@ -44,9 +44,6 @@ Route::group(["middleware"=>"auth"],function(){
     Route::put('user-profile/{id}',[UserController::class,'updateUser']);
     Route::get('generate-referal',[UserController::class,'refGenerate']);
     Route::post('/logout',[AuthController::class,'logout']);
-
-    Route::get('test',[UserController::class,'test']);
-
     Route::group(['prefix'=>'admin'],function(){
         Route::resource('/manage-user',ManageUserController::class);
         Route::resource('/transaction',TransactionController::class);

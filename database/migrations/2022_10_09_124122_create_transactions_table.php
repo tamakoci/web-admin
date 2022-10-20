@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->integer('last_amount')->default(0);
+            $table->integer('trx_amount')->default(0);
             $table->integer('final_amount')->default(0);
             $table->string('trx_type',5);
             $table->string('detail');

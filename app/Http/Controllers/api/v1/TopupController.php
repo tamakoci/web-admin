@@ -58,6 +58,7 @@ class TopupController extends Controller
                 Transaction::create([
                     'user_id' => $user->id,
                     'last_amount' => 0,
+                    'trx_amount' => $diamon->diamon,
                     'final_amount'=>$diamon->diamon,
                     'trx_type'=>'+',
                     'detail'=>'Topup Diamon By IDR',
@@ -73,6 +74,7 @@ class TopupController extends Controller
                 Transaction::create([
                     'user_id' => $user->id,
                     'last_amount' => $wallet->diamon,
+                    'trx_amount' => $diamon->diamon,
                     'final_amount'=> $wallet->diamon + $diamon->diamon,
                     'trx_type'=>'+',
                     'detail'=>'Topup Diamon By IDR',

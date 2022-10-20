@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Market;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserTernak;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,14 +62,5 @@ class UserController extends Controller
         $user->save();
         return redirect()->back()->with('success','User Updated');
 
-    }
-    public function test(){
-        $tgl1 = time();
-        $tgl2 = strtotime("-19 hours");
-        $tgl3 = $tgl1 - $tgl2;
-        var_dump(date('d h:i:s',time()));
-        var_dump(date('d h:i:s',strtotime("-1 hours")));
-        dd(date('d h:i:s',$tgl3));
-        // dd($tgl2);
     }
 }

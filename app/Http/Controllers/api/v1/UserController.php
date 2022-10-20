@@ -32,11 +32,17 @@ class UserController extends Controller
                 'hasil_ternak'=>$wallet->hasilTernak()
             ];
         }else{
-            $userWallet = [
+            $new = UserWallet::create([
+                'user_id'=>$user->id,
                 'diamon'=>0,
                 'pakan'=>0,
-                'hasil_ternak'=> $produk
-                ];
+                'hasil_ternak'=> json_encode(Product::produk())
+            ]);
+            $userWallet = [
+                'diamon'=>$new->diamon,
+                'pakan'=>$new->pakan,
+                'hasil_ternak'=>$new->hasilTernak()
+            ];
         }
         return response()->json([
             'status'=>200,

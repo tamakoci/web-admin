@@ -42,6 +42,7 @@ class ProductController extends Controller
         $validate = $request->validate([
             'name'=>'required',
             'satuan'=>'required',
+            'dm'=>'required',
             'status'=>'required'
         ]);
         try {

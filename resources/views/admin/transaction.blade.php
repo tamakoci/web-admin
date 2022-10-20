@@ -34,7 +34,8 @@
                             <th>TRX Date</th>
                             <th>Trasaction ID</th>
                             <th>User</th>
-                            <th>Amount</th>
+                            <th>Fist Amount</th>
+                            <th>Trx Amount</th>
                             <th>Next Amount</th>
                             <th>Detail</th>
                         </tr>
@@ -47,6 +48,7 @@
                                 <td>{{ $t->trx_id }}</td>
                                 <td><a href="#">{{ $t->user->username }}</a></td>
                                 <td class="">{{ $t->last_amount }}</td>
+                                <td class="">{{ $t->trx_amount }}</td>
                                 <td>
                                     {{ $t->final_amount }}
                                 </td>
