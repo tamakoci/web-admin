@@ -115,7 +115,7 @@ class AuthController extends Controller
             // return $credentials;
             return response()->json([
                 	'status' => 500,
-                	'message' => 'Could not create token.',
+                	'message' => 'Could not create token: '.$e->getMessage(),
                 ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         return response()->json([

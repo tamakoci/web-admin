@@ -27,6 +27,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::get('request-market',[MarketController::class,'market']);
     Route::get('get-ternak',[TernakController::class,'getTernak']);
     Route::get('get-pakan-ternak/{id}',[TernakController::class,'getPakanTernak']);
+    Route::get('test',[UserController::class,'getUserTernak']);
 
     Route::group(['middleware' => ['jwt.verify']], function() {
         Route::post('buy-diamon',[TopupController::class,'buyDiamon']);
@@ -36,6 +37,7 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('user-bisnis',[UserController::class,'bisnisUser']);
         Route::get('tutor-update',[UserController::class,'updateTutor']);
         Route::get('user-ternak',[TernakController::class,'userTernak']);
+        Route::post('market-sell',[MarketController::class,'sell']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
 });

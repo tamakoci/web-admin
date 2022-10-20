@@ -61,4 +61,13 @@ class UserController extends Controller
         return redirect()->back()->with('success','User Updated');
 
     }
+    public function test(){
+        $tgl1 = time();
+        $tgl2 = strtotime("-19 hours");
+        $tgl3 = $tgl1 - $tgl2;
+        var_dump(date('d h:i:s',time()));
+        var_dump(date('d h:i:s',strtotime("-1 hours")));
+        dd(date('d h:i:s',$tgl3));
+        // dd($tgl2);
+    }
 }

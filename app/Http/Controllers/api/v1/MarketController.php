@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Market;
 use App\Models\RequestMarket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MarketController extends Controller
 {
@@ -28,5 +29,17 @@ class MarketController extends Controller
             'msg'       => 'Request customer on marker',
             'data'      => $market,
         ],200);
+    }
+
+    public function sell(Request $request){
+        $validate = Validator::make($request->all(),[
+            'market_id' => 'Required|numeric|exists:markets,id'
+        ]);
+        if($validate->fails()){
+            return response()->json(['status'=>401,'message'=>'validation error','errors'=>$validate->getMessageBag()]);
+        }
+        $data = Market::with('product')->find($request->market_id);
+        // $dataBag = 
+
     }
 }

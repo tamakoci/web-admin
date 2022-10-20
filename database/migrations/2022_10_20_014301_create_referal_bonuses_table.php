@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserBanksTable extends Migration
+class CreateReferalBonusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,22 @@ class CreateUserBanksTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_banks', function (Blueprint $table) {
+        Schema::create('referal_bonuses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('bank_id');
-            $table->string('account_name',50);
-            $table->string('account_number',20);
-            $table->boolean('regist')->default(false);
-            $table->string('bank_account')->nullable();
-            $table->foreign('user_id')
+            $table->unsignedBigInteger('from_user_id');
+            $table->unsignedBigInteger('to_user_id');
+            $table->integer('amount');
+            $table->string('transaction',10);
+            $table->string('type',10);
+            $table->string('remaks',50);
+            $table->foreign('from_user_id')
                     ->references('id')
                     ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->foreign('bank_id')
+            $table->foreign('to_user_id')
                     ->references('id')
-                    ->on('banks')
+                    ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->timestamps();
@@ -42,6 +42,6 @@ class CreateUserBanksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_banks');
+        Schema::dropIfExists('referal_bonuses');
     }
 }

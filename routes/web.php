@@ -45,6 +45,8 @@ Route::group(["middleware"=>"auth"],function(){
     Route::get('generate-referal',[UserController::class,'refGenerate']);
     Route::post('/logout',[AuthController::class,'logout']);
 
+    Route::get('test',[UserController::class,'test']);
+
     Route::group(['prefix'=>'admin'],function(){
         Route::resource('/manage-user',ManageUserController::class);
         Route::resource('/transaction',TransactionController::class);

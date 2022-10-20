@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name',20);
             $table->string('satuan',10);
+            $table->integer('db');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
