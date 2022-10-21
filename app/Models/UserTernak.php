@@ -47,7 +47,7 @@ class UserTernak extends Model
                 'ternak_id'=>$value->ternak_id,
                 'name'=>$value->ternak->name,
                 'avatar'=>$value->ternak->avatar,
-                'time_now'=>strtotime("now"),
+                'time_now'=>date('Y-m-d H:i:s',strtotime(strtotime("now"))),
                 'umur_start'=>$umur_start,
                 'umur_end'=>$umur_end,
                 'pakan_start'=>$pakan_start,
