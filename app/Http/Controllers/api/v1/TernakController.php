@@ -41,7 +41,7 @@ class TernakController extends Controller
                 'produk'=>$value->ternak->produk->name,
                 'satuan'=>$value->ternak->produk->satuan,
                 'db_benefit'=>$benefitFinal,
-                'text'=>'Menghasilkan '.$value->benfit. ' '.$value->ternak->produk->satuan.'/Hari Sejumlah '. $benefitFinal.' Diamond'
+                'text'=>'Menghasilkan '. $value->ternak->produk->name .' '. $value->benefit. ' '.$value->ternak->produk->satuan.'/Hari Sejumlah '. $benefitFinal.' Diamond'
             ]; 
         }
 
