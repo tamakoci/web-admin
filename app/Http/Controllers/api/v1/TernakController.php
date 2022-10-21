@@ -28,7 +28,7 @@ class TernakController extends Controller
             Response::HTTP_OK);
     }
     public function getPakanTernak($id){
-        $pakan = PakanTernak::where('ternak_id',$id)->get();
+        $pakan = PakanTernak::with(['ternak','ternak.produk'])->where('ternak_id',$id)->get();
         $ternak = Ternak::find($id);
         if ($pakan->count() <= 0) {
             return response()->json([

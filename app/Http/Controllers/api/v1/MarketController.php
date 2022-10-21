@@ -17,7 +17,7 @@ class MarketController extends Controller
 {
     public function market(){
         $market = [];
-        $data = Market::with('product')->where('status',true)->orderBy('customer','asc')->get();
+        $data = Market::with('product')->where('status',true)->orderBy('id','asc')->get();
         foreach ($data as $key => $value) {
             $market[] = [
                 'id'=>$value->id,
