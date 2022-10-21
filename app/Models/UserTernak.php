@@ -31,7 +31,7 @@ class UserTernak extends Model
                 $pakan_start = 0;
                 $pakan_end  = 0;
             }else{
-                $makan1 = $invest->created_at;
+                $makan1 = date("Y-m-d H:i:s", strtotime($invest->created_at));
                 $makan2 = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
                 $date_now = date("Y-m-d H:i:s"); // this format is string comparable
                 if ($date_now > $makan2) {
