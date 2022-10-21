@@ -21,4 +21,7 @@ class Ternak extends Model
     public function user_ternak(){
         return $this->hasMany(UserTernak::class);
     }
+    public function produk(){
+        return $this->belongsTo(Product::class,'produk_id');
+    }
 }

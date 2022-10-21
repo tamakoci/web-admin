@@ -90,7 +90,12 @@ class ProductController extends Controller
             return redirect()->back()->with('error','Product not found');
         }
         try {
-            $cek->update($request->all());
+            $cek->update([
+                'name'=>$request->name,
+                'satuan'=>$request->satuan,
+                'dm'=>$request->dm,
+                'status'=>$request->status
+            ]);
             return redirect()->back()->with('success','Product Updated');
         } catch (QueryException $th) {
             return redirect()->back()->with('error','Server Error');

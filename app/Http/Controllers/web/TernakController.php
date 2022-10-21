@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Ternak;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class TernakController extends Controller
     public function index()
     {
         $data['title'] = 'Ternak';
-        $data['table'] = Ternak::all();
+        $data['table'] = Ternak::with('produk')->get();
+        $data['produk'] = Product::all();
         return view('masterdata.ternak',$data);
     }
 
@@ -43,9 +45,8 @@ class TernakController extends Controller
             'image' => 'required',
             'name' => 'required',
             'price' => 'required',
-            'min_benefit' => 'required',
-            'max_benefit' => 'required',
             'duration' => 'required',
+            'produk_id' => 'required',
             'status'=>'required'
         ]);
         if (!isset($request->image)) {

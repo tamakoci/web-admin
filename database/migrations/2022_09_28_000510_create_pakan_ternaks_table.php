@@ -17,6 +17,7 @@ class CreatePakanTernaksTable extends Migration
             $table->id();
             $table->unsignedBigInteger('ternak_id');
             $table->integer('pakan');
+            $table->integer('benefit');
             $table->foreign('ternak_id')
                     ->references('id')
                     ->on('ternaks')

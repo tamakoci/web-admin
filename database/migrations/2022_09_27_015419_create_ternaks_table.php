@@ -17,12 +17,16 @@ class CreateTernaksTable extends Migration
             $table->id();
             $table->string('name',100);
             $table->integer('price');
-            $table->integer('min_benefit');
-            $table->integer('max_benefit');
             $table->integer('duration');
+            $table->unsignedBigInteger('produk_id');
             $table->string('avatar')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->foreign('produk_id')
+                    ->references('id')
+                    ->on('products')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
         });
     }
 

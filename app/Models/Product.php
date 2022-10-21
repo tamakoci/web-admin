@@ -9,9 +9,6 @@ class Product extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public function market(){
-        return $this->hasMany(Market::class);
-    }
     protected $hidden = [
         'created_at',
         'updated_at',
@@ -23,5 +20,11 @@ class Product extends Model
             $prod[$value->id] = [ "name" => $value->name,'qty'=>0];
         }
         return $prod;
+    }
+    public function market(){
+        return $this->hasMany(Market::class);
+    }
+    public function ternak(){
+        return $this->hasMany(Ternak::class);
     }
 }

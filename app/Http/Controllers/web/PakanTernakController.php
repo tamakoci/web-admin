@@ -44,7 +44,8 @@ class PakanTernakController extends Controller
     {
         $validate = $request->validate([
             'ternak_id' => 'required',
-            'pakan' => 'required'
+            'pakan' => 'required',
+            'benefit'=>'required'
         ]);
         try {
             PakanTernak::create($request->all());

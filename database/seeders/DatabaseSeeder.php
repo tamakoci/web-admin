@@ -14,6 +14,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        \App\Models\UserRole::create([
+            'role_name'=>'User'
+        ]);
+        \App\Models\UserRole::create([
+            'role_name'=>'Admin'
+        ]);
         
     }
 }

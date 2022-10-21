@@ -30,7 +30,7 @@
                             <td>No</td>
                             <th>Name</th>
                             <th>Satuan</th>
-                            <th> = ?DM</th>
+                            <th>Setara Diamon</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>

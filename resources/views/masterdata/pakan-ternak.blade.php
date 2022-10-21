@@ -29,7 +29,8 @@
                         <tr>
                             <td>No</td>
                             <th>Ternak</th>
-                            <th>pakan</th>
+                            <th>Pakan</th>
+                            <th>Benefit</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -38,11 +39,13 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $t->ternak->name }}</td>
-                                <td>{{ $t->pakan }}</td>
+                                <td>{{ $t->pakan . ' Kg' }}</td>
+                                <td>{{ $t->benefit }}</td>
                                 <td class="text-end">
                                     <form action="{{ url('pakan-ternak/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
                                             data-ternak="{{ $t->ternak->id }}" data-pakan="{{ $t->pakan }}"
+                                            data-benefit="{{ $t->benefit }}"
                                             class="btn btn-warning btn-sm editBtn">edit</button>
                                         @csrf
                                         @method('delete')
@@ -101,12 +104,28 @@
                                 <label for="customerno" class="col-sm-3 col-form-label">Pakan</label>
                                 <div class="col-sm-9">
                                     <input type="number"
-                                        class="form-control @error('pakan')
+                                        class="form-control calculatePakan @error('pakan')
                                             is-invalid
                                         @enderror"
                                         id="pakan" name="pakan" placeholder="Tambahkan pakan"
                                         value="{{ old('pakan') }}">
                                     @error('pakan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Benefit</label>
+                                <div class="col-sm-9">
+                                    <input type="number"
+                                        class="form-control benefit @error('benefit')
+                                            is-invalid
+                                        @enderror"
+                                        id="benefit" name="benefit" placeholder=" Benefit" value="{{ old('benefit') }}"
+                                        readonly>
+                                    @error('benefit')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -169,12 +188,28 @@
                                 <label for="customerno" class="col-sm-3 col-form-label">Pakan</label>
                                 <div class="col-sm-9">
                                     <input type="number"
-                                        class="form-control pakan @error('pakan')
+                                        class="form-control calculatePakan pakan @error('pakan')
                                             is-invalid
                                         @enderror"
                                         id="pakan" name="pakan" placeholder="Tambahkan pakan"
                                         value="{{ old('pakan') }}">
                                     @error('pakan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Benefit</label>
+                                <div class="col-sm-9">
+                                    <input type="number"
+                                        class="form-control benefit @error('benefit')
+                                            is-invalid
+                                        @enderror"
+                                        id="benefit" name="benefit" placeholder="Benefit"
+                                        value="{{ old('benefit') }}" readonly>
+                                    @error('benefit')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -200,12 +235,20 @@
             $('.editBtn').on('click', function(e) {
                 const id = $(this).data('id'),
                     ternak = $(this).data('ternak'),
-                    pakan = $(this).data('pakan');
+                    pakan = $(this).data('pakan'),
+                    benefit = $(this).data('benefit');
                 $('#edtModal').modal('show');
                 $('#formEdt').attr('action', "{{ url('/pakan-ternak') }}" + "/" + id);
                 $('.ternak_id').val(ternak);
                 $('.pakan').val(pakan);
+                $('.benefit').val(benefit);
             })
+            $('.calculatePakan').on('keyup', function(e) {
+                const pakan = $(this).val();
+                const benefit = pakan * 10.1;
+                $('.benefit').val(benefit);
+            })
+
         })
     </script>
 @endpush

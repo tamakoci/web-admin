@@ -33,10 +33,10 @@
             </a>
             <ul>
                 <li>
-                    <a href="{{ url('/ternak') }}"><i class="bx bx-right-arrow-alt"></i>Ternak</a>
+                    <a href="{{ url('/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a>
                 </li>
                 <li>
-                    <a href="{{ url('/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a>
+                    <a href="{{ url('/ternak') }}"><i class="bx bx-right-arrow-alt"></i>Ternak</a>
                 </li>
                 <li>
                     <a href="{{ url('/pakan-ternak') }}"><i class="bx bx-right-arrow-alt"></i>Pakan Ternak</a>

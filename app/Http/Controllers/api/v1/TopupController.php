@@ -121,6 +121,7 @@ class TopupController extends Controller
             Transaction::create([
                 'user_id' => $user->id,
                 'last_amount' => $wallet->diamon,
+                'trx_amount' => $pakan->diamon,
                 'final_amount'=> $wallet->diamon - $pakan->diamon,
                 'trx_type'=>'-',
                 'detail'=>'Topup Pakan By Diamon',

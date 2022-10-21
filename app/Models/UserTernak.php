@@ -21,30 +21,40 @@ class UserTernak extends Model
         $ternak = UserTernak::with(['ternak'])->where(['user_id'=>auth()->user()->id,'status'=>true])->get();
         foreach ($ternak as $key => $value) {
             $invest  = Investment::where('user_ternak',$value->ternak->id)->orderByDesc('id')->first();
+            $umur_start = date('Y-m-d H:i:s',strtotime($value->buy_date));
+            $umur_end = date('Y-m-d H:i:s',strtotime("+".$value->ternak->duration. " day", strtotime($umur_start)));
+
+           
+
+            
             if(!$invest){
-                $percent = 0;
+                $pakan_start = 0;
+                $pakan_end  = 0;
             }else{
-                $now = Carbon::now();
-                $datetime1 = new DateTime($invest->created_at);
-                $datetime2 = new DateTime($now);
-                $diff = $datetime1->diff($datetime2);
-
-                $daysInSecs = $diff->format('%r%a') * 24 * 60 * 60;
-                $hoursInSecs = $diff->h * 60 * 60;
-                $minsInSecs = $diff->i * 60;
-
-                $seconds = $daysInSecs + $hoursInSecs + $minsInSecs + $diff->s;
-                if($seconds > 86400){
-                    $percent = 0;
+                $makan1 = $invest->created_at;
+                $makan2 = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
+                $date_now = date("Y-m-d H:i:s"); // this format is string comparable
+                if ($date_now > $makan2) {
+                    $pakan_start = 0;
+                    $pakan_end  = 0;
                 }else{
-                    $percent = 100 - round($seconds / 864);
+                    $pakan_start = strtotime($makan1);
+                    $pakan_end   = strtotime($makan2); 
                 }
             }
             $data[] = [
                 'id'=>$value->id,
+                'ternak_id'=>$value->ternak_id,
                 'name'=>$value->ternak->name,
                 'avatar'=>$value->ternak->avatar,
-                'percent_pakan'=> (int)$percent 
+                'umur'=>[
+                    'start'=>strtotime($umur_start),
+                    'end'=>strtotime($umur_end)
+                ],
+                'pakan'=> [
+                    'start'=>$pakan_start,
+                    'end'=>$pakan_end
+                ]
             ];
         }
         return $data;

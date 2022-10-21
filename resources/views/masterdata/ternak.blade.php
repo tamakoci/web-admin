@@ -84,9 +84,8 @@
                             <th>Avatar</th>
                             <th>Name</th>
                             <th>Price</th>
-                            <th>Min Benefit</th>
-                            <th>Max Benefit</th>
                             <th>Duration</th>
+                            <th>Produk</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -97,10 +96,9 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td><img src="{{ $t->avatar }}" alt="image{{ $t->customer }}" width="100px"></td>
                                 <td>{{ $t->name }}</td>
-                                <td>{{ $t->price }}</td>
-                                <td>{{ $t->min_benefit }}</td>
-                                <td>{{ $t->max_benefit }}</td>
-                                <td>{{ $t->duration }}</td>
+                                <td>{{ $t->price }} DM</td>
+                                <td>{{ $t->duration }} Days</td>
+                                <td>{{ $t->produk->name }}</td>
                                 <td>
                                     @if ($t->status == 1)
                                         <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
@@ -112,9 +110,8 @@
                                     <form action="{{ url('ternak') . '/' . $t->id }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
                                             data-name="{{ $t->name }}" data-price="{{ $t->price }}"
-                                            data-min="{{ $t->min_benefit }}" data-max_benefit="{{ $t->max_benefit }}"
-                                            data-duration="{{ $t->duration }}" data-status="{{ $t->status }}"
-                                            data-avatar="{{ $t->avatar }}"
+                                            data-duration="{{ $t->duration }}" data-produk="{{ $t->produk_id }}"
+                                            data-status="{{ $t->status }}" data-avatar="{{ $t->avatar }}"
                                             class="btn btn-warning btn-sm btnEdit">edit</button>
                                         @csrf
                                         @method('delete')
@@ -181,38 +178,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label for="jumlah" class="col-sm-3 col-form-label">Min Benefit</label>
-                                <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control @error('min_benefit')
-                                        is-invalid
-                                    @enderror"
-                                        id="min_benefit" name="min_benefit" placeholder="Jumlah"
-                                        value="{{ old('min_benefit') }}">
-                                    @error('min_benefit')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="jumlah" class="col-sm-3 col-form-label">Max Benefit</label>
-                                <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control @error('max_benefit')
-                                        is-invalid
-                                    @enderror"
-                                        id="max_benefit" name="max_benefit" placeholder="Jumlah"
-                                        value="{{ old('max_benefit') }}">
-                                    @error('max_benefit')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="row mb-3">
                                 <label for="jumlah" class="col-sm-3 col-form-label">Duration (day)</label>
                                 <div class="col-sm-9">
@@ -220,13 +186,23 @@
                                         class="form-control @error('duration')
                                         is-invalid
                                     @enderror"
-                                        id="duration" name="duration" placeholder="Jumlah"
-                                        value="{{ old('duration') }}">
+                                        id="duration" name="duration" placeholder="Jumlah" value="{{ old('duration') }}">
                                     @error('duration')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="satuan" class="col-sm-3 col-form-label">Produk</label>
+                                <div class="col-sm-9">
+                                    <select name="produk_id" id="produk" class="form-select produk">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($produk as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -348,38 +324,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label for="jumlah" class="col-sm-3 col-form-label">Min Benefit</label>
-                                <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control min @error('min_benefit')
-                                        is-invalid
-                                    @enderror min_benefit"
-                                        id="min_benefit" name="min_benefit" placeholder="Jumlah"
-                                        value="{{ old('min_benefit') }}">
-                                    @error('min_benefit')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="jumlah" class="col-sm-3 col-form-label">Max Benefit</label>
-                                <div class="col-sm-9">
-                                    <input type="number"
-                                        class="form-control @error('max_benefit')
-                                        is-invalid
-                                    @enderror max_benefit"
-                                        id="max_benefit" name="max_benefit" placeholder="Jumlah"
-                                        value="{{ old('max_benefit') }}">
-                                    @error('max_benefit')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="row mb-3">
                                 <label for="jumlah" class="col-sm-3 col-form-label">Duration (day)</label>
                                 <div class="col-sm-9">
@@ -394,6 +339,17 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="satuan" class="col-sm-3 col-form-label">Produk</label>
+                                <div class="col-sm-9">
+                                    <select name="produk_id" id="produk" class="form-select produk">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($produk as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -548,17 +504,15 @@
             const id = $(this).data("id"),
                 name = $(this).data("name"),
                 price = $(this).data("price"),
-                min_benfit = $(this).data("min"),
-                max_benefit = $(this).data("max_benefit"),
                 duration = $(this).data("duration"),
+                produk = $(this).data("produk"),
                 status = $(this).data("status"),
                 avatar = $(this).data("avatar");
             $("#editModal").modal("show");
             $('.name').val(name)
             $('.price').val(price)
-            $('.min').val(min_benfit)
-            $('.max_benefit').val(max_benefit)
             $('.duration').val(duration)
+            $('.produk').val(produk)
             $('.status').val(status)
             $('#formEdt').attr("action", "{{ url('ternak') }}" + '/' + id);
             $('.updatepreview').attr('src', `${avatar}`)
