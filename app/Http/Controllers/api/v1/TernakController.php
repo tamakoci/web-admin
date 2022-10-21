@@ -29,6 +29,22 @@ class TernakController extends Controller
     }
     public function getPakanTernak($id){
         $pakan = PakanTernak::with(['ternak','ternak.produk'])->where('ternak_id',$id)->get();
+        $data = [];
+        foreach ($pakan as $key => $value) {
+            $benefitFinal  = $value->benefit *  $value->ternak->produk->dm;
+            $data[] = [
+                'id'=>$value->id,
+                'ternak_id'=>$value->ternak_id,
+                'pakan'=>$value->pakan,
+                'benefit'=>$value->benefit,
+                'ternak' => $value->ternak->name,
+                'produk'=>$value->ternak->produk->name,
+                'satuan'=>$value->ternak->produk->satuan,
+                'db_benefit'=>$benefitFinal,
+                'text'=>'Menghasilkan '.$value->benfit. ' '.$value->ternak->produk->satuan.'/Hari Sejumlah '. $benefitFinal.' Diamond'
+            ]; 
+        }
+
         $ternak = Ternak::find($id);
         if ($pakan->count() <= 0) {
             return response()->json([
@@ -41,7 +57,7 @@ class TernakController extends Controller
             'message'=>'Data Pakan Ternak',
             'data'=>[
                 'ternak'=>$ternak,
-                'pakan'=>$pakan
+                'pakan'=>$data
             ]],
             Response::HTTP_OK);
     }
