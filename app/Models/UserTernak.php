@@ -38,8 +38,8 @@ class UserTernak extends Model
                     $pakan_start = 0;
                     $pakan_end  = 0;
                 }else{
-                    $pakan_start = strtotime($makan1);
-                    $pakan_end   = strtotime($makan2); 
+                    $pakan_start = $makan1;
+                    $pakan_end   = $makan2; 
                 }
             }
             $data[] = [
@@ -47,18 +47,10 @@ class UserTernak extends Model
                 'ternak_id'=>$value->ternak_id,
                 'name'=>$value->ternak->name,
                 'avatar'=>$value->ternak->avatar,
-                // 'umur'=>[
-                //     'start'=>strtotime($umur_start),
-                //     'end'=>strtotime($umur_end)
-                // ],
-                'umur_start'=>strtotime($umur_start),
-                'umur_end'=>strtotime($umur_end),
+                'umur_start'=>$umur_start,
+                'umur_end'=>$umur_end,
                 'pakan_start'=>$pakan_start,
                 'pakan_end'=>$pakan_end
-                // 'pakan'=> [
-                //     'start'=>$pakan_start,
-                //     'end'=>$pakan_end
-                // ]
             ];
         }
         return $data;
