@@ -138,9 +138,10 @@ class TernakController extends Controller
         }
         $pakan = PakanTernak::find($request->pakan_id); 
         $userTernak = UserTernak::with(['ternak','ternak.produk'])->find($request->user_ternak_id);
-        if(!$userTernak){
-            return response()->json(['status'=>'404','message'=>'Anda tidak memiliki ternak tsb!',],404);
-        }
+        // $pakanTernak = PakanTernak::where('')
+        // if(!$userTernak){
+        //     return response()->json(['status'=>'404','message'=>'Anda tidak memiliki ternak tsb!',],404);
+        // }
         $wallet = UserWallet::getWallet();
         
         if($wallet->pakan < $pakan->pakan){
