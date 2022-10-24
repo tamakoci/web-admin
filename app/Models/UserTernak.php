@@ -20,13 +20,9 @@ class UserTernak extends Model
         $data = [];
         $ternak = UserTernak::with(['ternak'])->where(['user_id'=>auth()->user()->id,'status'=>true])->get();
         foreach ($ternak as $key => $value) {
-            $invest  = Investment::where('user_ternak',$value->id)->where('user_id',auth()->user()->id)->orderByDesc('id')->first();
+            $invest  = Investment::where(['user_ternak'=>$value->id,'status'=>1])->first();
             $umur_start = date('Y-m-d H:i:s',strtotime($value->buy_date));
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$value->ternak->duration. " day", strtotime($umur_start)));
-
-           
-
-            
             if(!$invest){
                 $pakan_start = date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_end  = date("Y-m-d H:i:s"); // this format is string comparable
