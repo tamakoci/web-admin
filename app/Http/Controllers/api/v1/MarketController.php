@@ -47,8 +47,8 @@ class MarketController extends Controller
         $data = Market::with('product')->find($request->market_id);
         $productRequest = $data->qty;
         $profit = $data->qty * $data->product->dm;
-        $wallet = UserWallet::getWallet();
         
+        $wallet = UserWallet::getWallet();
         $hasil_ternak = json_decode($wallet->hasil_ternak);
         $array = (array)$hasil_ternak;
         $productInWallet = $array[$data->product->id]->qty;

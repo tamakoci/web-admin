@@ -49,20 +49,17 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    public static function makeReferal(){
-        $user = Auth::user();
-        if($user){
-            $randomString = substr($user->username, 0, 4);
+    public static function makeReferal($user = null){
+        if($user == null){
+            $userGet = Auth::user();
+            $randomString = substr($userGet->username, 0, 4);
+            $count = $userGet->id;
         }else{
-            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $length = 4;
-            $charactersLength = strlen($characters);
-            $randomString = '';
-            for ($i = 0; $i < $length; $i++) {
-                $randomString .= $characters[rand(0, $charactersLength - 1)];
-            }
+            $randomString = substr($user, 0, 4);
+            $users = User::all();
+            $count = $users->count() + 1;
         }
-        $ref = strtolower($randomString). sprintf("%03s", $user->id);
+        $ref = strtolower($randomString). sprintf("%03s", $count);
         return $ref;
 
     }
@@ -92,5 +89,37 @@ class User extends Authenticatable implements JWTSubject
 
     public function transaction(){
         return $this->hasMany(Transaction::class);
+    }
+
+    public static function createLevelUser($userID){
+        $lv1 = User::where('ref_to','!=',null)->find($userID);
+        if($lv1){
+            ReferalTree::create([
+                'user_id'   => $lv1->ref_to,
+                'level'     => 1,
+                'user_ref'  => $userID,
+                'status'    => true
+            ]);
+            $lv2 = User::where('ref_to','!=',null)->find($lv1->ref_to);
+            if($lv2){
+                ReferalTree::create([
+                    'user_id'   => $lv2->ref_to,
+                    'level'     => 2,
+                    'user_ref'  => $userID,
+                    'status'    => true
+    
+                ]);
+                $lv3 = User::where('ref_to','!=',null)->find($lv2->ref_to);
+                if($lv3){
+                    ReferalTree::create([
+                        'user_id'   => $lv3->ref_to,
+                        'level'     => 3,
+                        'user_ref'  => $userID,
+                        'status'    => true
+                    ]);
+                }
+            }
+        }
+        return true;
     }
 }

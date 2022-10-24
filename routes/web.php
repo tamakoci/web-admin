@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\CronController;
 use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\BankController;
 use App\Http\Controllers\web\DashboardConteroller;
@@ -25,6 +27,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
+
 Route::get('/',[LandingController::class,'index']);
 Route::get('/login', [AuthController::class,'loginView'])->name('login');
 Route::post('/login-post',[AuthController::class,'loginPost']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ternak;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -40,14 +41,18 @@ class AuthController extends Controller
             $referal = $cek_ref->id;
         }
         try {
-            User::create([
-                'email' => $request->email,
-                'username' => $request->username,
-                'phone'=>$request->phone,
-                'ref_to'=>$referal,
-                'password' =>  Hash::make($request->password)
+            $user = User::create([
+                'email'     => $request->email,
+                'username'  => $request->username,
+                'phone'     => $request->phone,
+                'user_ref'  => User::makeReferal($request->username),
+                'ref_to'    => $referal,
+                'password'  => Hash::make($request->password)
             ]);
-            
+            if($referal != null){
+                User::createLevelUser($user->id);
+            }
+            Ternak::giveFreeTernak($user->id);
             return redirect()->intended('/')->with('success','User Created');
 
         } catch (QueryException $e) {

@@ -10,7 +10,7 @@ class Investment extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function user_ternak(){
+    public function userTernak(){
         return $this->belongsTo(UserTernak::class,'user_ternak');
     }
 }

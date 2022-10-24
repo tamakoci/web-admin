@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\AuthUser;
+use App\Models\ReferalTree;
+use App\Models\Ternak;
 use App\Models\User;
 use App\Models\UserTernak;
 use App\Models\UserWallet;
@@ -49,16 +51,21 @@ class AuthController extends Controller
         }
         try{
             $user = User::create([
-                'email' => $request->email,
-                'username' => $request->username,
-                'phone'=>$request->phone,
-                'ref_to'=>$referal,
-                'password' =>  Hash::make($request->password)
+                'email'     => $request->email,
+                'username'  => $request->username,
+                'phone'     => $request->phone,
+                'user_ref'  => User::makeReferal($request->username),
+                'ref_to'    => $referal,
+                'password'  => Hash::make($request->password)
             ]);
+            if($referal != null){
+                User::createLevelUser($user->id);
+            }
+            Ternak::giveFreeTernak($user->id);
             return response()->json([
-                'status' => "200",
-                'message' => 'User Sucessuly Registed',
-                'data' => User::find($user->id)
+                'status'    => "200",
+                'message'   => 'User Sucessuly Registed',
+                'data'      => User::find($user->id)
             ], Response::HTTP_OK);
         }catch (QueryException $e) {
             return response()->json([

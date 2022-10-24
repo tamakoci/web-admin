@@ -20,7 +20,7 @@ class UserTernak extends Model
         $data = [];
         $ternak = UserTernak::with(['ternak'])->where(['user_id'=>auth()->user()->id,'status'=>true])->get();
         foreach ($ternak as $key => $value) {
-            $invest  = Investment::where('user_ternak',$value->ternak->id)->orderByDesc('id')->first();
+            $invest  = Investment::where('user_ternak',$value->ternak->id)->where('user_id',auth()->user()->id)->orderByDesc('id')->first();
             $umur_start = date('Y-m-d H:i:s',strtotime($value->buy_date));
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$value->ternak->duration. " day", strtotime($umur_start)));
 

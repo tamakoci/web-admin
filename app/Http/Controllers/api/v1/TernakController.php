@@ -68,6 +68,9 @@ class TernakController extends Controller
         if($validate->fails()){
             return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
         }
+        // if($request->ternak_id == 1){
+        //     return response()->json(['status'=>'405','message'=>'Cannot Buy Free Ternak'],Response::HTTP_METHOD_NOT_ALLOWED);
+        // }
         $user = Auth::user();
         $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
         if(!$wallet){
@@ -128,24 +131,22 @@ class TernakController extends Controller
         $user = Auth::user();
         $validate = Validator::make($request->all(),[
             'pakan_id' => 'required',
-            'ternak_id'=>'required'
+            'user_ternak_id' => 'required',
         ]);
         if($validate->fails()){
             return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
         }
         $pakan = PakanTernak::find($request->pakan_id); 
-        $userTernak = UserTernak::where('ternak_id',$pakan->ternak_id)->where('ternak_id',$request->ternak_id)->where('status',1)->first();
+        $userTernak = UserTernak::with(['ternak','ternak.produk'])->find($request->user_ternak_id);
         if(!$userTernak){
-            return response()->json(['status'=>'404','message'=>'Anda tidak memiliki ternak dengan pakan tsb!',],404);
+            return response()->json(['status'=>'404','message'=>'Anda tidak memiliki ternak tsb!',],404);
         }
         $wallet = UserWallet::getWallet();
+        
         if($wallet->pakan < $pakan->pakan){
             return response()->json(['status'=>'401','message'=>'Pakan Tidak Cukup',],401);
         }
-        $ternak = Ternak::with('produk')->find($request->ternak_id);
-        $hasil_ternak = json_decode($wallet->hasil_ternak);
-        $array = (array)$hasil_ternak;
-        $productInWallet = $array[$ternak->produk->id]->qty;
+        $produkId = $userTernak->ternak->produk->id;
 
         $buyDate = $userTernak->buy_date;
         $now = Carbon::now();
@@ -153,35 +154,58 @@ class TernakController extends Controller
         $datetime2 = new DateTime($now);
         $interval = $datetime1->diff($datetime2);
         $days = $interval->format('%a'); // cek sisa umur ternak
-        if($days > $ternak->duration){
+        if($days > $userTernak->ternak->duration){
             return response()->json(['status'=>'401','message'=>'Ternak Not Falid',],401);
             $userTernak->update(['status'=>0]);
         }
+
+        $hasil_ternak = json_decode($wallet->hasil_ternak);
+        $array = (array)$hasil_ternak;
+        $productInWallet = $array[$produkId]->qty;
+
         // $commision = rand($ternak->min_benefit,$ternak->max_benefit);
         $commision = $pakan->benefit;
         $remain = floor($commision / 24);
         
-        $finalProduc = $productInWallet + $remain;
-        $array[$ternak->produk->id]->qty = $finalProduc;
-
+        
         // return $commision;
         DB::beginTransaction();
         try {
             $trxID = Transaction::trxID('BP');
-            Investment::create([
-                'user_id' => $user->id,
-                'user_ternak'=>$userTernak->id,
-                'transaction'=>$trxID,
-                'remains'=> $remain,
-                'commision'=>$commision,
-                'status'=>1
-            ]);
-            UserWallet::create([
-                'user_id'=>$user->id,
-                'diamon'=>$wallet->diamon + $commision,
-                'pakan'=>$wallet->pakan - $pakan->pakan,
-                'hasil_ternak' => json_encode($array)
-            ]);
+            if($userTernak->ternak->id == 4){
+               $investment = Investment::where(['user_id'=>$user->id,'user_ternak'=>$request->user_ternak_id])->first();
+               if(!$investment){
+                   Investment::create([
+                       'user_id' => $user->id,
+                       'user_ternak'=>$request->user_ternak_id,
+                       'transaction'=>$trxID,
+                       'remains'=> 0,
+                       'commision'=>$commision,
+                       'status'=>1
+                   ]);
+               }else{
+                    $investment->update([
+                        'commision'=>$investment->commision + $commision
+                    ]);
+               }
+            }else{
+                $finalProduc = $productInWallet + $remain;
+                $array[$produkId]->qty = $finalProduc;
+                Investment::create([
+                    'user_id' => $user->id,
+                    'user_ternak'=>$userTernak->id,
+                    'transaction'=>$trxID,
+                    'remains'=> $remain,
+                    'commision'=>$commision,
+                    'status'=>1
+                ]);
+                UserWallet::create([
+                    'user_id'=>$user->id,
+                    'diamon'=>$wallet->diamon + $commision,
+                    'pakan'=>$wallet->pakan - $pakan->pakan,
+                    'hasil_ternak' => json_encode($array)
+                ]);
+            }
             DB::commit();
             return response()->json(['status'=>200,'message'=>"Beri Pakan Success"]);
         } catch (\Exception $e) {
