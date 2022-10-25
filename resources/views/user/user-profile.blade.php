@@ -95,8 +95,8 @@
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                 <h6 class="mb-0"></i>
-                                                    {{ ucfirst($val['name']) }}</h6>
-                                                <span class="text-secondary">{{ $val['qty'] }}</span>
+                                                    {{ ucfirst($val->name) }}</h6>
+                                                <span class="text-secondary">{{ $val->qty }}</span>
                                             </li>
                                         @endforeach
                                     @endif

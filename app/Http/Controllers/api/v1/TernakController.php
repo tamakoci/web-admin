@@ -140,7 +140,7 @@ class TernakController extends Controller
         $userTernak = UserTernak::with(['ternak','ternak.produk'])->find($request->user_ternak_id);
         $cekInvest = Investment::where(['user_ternak'=>$request->user_ternak_id,'status'=>1])->first(); 
         // $pakanTernak = PakanTernak::where('')
-        if(!$userTernak){
+        if($cekInvest){
             return response()->json(['status'=>'401','message'=>'Ternak hanya dapat diberi makan 1x sehari!',],401);
         }
         $wallet = UserWallet::getWallet();

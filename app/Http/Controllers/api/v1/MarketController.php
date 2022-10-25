@@ -26,7 +26,8 @@ class MarketController extends Controller
                 'product'=>$value->product->name,
                 'qty'=>$value->qty,
                 'satuan'=>$value->product->satuan,
-                'text'=> "Saya Mau Pesan ".$value->product->name." " . $value->qty. " ".$value->product->satuan." Apakah Kamu Menjualnya?"
+                'text'=> "Saya Mau Pesan ".$value->product->name." " . $value->qty. " ".$value->product->satuan." Apakah Kamu Menjualnya?",
+                'alert'=>"Apakah kamu akan menjual ".$value->product->name." " . $value->qty. " ".$value->product->satuan."?"
             ];
         }
         return response()->json([
