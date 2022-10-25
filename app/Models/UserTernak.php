@@ -29,15 +29,15 @@ class UserTernak extends Model
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$value->ternak->duration. " day", strtotime($umur_start)));
             
             if(!$invest){
-                $pakan_start ='kosong'. date("Y-m-d H:i:s"); // this format is string comparable
-                $pakan_end  ='kosong'.  date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_start = date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_end  =  date("Y-m-d H:i:s"); // this format is string comparable
             }else{
                 $makan1 = date("Y-m-d H:i:s", strtotime($invest->created_at));
                 $makan2 = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
                 $date_now = date("Y-m-d H:i:s"); // this format is string comparable
                 if ($date_now > $makan2) {
-                    $pakan_start ='kosong'. date("Y-m-d H:i:s"); // this format is string comparable
-                    $pakan_end  ='kosong'. date("Y-m-d H:i:s"); // this format is string comparable
+                    $pakan_start = date("Y-m-d H:i:s"); // this format is string comparable
+                    $pakan_end  = date("Y-m-d H:i:s"); // this format is string comparable
                 }else{
                     $pakan_start = $makan1;
                     $pakan_end   = $makan2; 
