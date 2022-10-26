@@ -9,6 +9,7 @@ use App\Http\Controllers\web\ManageUserController;
 use App\Http\Controllers\web\MarketConteroller;
 use App\Http\Controllers\web\PakanTernakController;
 use App\Http\Controllers\web\ProductController;
+use App\Http\Controllers\web\ReferalsController;
 use App\Http\Controllers\web\TernakController;
 use App\Http\Controllers\web\TopupDiamonController;
 use App\Http\Controllers\web\TopupPakanController;
@@ -45,9 +46,11 @@ Route::group(["middleware"=>"auth"],function(){
     Route::resource('/pakan-ternak',PakanTernakController::class);
     Route::resource('/bank',BankController::class);
     Route::get('user-profile',[UserController::class,'index']);
+    Route::get('user-profile/{id}',[UserController::class,'getUser']);
     Route::put('user-profile/{id}',[UserController::class,'updateUser']);
     Route::get('generate-referal',[UserController::class,'refGenerate']);
     Route::post('/logout',[AuthController::class,'logout']);
+    Route::resource('referal',ReferalsController::class);
     Route::group(['prefix'=>'admin'],function(){
         Route::resource('/manage-user',ManageUserController::class);
         Route::resource('/transaction',TransactionController::class);

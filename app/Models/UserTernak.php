@@ -23,6 +23,7 @@ class UserTernak extends Model
         // return $ternak;
         // dd($ternak);
         foreach ($ternak as $key => $value) {
+
             $invest  = Investment::where(['user_ternak'=>$value->id,'status'=>1])->first();
             // return $invest;
             $umur_start = date('Y-m-d H:i:s',strtotime($value->buy_date));

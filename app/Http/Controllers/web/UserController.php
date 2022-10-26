@@ -36,6 +36,31 @@ class UserController extends Controller
         $data['table'] = Transaction::where('user_id',auth()->user()->id)->orderByDesc('id')->get();
         return view('user.user-profile',$data);
     }
+    public function getUser($id){
+        $user= User::find($id);
+        $data['title'] = 'Profile '.ucwords($user->username);
+        $data['user'] = $user;
+        $data['mark'] = true;
+        $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
+        $produk = Product::produk();
+        // return $produk;
+        if($wallet){
+            $userWallet = [
+                'diamond'=>$wallet->diamon,
+                'pakan'=>$wallet->pakan,
+                'hasil_ternak'=>$wallet->hasilTernak()
+            ];
+        }else{
+            $userWallet = [
+                'diamond'=>0,
+                'pakan'=>0,
+                'hasil_ternak'=> $produk
+                ];
+        }
+        $data['wallet']= $userWallet;
+        $data['table'] = Transaction::where('user_id',$user->id)->orderByDesc('id')->get();
+        return view('user.user-detail',$data);
+    }
     public function refGenerate(){
         $ref = User::makeReferal();
         $user = Auth::user();

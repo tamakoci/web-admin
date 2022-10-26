@@ -35,7 +35,7 @@ class MarketController extends Controller
             'msg'       => 'Request customer on marker',
             'data'      => $market,
         ],200);
-    }
+    } 
 
     public function sell(Request $request){
         $user = Auth::user();

@@ -90,6 +90,9 @@ class User extends Authenticatable implements JWTSubject
     public function transaction(){
         return $this->hasMany(Transaction::class);
     }
+    public function tree(){
+        return $this->hasMany(ReferalTree::class);
+    }
 
     public static function createLevelUser($userID){
         $lv1 = User::where('ref_to','!=',null)->find($userID);
