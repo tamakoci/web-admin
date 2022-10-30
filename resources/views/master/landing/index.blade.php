@@ -35,11 +35,19 @@
 
     <!--====== Style css ======-->
     <link rel="stylesheet" href="{{ asset('') }}/land/css/style.css">
+    {{-- sweet alert --}}
+    <link rel="stylesheet" href="{{ asset('') }}assets/css/sweetalert2.min.css">
 
     @stack('style')
 </head>
 
 <body>
+    @if (session()->has('success'))
+        <div class="success-info" data-msg="{{ session('success') }}"></div>
+    @endif
+    @if (session()->has('error'))
+        <div class="error-info" data-msg="{{ session('error') }}"></div>
+    @endif
 
     @yield('content')
     <!--====== scroll_up PART START ======-->
@@ -78,6 +86,53 @@
 
     <!--====== Main js ======-->
     <script src="{{ asset('') }}/land/js/main.js"></script>
+    <script src="{{ asset('') }}assets/sweetalert/sweetalert2.all.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            var success = $('.success-info').data('msg');
+            var error = $('.error-info').data('msg');
+            var errorPost = $('.error-post').data('msg');
+
+            if (error) {
+                if (errorPost) {
+                    title = errorPost
+                } else {
+                    title = error
+                }
+                Toast.fire({
+                    icon: 'error',
+
+                    title: title
+                })
+            }
+            if (success) {
+                Toast.fire({
+                    icon: 'success',
+                    title: success
+                })
+            }
+            if (errorPost) {
+                $('#addModal').modal("show")
+                console.log('error post');
+            }
+        })
+    </script>
 
 </body>
 

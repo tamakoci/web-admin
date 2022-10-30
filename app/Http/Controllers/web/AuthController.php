@@ -14,11 +14,13 @@ class AuthController extends Controller
 {
     public function loginView(){
         $data['title'] = 'Login';
-        return view('master.auth.login',$data);
+        return view('landing.login',$data);
+        // return view('master.auth.login',$data);
     }
     public function registView(){
         $data['title'] = 'Register';
-        return view('master.auth.register',$data);
+        return view('landing.register',$data);
+        // return view('master.auth.register',$data);
     }
     public function registPost(Request $request){
         $validation = [
@@ -53,7 +55,7 @@ class AuthController extends Controller
                 User::createLevelUser($user->id);
             }
             Ternak::giveFreeTernak($user->id);
-            return redirect()->intended('/')->with('success','User Created');
+            return redirect()->intended('/login')->with('success','User Created');
 
         } catch (QueryException $e) {
             dd($e->getMessage());
@@ -61,6 +63,12 @@ class AuthController extends Controller
         }
     }
     public function loginPost(Request $request){
+      
+        // $validate = $request->validate([
+        //     'username'=>'required',
+        //     'password'=>'required'
+        // ]);
+
         if (empty($request->username) || empty($request->password)) {
             return redirect()->back()->with('error','Email atau password tidak boleh kosong');
         }

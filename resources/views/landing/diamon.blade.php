@@ -7,7 +7,8 @@
             <div class="row ">
                 <div class="col-lg-6">
                     <div class="banner-area bg_cover"
-                        style="background-image:  linear-gradient(to right, rgba(43, 53, 109, 0.226), rgb(49, 23, 104)), url({{ asset('') }}/land/img/pd.jpg);">
+                        style="background-image:  linear-gradient(to right, rgba(43, 53, 109, 0.226), rgb(49, 23, 104)), 
+                        url({{ asset('') }}/land/img/pd.jpg);">
 
                     </div>
 
