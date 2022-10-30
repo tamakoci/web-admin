@@ -8,7 +8,7 @@
                         <div class="navigation">
                             <div class="container">
                                 <nav class="navbar navbar-expand-lg navbar-light ">
-                                    <a class="navbar-brand text-light" href="{{ url('/') }}">TAMAKOCI.</a>
+                                    <a class="navbar-brand text-light text-Logo" href="{{ url('/') }}">TAMAKOCI.</a>
                                     <!-- logo -->
                                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -22,16 +22,19 @@
                                         id="navbarSupportedContent">
                                         <ul class="navbar-nav me-auto">
                                             <li class="nav-item">
-                                                <a class="nav-link active" href="{{ url('/') }}">Home</a>
+                                                <a class="nav-link active" href="#home">Home</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{ url('/portofolio') }}">Portofolio</a>
+                                                <a class="nav-link" href="#about">About</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{ url('/about') }}">About</a>
+                                                <a class="nav-link" href="#banefit">Banefit</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{ url('/contact') }}">Contact</a>
+                                                <a class="nav-link" href="#ternak">Ternak</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#bisnis">Bisnis</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{ url('/login') }}">Login</a>

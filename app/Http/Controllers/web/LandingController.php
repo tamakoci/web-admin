@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class LandingController extends Controller
 {
     public function index(){
-        $data['title'] = 'Tamakoci';
+        $data['title'] = 'Home';
         return view('landing.index',$data);
     }
 }

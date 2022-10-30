@@ -138,9 +138,9 @@ class TernakController extends Controller
         }
         $pakan = PakanTernak::find($request->pakan_id); 
         $userTernak = UserTernak::with(['ternak','ternak.produk'])->find($request->user_ternak_id);
-        $cekInvest = Investment::where(['user_ternak'=>$request->user_ternak_id,'status'=>1])->first(); 
+        $cekInvest = Investment::where(['user_ternak'=>$request->user_ternak_id])->orderByDesc('id')->first(); 
         // $pakanTernak = PakanTernak::where('')
-        if($cekInvest){
+        if($cekInvest || $cekInvest->status == 1){
             return response()->json(['status'=>'401','message'=>'Ternak hanya dapat diberi makan 1x sehari!',],401);
         }
         $wallet = UserWallet::getWallet();
@@ -213,7 +213,7 @@ class TernakController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status'=>500,'error'=>$e->getMessage()]);
-            // throw $e;
+            // throw $e;,
         }
     }
 }
