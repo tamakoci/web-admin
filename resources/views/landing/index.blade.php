@@ -11,12 +11,37 @@
             color: #ada2c3;
         }
 
+
         .text2 {
             font-size: 100px;
             font-weight: 800;
             color: #ada2c3;
             font-style: italic;
             font-family: Arial, Helvetica, sans-serif;
+        }
+
+        @media (min-width: 481px) and (max-width: 767px) {
+
+            .text2 {
+                font-size: 50px;
+                font-weight: 600;
+                color: #ada2c3;
+                font-style: italic;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+        }
+
+        @media (min-width: 320px) and (max-width: 480px) {
+
+            .text2 {
+                font-size: 50px;
+                font-weight: 600;
+                color: #ada2c3;
+                font-style: italic;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
         }
 
         .text3 {
