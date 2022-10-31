@@ -30,18 +30,23 @@ class UserTernak extends Model
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$value->ternak->duration. " day", strtotime($umur_start)));
             
             if(!$invest){
-                $pakan_start = date("Y-m-d H:i:s"); // this format is string comparable
-                $pakan_end  =  date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_sts      = 0;
             }else{
-                $makan1 = date("Y-m-d H:i:s", strtotime($invest->created_at));
-                $makan2 = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-                $date_now = date("Y-m-d H:i:s"); // this format is string comparable
+                $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
+                $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
+                $date_now   = date("Y-m-d H:i:s"); // this format is string comparable
                 if ($date_now > $makan2) {
-                    $pakan_start = date("Y-m-d H:i:s"); // this format is string comparable
-                    $pakan_end  = date("Y-m-d H:i:s"); // this format is string comparable
+                    $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
+                    $pakan_end      = date("Y-m-d H:i:s"); // this format is string comparable
+                    $pakan_sts      = 0;
+
                 }else{
-                    $pakan_start = $makan1;
-                    $pakan_end   = $makan2; 
+                    $pakan_start    = $makan1;
+                    $pakan_end      = $makan2;
+                    $pakan_sts      = 1;
+
                 }
             }
             $data[] = [
@@ -53,7 +58,8 @@ class UserTernak extends Model
                 'umur_start'=>$umur_start,
                 'umur_end'=>$umur_end,
                 'pakan_start'=>$pakan_start,
-                'pakan_end'=>$pakan_end
+                'pakan_end'=>$pakan_end,
+                'pakan_status'=>$pakan_sts
             ];
         }
         return $data;

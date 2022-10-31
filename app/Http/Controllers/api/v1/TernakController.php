@@ -128,6 +128,7 @@ class TernakController extends Controller
         ]);
     }
     public function beriPakan(Request $request){
+        // $cekTernak=
         $user = Auth::user();
         $validate = Validator::make($request->all(),[
             'pakan_id' => 'required',
@@ -137,12 +138,20 @@ class TernakController extends Controller
             return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
         }
         $pakan = PakanTernak::find($request->pakan_id); 
-        $userTernak = UserTernak::with(['ternak','ternak.produk'])->find($request->user_ternak_id);
+        $userTernak = UserTernak::with(['ternak','ternak.produk'])->where('user_id',$user->id)->find($request->user_ternak_id);
         $cekInvest = Investment::where(['user_ternak'=>$request->user_ternak_id])->orderByDesc('id')->first(); 
-        // $pakanTernak = PakanTernak::where('')
-        if($cekInvest || $cekInvest->status == 1){
+        $cekPakan = PakanTernak::where(['id'=>$request->pakan_id,'ternak_id'=>$userTernak->ternak->id])->first();
+        
+        if(!$userTernak){
+            return response()->json(['status'=>'401','message'=>'Kamu tidak memiliki ternak tersebut',],401);
+        }
+         if(!$cekPakan){
+            return response()->json(['status'=>'401','message'=>'Ternak tidak dapat diberi pakan tsb',],401);
+        }
+        if($cekInvest && $cekInvest->status == 1){
             return response()->json(['status'=>'401','message'=>'Ternak hanya dapat diberi makan 1x sehari!',],401);
         }
+      
         $wallet = UserWallet::getWallet();
         
         if($wallet->pakan < $pakan->pakan){
