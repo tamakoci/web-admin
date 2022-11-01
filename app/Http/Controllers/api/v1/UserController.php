@@ -48,7 +48,7 @@ class UserController extends Controller
             'status'=>200,
             'message'=>'User Info Data',
             'Data'=>[
-                'user_active'=>$user,
+                'user_active'=>User::getUser(),
                 'user_wallet'=>$userWallet,
             ]
         ]);

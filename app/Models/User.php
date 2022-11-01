@@ -125,4 +125,18 @@ class User extends Authenticatable implements JWTSubject
         }
         return true;
     }
+
+    public static function getUser(){
+        $user = Auth::user();
+        return [
+            'id'    => $user->id,
+            'email' => $user->email,
+            'username'  => $user->username,
+            'phone'     => $user->phone,
+            'avatar'    => $user->avatar != null ? $user->avatar : asset('avatar.png'),
+            'active_tutor' => $user->active_tutor,
+            'user_ref'  => $user->user_ref,
+            'user_role' => $user->user_role
+        ];
+    }
 }
