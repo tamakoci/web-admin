@@ -107,7 +107,7 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <form action="{{ url('request-market') . '/' . $t->id }}" method="POST">
+                                    <form action="{{ url('admin/request-market') . '/' . $t->id }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
                                             data-cust="{{ $t->customer }}" data-ava="{{ $t->avatar }}"
                                             data-product="{{ $t->product->id }}" data-qty="{{ $t->qty }}"
@@ -485,7 +485,7 @@
             $('.qty').val(qty)
             $('.satuan').val(satuan)
             $('.status').val(status)
-            $('#formEdt').attr("action", "{{ url('request-market') }}" + '/' + id);
+            $('#formEdt').attr("action", "{{ url('admin/request-market') }}" + '/' + id);
             $('.updatepreview').attr('src', `${avatar}`)
         })
     </script>

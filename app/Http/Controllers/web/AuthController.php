@@ -82,9 +82,14 @@ class AuthController extends Controller
         if(!Hash::check($request->password,$user->password)){
             return redirect()->back()->with('error','Username / password salah');  
         }
+        if($user->user_role == 2){
+            $role= 'admin';
+        }else{
+            $role = 'user';
+        }
         if(Auth::attempt($request->only('username','password'))){
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard')->with('success','Selamat Datang Kembali');
+            return redirect()->intended( $role.'/dashboard')->with('success','Selamat Datang Kembali');
         }
         return redirect()->back()->with('error',"Login Gagal !");
 

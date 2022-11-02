@@ -12,77 +12,69 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="{{ url('/dashboard') }}">
+            <a href="{{ url(auth()->user()->user_role == 1 ? 'user' : 'admin' . '/dashboard') }}">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
             </a>
         </li>
-        <li>
-            <a href="{{ url('/referal') }}">
-                <div class="parent-icon"><i class='bx bx-money'></i>
-                </div>
-                <div class="menu-title">Referals</div>
-            </a>
-        </li>
+        @if (auth()->user()->user_role == 1)
+            <li>
+                <a href="{{ url('user/referal') }}">
+                    <div class="parent-icon"><i class='bx bx-money'></i>
+                    </div>
+                    <div class="menu-title">Referals</div>
+                </a>
+            </li>
+        @endif
 
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Master</div>
-            </a>
-            <ul>
-                <li>
-                    <a href="{{ url('/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a>
-                </li>
-                <li>
-                    <a href="{{ url('/ternak') }}"><i class="bx bx-right-arrow-alt"></i>Ternak</a>
-                </li>
-                <li>
-                    <a href="{{ url('/pakan-ternak') }}"><i class="bx bx-right-arrow-alt"></i>Pakan Ternak</a>
-                </li>
-                <li>
-                    <a href="{{ url('/topup-diamon') }}"><i class="bx bx-right-arrow-alt"></i>Topup Diamon</a>
-                </li>
-                <li>
-                    <a href="{{ url('/topup-pakan') }}"><i class="bx bx-right-arrow-alt"></i>Topup Pakan</a>
-                </li>
-                <li>
-                    <a href="{{ url('/request-market') }}"><i class="bx bx-right-arrow-alt"></i>Market</a>
-                </li>
-                <li>
-                    <a href="{{ url('/bank') }}"><i class="bx bx-right-arrow-alt"></i>Bank</a>
-                </li>
-            </ul>
-        </li>
-        <li class="menu-label">Admin Area</li>
-        <li>
-            <a href="{{ url('/admin/transaction') }}">
-                <div class="parent-icon"><i class='bx bx-transfer-alt'></i>
-                </div>
-                <div class="menu-title">Transaction Log</div>
-            </a>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Admin</div>
-            </a>
-            <ul>
-                <li>
-                    <a href="{{ url('/admin/manage-user') }}"><i class="bx bx-right-arrow-alt"></i>Manage User</a>
-                </li>
-            </ul>
-        </li>
-        {{-- <li>
-            <a href="https://themeforest.net/user/codervent" target="_blank">
-                <div class="parent-icon"><i class="bx bx-support"></i>
-                </div>
-                <div class="menu-title">Support</div>
-            </a>
-        </li> --}}
+        @if (auth()->user()->user_role == 2)
+            <li class="menu-label">Admin Area</li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-category"></i>
+                    </div>
+                    <div class="menu-title">Master data</div>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{ url('admin/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/ternak') }}"><i class="bx bx-right-arrow-alt"></i>Ternak</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/pakan-ternak') }}"><i class="bx bx-right-arrow-alt"></i>Pakan Ternak</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/topup-diamon') }}"><i class="bx bx-right-arrow-alt"></i>Topup Diamon</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/topup-pakan') }}"><i class="bx bx-right-arrow-alt"></i>Topup Pakan</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/request-market') }}"><i class="bx bx-right-arrow-alt"></i>Market</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('admin/bank') }}"><i class="bx bx-right-arrow-alt"></i>Bank</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{{ url('/admin/transaction') }}">
+                    <div class="parent-icon"><i class='bx bx-transfer-alt'></i>
+                    </div>
+                    <div class="menu-title">Transaction Log</div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/admin/manage-user') }}">
+                    <div class="parent-icon"><i class='bx bx-user'></i>
+                    </div>
+                    <div class="menu-title">Manage User</div>
+                </a>
+            </li>
+        @endif
     </ul>
     <!--end navigation-->
 </div>

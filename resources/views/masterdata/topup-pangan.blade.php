@@ -50,7 +50,7 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <form action="{{ url('topup-pakan/' . $t->id) }}" method="POST">
+                                    <form action="{{ url('admin/topup-pakan/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
                                             data-diamon="{{ $t->diamon }}" data-pakan="{{ $t->pakan }}"
                                             data-status="{{ $t->status }}"
@@ -222,7 +222,7 @@
                     diamon = $(this).data('diamon'),
                     status = $(this).data('status');
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('/topup-pakan') }}" + "/" + id)
+                $('#formEdt').attr('action', "{{ url('admin/topup-pakan') }}" + "/" + id)
 
                 $('.edtPakan').val(pakan)
                 $('.edtDiamon').val(diamon)

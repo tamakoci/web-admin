@@ -20,6 +20,7 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+
         @media (min-width: 481px) and (max-width: 767px) {
 
             .text2 {

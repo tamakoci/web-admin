@@ -13,4 +13,11 @@ class ReferalTree extends Model
     public function user(){
         return $this->belongsTo(User::class,'user_ref');
     }
+    public static function referalGroup(){
+        $group = [];
+        for ($i=1; $i < 4; $i++) { 
+            $group[$i] = ReferalTree::with('user')->where(['user_id'=>auth()->user()->id,'level'=>$i])->get();
+        }
+        return $group; 
+    }
 }

@@ -48,7 +48,7 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <form action="{{ url('bank/' . $t->id) }}" method="POST">
+                                    <form action="{{ url('admin/bank/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}" data-bank="{{ $t->name }}"
                                             data-code="{{ $t->code }}" data-status="{{ $t->status }}"
                                             class="btn btn-warning btn-sm editBtn">edit</button>
@@ -217,7 +217,7 @@
                     code = $(this).data('code'),
                     status = $(this).data('status');
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('bank') }}" + "/" + id)
+                $('#formEdt').attr('action', "{{ url('admin/bank') }}" + "/" + id)
                 $('.bank').val(bank)
                 $('.bank-code').val(code)
                 // console.log(code);

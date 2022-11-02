@@ -37,23 +37,28 @@ Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
 Route::get('/test', [UserController::class,'test2']);
 Route::group(["middleware"=>"auth"],function(){
-    Route::get('/dashboard',[DashboardConteroller::class,'index']);
-    Route::resource('/request-market',MarketConteroller::class);
-    Route::resource('/topup-diamon',TopupDiamonController::class);
-    Route::resource('/topup-pakan',TopupPakanController::class);
-    Route::resource('/product',ProductController::class);
-    Route::resource('/ternak',TernakController::class);
-    Route::resource('/pakan-ternak',PakanTernakController::class);
-    Route::resource('/bank',BankController::class);
+    Route::group(['prefix'=>'user'],function(){
+        Route::get('/dashboard',[DashboardConteroller::class,'user']);
+        Route::resource('referal',ReferalsController::class);
+    });
+    Route::group(['prefix'=>'admin'],function(){
+        Route::get('/dashboard',[DashboardConteroller::class,'index']);
+        Route::resource('/request-market',MarketConteroller::class);
+        Route::resource('/topup-diamon',TopupDiamonController::class);
+        Route::resource('/topup-pakan',TopupPakanController::class);
+        Route::resource('/product',ProductController::class);
+        Route::resource('/ternak',TernakController::class);
+        Route::resource('/pakan-ternak',PakanTernakController::class);
+        Route::resource('/bank',BankController::class);
+
+        Route::resource('/manage-user',ManageUserController::class);
+        Route::resource('/transaction',TransactionController::class);
+    });
     Route::get('user-profile',[UserController::class,'index']);
     Route::get('user-profile/{id}',[UserController::class,'getUser']);
     Route::put('user-profile/{id}',[UserController::class,'updateUser']);
     Route::get('generate-referal',[UserController::class,'refGenerate']);
     Route::post('/logout',[AuthController::class,'logout']);
-    Route::resource('referal',ReferalsController::class);
-    Route::group(['prefix'=>'admin'],function(){
-        Route::resource('/manage-user',ManageUserController::class);
-        Route::resource('/transaction',TransactionController::class);
-    });
+   
 });
 

@@ -50,7 +50,7 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <form action="{{ url('product/' . $t->id) }}" method="POST">
+                                    <form action="{{ url('admin/product/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}" data-name="{{ $t->name }}"
                                             data-satuan="{{ $t->satuan }}" data-dm="{{ $t->dm }}"
                                             data-status="{{ $t->status }}"
@@ -256,7 +256,7 @@
                 status = $(this).data('status')
 
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('/product') }}" + "/" + id)
+                $('#formEdt').attr('action', "{{ url('admin/product') }}" + "/" + id)
                 $('.name').val(name);
                 $('.satuan').val(satuan);
                 $('.dm').val(dm);

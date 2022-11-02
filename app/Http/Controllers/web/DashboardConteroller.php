@@ -15,4 +15,13 @@ class DashboardConteroller extends Controller
         $data['member'] = User::where('user_role',1)->count();
         return view('dashboard.index',$data);
     }
+    public function user(){
+        $data['title'] = 'Dashboard';
+        $data['diamon'] = '1.000';
+        $data['pakan'] = '5.000';
+        $data['telur'] = '100';
+        $data['susu'] = '700';
+        $data['daging'] = '10';
+        return view('dashboard.user',$data);
+    }
 }

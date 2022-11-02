@@ -42,7 +42,7 @@
                                 <td>{{ $t->pakan . ' Kg' }}</td>
                                 <td>{{ $t->benefit }}</td>
                                 <td class="text-end">
-                                    <form action="{{ url('pakan-ternak/' . $t->id) }}" method="POST">
+                                    <form action="{{ url('admin/pakan-ternak/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
                                             data-ternak="{{ $t->ternak->id }}" data-pakan="{{ $t->pakan }}"
                                             data-benefit="{{ $t->benefit }}"
@@ -238,7 +238,7 @@
                     pakan = $(this).data('pakan'),
                     benefit = $(this).data('benefit');
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('/pakan-ternak') }}" + "/" + id);
+                $('#formEdt').attr('action', "{{ url('admin/pakan-ternak') }}" + "/" + id);
                 $('.ternak_id').val(ternak);
                 $('.pakan').val(pakan);
                 $('.benefit').val(benefit);
