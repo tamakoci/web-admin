@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class CronLog extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
 }
