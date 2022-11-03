@@ -90,28 +90,41 @@ class CronController extends Controller
                     }
                 }
             }else{
-                $tgl_beli   = date("Y-m-d H:i:s", strtotime($value->userTernak->buy_date));
-                $tgl_akhir  = date('Y-m-d H:i:s',strtotime("+7 day", strtotime($tgl_beli)));
-                if($now > $tgl_akhir){ //jika sudah melebihi tgl umur ternak maka bonus daging dikirmkan ke wallet
-                    Investment::find($value->id)->update([
-                            'remains' => $total,
-                            'status'  => 0
-                    ]);
-                    $finalProduc = $productInWallet + $total;
-                    $array[$produkId]->qty = $finalProduc;
-                    UserWallet::create([
-                        'user_id'=>$value->user_id,
-                        'diamon'=>$wallet->diamon,
-                        'pakan'=>$wallet->pakan,
-                        'hasil_ternak'=>json_encode($array)
-                    ]);
+                try {
+                    $tgl_beli   = date("Y-m-d H:i:s", strtotime($value->userTernak->buy_date));
+                    $tgl_akhir  = date('Y-m-d H:i:s',strtotime("+7 day", strtotime($tgl_beli)));
+                    if($now > $tgl_akhir){ //jika sudah melebihi tgl umur ternak maka bonus daging dikirmkan ke wallet
+                        Investment::find($value->id)->update([
+                                'remains' => $total,
+                                'status'  => 0
+                        ]);
+                        $finalProduc = $productInWallet + $total;
+                        $array[$produkId]->qty = $finalProduc;
+                        UserWallet::create([
+                            'user_id'=>$value->user_id,
+                            'diamon'=>$wallet->diamon,
+                            'pakan'=>$wallet->pakan,
+                            'hasil_ternak'=>json_encode($array)
+                        ]);
+                    }
+                    DB::commit();
+                } catch (\Throwable $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
                 }
             }
         }
-        CronLog::create([
-            'remains' => $jam,
-            'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
-        ]);
+        try {
+            CronLog::create([
+                'remains' => $jam,
+                'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
+            ]);
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            dd($e->getMessage());
+        }
+
         return response()->json(['status'=>200,'message'=>'send produksi ternak '. date("Y-m-d H:i:s")]);
     }
 }
