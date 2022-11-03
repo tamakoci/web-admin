@@ -38,9 +38,9 @@ class BeriPakanController extends Controller
          if(!$cekPakan){
             return response()->json(['status'=>'401','message'=>'Ternak tidak dapat diberi pakan tsb',],401);
         }
-        if($cekInvest->status == 1){
-            return response()->json(['status'=>'401','message'=>'Ternak hanya dapat diberi makan 1x sehari!',],401);
-        }
+        // if($cekInvest->status == 1){
+        //     return response()->json(['status'=>'401','message'=>'Ternak hanya dapat diberi makan 1x sehari!',],401);
+        // }
       
         $wallet = UserWallet::getWallet();
         
