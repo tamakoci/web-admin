@@ -63,11 +63,12 @@ class UserTernak extends Model
     public static function getUserTernakDetail($id){
         $invest  = Investment::with('userTernak','userTernak.ternak')->where(['user_ternak'=>$id])->orderByDesc('id')->first();
         // dd($invest);
+        $userTernak = UserTernak::with('ternak')->find($id);
+
         if($invest){
             $umur_start = date('Y-m-d H:i:s',strtotime($invest->userTernak->buy_date));
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$invest->userTernak->ternak->duration. " day", strtotime($umur_start)));
         }else{
-            $userTernak = UserTernak::with('ternak')->find($id);
             if(!$userTernak){
                 return '404 Not Found';
             }
@@ -93,9 +94,9 @@ class UserTernak extends Model
         
         $data = [
                 'id'=>$id,
-                'ternak_id'=>$invest->userTernak->ternak_id,
-                'name'=>$invest->userTernak->ternak->name,
-                'avatar'=>$invest->userTernak->ternak->avatar,
+                'ternak_id'=>$userTernak->ternak_id,
+                'name'=>$userTernak->ternak->name,
+                'avatar'=>$userTernak->ternak->avatar,
                 'time_now'=>date('Y-m-d H:i:s'),
                 'umur_start'=>$umur_start,
                 'umur_end'=>$umur_end,
