@@ -68,11 +68,13 @@ class UserTernak extends Model
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$invest->userTernak->ternak->duration. " day", strtotime($umur_start)));
         }else{
             $userTernak = UserTernak::with('ternak')->find($id);
-            
+            if(!$userTernak){
+                return '404 Not Found';
+            }
             $umur_start = date('Y-m-d H:i:s',strtotime($userTernak->buy_date));
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$userTernak->ternak->duration. " day", strtotime($umur_start)));
         }
-        
+
         if(!$invest){
             $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
             $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
