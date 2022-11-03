@@ -29,6 +29,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::get('get-ternak',[TernakController::class,'getTernak']);
     Route::get('get-pakan-ternak/{id}',[TernakController::class,'getPakanTernak']);
     Route::get('test',[UserController::class,'getUserTernak']);
+    Route::get('user-ternak-detail/{id}',[TernakController::class,'userTernakDetail']);
 
     Route::group(['middleware' => ['jwt.verify']], function() {
         Route::post('buy-diamon',[TopupController::class,'buyDiamon']);

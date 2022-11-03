@@ -127,5 +127,14 @@ class TernakController extends Controller
             'Data'=>$ternak
         ]);
     }
+    public function userTernakDetail($id){
+       
+        $ternak = UserTernak::getUserTernakDetail($id);
+        return response()->json([
+            'status'=>200,
+            'message'=>'Detail Ternak ' .$id,
+            'Data'=>$ternak
+        ]);
+    }
     
 }

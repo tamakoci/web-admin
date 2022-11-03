@@ -24,7 +24,7 @@ class UserTernak extends Model
         // dd($ternak);
         foreach ($ternak as $key => $value) {
 
-            $invest  = Investment::where(['user_ternak'=>$value->id,'status'=>1])->first();
+            $invest  = Investment::where(['user_ternak'=>$value->id])->orderByDesc('id')->first();
             // return $invest;
             $umur_start = date('Y-m-d H:i:s',strtotime($value->buy_date));
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$value->ternak->duration. " day", strtotime($umur_start)));
@@ -33,21 +33,16 @@ class UserTernak extends Model
                 $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_sts      = 0;
+            }elseif($invest->status == 0){
+                $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_sts      = 0;
             }else{
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-                $date_now   = date("Y-m-d H:i:s"); // this format is string comparable
-                if ($date_now > $makan2) {
-                    $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
-                    $pakan_end      = date("Y-m-d H:i:s"); // this format is string comparable
-                    $pakan_sts      = 0;
-
-                }else{
-                    $pakan_start    = $makan1;
-                    $pakan_end      = $makan2;
-                    $pakan_sts      = 1;
-
-                }
+                $pakan_start    = $makan1;
+                $pakan_end      = $makan2;
+                $pakan_sts      = 1;
             }
             $data[] = [
                 'id'=>$value->id,
@@ -62,6 +57,43 @@ class UserTernak extends Model
                 'pakan_status'=>$pakan_sts
             ];
         }
+        return $data;
+
+    }
+    public static function getUserTernakDetail($id){
+        $invest  = Investment::with('userTernak','userTernak.ternak')->where(['user_ternak'=>$id])->orderByDesc('id')->first();
+        // dd($invest);
+        $umur_start = date('Y-m-d H:i:s',strtotime($invest->userTernak->buy_date));
+        $umur_end = date('Y-m-d H:i:s',strtotime("+".$invest->userTernak->ternak->duration. " day", strtotime($umur_start)));
+       
+            if(!$invest){
+                $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_sts      = 0;
+            }elseif($invest && $invest->status == 0){
+                $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+                $pakan_sts      = 0;
+            }else{
+                $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
+                $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
+                $pakan_start    = $makan1;
+                $pakan_end      = $makan2;
+                $pakan_sts      = 1;
+            }
+        
+        $data = [
+                'id'=>$invest->id,
+                'ternak_id'=>$invest->userTernak->ternak_id,
+                'name'=>$invest->userTernak->ternak->name,
+                'avatar'=>$invest->userTernak->ternak->avatar,
+                'time_now'=>date('Y-m-d H:i:s'),
+                'umur_start'=>$umur_start,
+                'umur_end'=>$umur_end,
+                'pakan_start'=>$pakan_start,
+                'pakan_end'=>$pakan_end,
+                'pakan_status'=>$pakan_sts
+            ];
         return $data;
 
     }
