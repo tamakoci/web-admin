@@ -92,7 +92,7 @@ class UserTernak extends Model
         }
         
         $data = [
-                'id'=>$invest->id,
+                'id'=>$id,
                 'ternak_id'=>$invest->userTernak->ternak_id,
                 'name'=>$invest->userTernak->ternak->name,
                 'avatar'=>$invest->userTernak->ternak->avatar,
