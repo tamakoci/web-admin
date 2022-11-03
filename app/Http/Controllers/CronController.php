@@ -35,10 +35,11 @@ class CronController extends Controller
            
 
             DB::beginTransaction();
-            if($value->userTernak->ternak_id != 4){ //cek jika userternak bukan domba. domba_id = 4 ;
-                
-                if($end > $now){ // cek tanggal berakhir jika lebih besar dari hari ini berarti masih berjalan;
-                    try {
+            try {
+                if($value->userTernak->ternak_id != 4){ //cek jika userternak bukan domba. domba_id = 4 ;
+                    
+                    if($end > $now){ // cek tanggal berakhir jika lebih besar dari hari ini berarti masih berjalan;
+                    
                         if(($perjam + $remains) < $total){
                             $update = [
                                 'remains' => $remains + $perjam,
@@ -62,14 +63,8 @@ class CronController extends Controller
                             'hasil_ternak'=>json_encode($array)
                         ]);
 
-                        
-                        DB::commit();
-                    } catch (\Throwable $e) {
-                        DB::rollback();
-                        dd($e->getMessage());
-                    }
-                }else{ //jika tidak, berikan sisa remain dan ubah ke nonaktif
-                    try {
+                    }else{ //jika tidak, berikan sisa remain dan ubah ke nonaktif
+                    
                         Investment::find($value->id)->update([
                             'remains' => $remains + $kurang,
                             'status'  => 0
@@ -83,14 +78,9 @@ class CronController extends Controller
                             'hasil_ternak'=>json_encode($array)
                         ]);
 
-                        DB::commit();
-                    } catch (\Throwable $e) {
-                        DB::rollback();
-                        dd($e->getMessage());
                     }
-                }
-            }else{
-                try {
+                }else{ // juka ternak domba penghasil daging
+                
                     $tgl_beli   = date("Y-m-d H:i:s", strtotime($value->userTernak->buy_date));
                     $tgl_akhir  = date('Y-m-d H:i:s',strtotime("+7 day", strtotime($tgl_beli)));
                     if($now > $tgl_akhir){ //jika sudah melebihi tgl umur ternak maka bonus daging dikirmkan ke wallet
@@ -107,24 +97,22 @@ class CronController extends Controller
                             'hasil_ternak'=>json_encode($array)
                         ]);
                     }
-                    DB::commit();
-                } catch (\Throwable $e) {
-                    DB::rollback();
-                    dd($e->getMessage());
+                        
                 }
-            }
-        }
-        try {
-            CronLog::create([
-                'remains' => $jam,
-                'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
-            ]);
-            DB::commit();
-        } catch (\Throwable $e) {
-            DB::rollback();
-            dd($e->getMessage());
-        }
 
-        return response()->json(['status'=>200,'message'=>'send produksi ternak '. date("Y-m-d H:i:s")]);
+
+
+                CronLog::create([
+                    'remains' => $jam,
+                    'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
+                ]);
+                DB::commit();
+                return response()->json(['status'=>200,'message'=>'send produksi ternak '. date("Y-m-d H:i:s")]);
+            } catch (\Throwable $e) {
+                DB::rollback();
+                dd($e->getMessage());
+            }
+
+        }
     }
 }
