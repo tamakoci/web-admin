@@ -63,24 +63,31 @@ class UserTernak extends Model
     public static function getUserTernakDetail($id){
         $invest  = Investment::with('userTernak','userTernak.ternak')->where(['user_ternak'=>$id])->orderByDesc('id')->first();
         // dd($invest);
-        $umur_start = date('Y-m-d H:i:s',strtotime($invest->userTernak->buy_date));
-        $umur_end = date('Y-m-d H:i:s',strtotime("+".$invest->userTernak->ternak->duration. " day", strtotime($umur_start)));
-       
-            if(!$invest){
-                $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
-                $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
-                $pakan_sts      = 0;
-            }elseif($invest && $invest->status == 0){
-                $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
-                $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
-                $pakan_sts      = 0;
-            }else{
-                $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
-                $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-                $pakan_start    = $makan1;
-                $pakan_end      = $makan2;
-                $pakan_sts      = 1;
-            }
+        if($invest){
+            $umur_start = date('Y-m-d H:i:s',strtotime($invest->userTernak->buy_date));
+            $umur_end = date('Y-m-d H:i:s',strtotime("+".$invest->userTernak->ternak->duration. " day", strtotime($umur_start)));
+        }else{
+            $userTernak = UserTernak::with('ternak')->find($id);
+            
+            $umur_start = date('Y-m-d H:i:s',strtotime($userTernak->buy_date));
+            $umur_end = date('Y-m-d H:i:s',strtotime("+".$userTernak->ternak->duration. " day", strtotime($umur_start)));
+        }
+        
+        if(!$invest){
+            $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
+            $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+            $pakan_sts      = 0;
+        }elseif($invest && $invest->status == 0){
+            $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
+            $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+            $pakan_sts      = 0;
+        }else{
+            $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
+            $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
+            $pakan_start    = $makan1;
+            $pakan_end      = $makan2;
+            $pakan_sts      = 1;
+        }
         
         $data = [
                 'id'=>$invest->id,
