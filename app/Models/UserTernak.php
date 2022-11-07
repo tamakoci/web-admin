@@ -27,7 +27,7 @@ class UserTernak extends Model
         foreach ($ternak as $key => $value) {
 
             $invest  = Investment::where(['user_ternak'=>$value->id])->orderByDesc('id')->first();
-            if( isset($invest) && $ternak->status == 0 && $invest->remains == 0){
+            if( isset($invest) && $value->status == 0 && $invest->remains == 0){
                 break;
             }
             // return $invest;

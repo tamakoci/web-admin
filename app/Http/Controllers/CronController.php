@@ -98,8 +98,8 @@ class CronController extends Controller
             } catch (\Throwable $e) {
                 DB::rollback();
                 CronFail::create([
-                    'flag'=>'Hasil produksi ternak',
-                    'text'=>$e->getMessage(),
+                    'flag'=>'Cron produksi ternak',
+                    'note'=>$e->getMessage(),
                 ]);
                 dd($e->getMessage());
             }
