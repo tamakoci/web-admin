@@ -27,7 +27,7 @@ class UserTernak extends Model
         foreach ($ternak as $key => $value) {
 
             $invest  = Investment::where(['user_ternak'=>$value->id])->orderByDesc('id')->first();
-            if($ternak->status == 0 && $invest->remains == 0){
+            if( isset($invest) && $ternak->status == 0 && $invest->remains == 0){
                 break;
             }
             // return $invest;
@@ -40,6 +40,8 @@ class UserTernak extends Model
                 $pakan_sts      = 0;
                 $remain         = 0;
             }elseif($invest->status == 0){
+
+                
                 $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_sts      = 0;
