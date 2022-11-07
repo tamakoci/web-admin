@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\v1\AuthController;
 use App\Http\Controllers\api\v1\BeriPakanController;
 use App\Http\Controllers\api\v1\MarketController;
+use App\Http\Controllers\api\v1\ProdukTernakController;
 use App\Http\Controllers\api\v1\TernakController;
 use App\Http\Controllers\api\v1\TopupController;
 use App\Http\Controllers\api\v1\UserController;
@@ -37,6 +38,7 @@ Route::group(['prefix'=>'v1'],function(){
         Route::post('buy-ternak',[TernakController::class,'buyTernak']);
         Route::get('user-info', [UserController::class, 'get_user']);
         Route::post('beri-pakan',[BeriPakanController::class,'beriPakan']);
+        Route::post('ambil-produk',[ProdukTernakController::class,'collectProduk']);
         Route::get('user-bisnis',[UserController::class,'bisnisUser']);
         Route::get('tutor-update',[UserController::class,'updateTutor']);
         Route::get('user-ternak',[TernakController::class,'userTernak']);

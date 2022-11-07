@@ -34,6 +34,9 @@
                                                 <a class="nav-link" href="#ternak">Ternak</a>
                                             </li>
                                             <li class="nav-item">
+                                                <a class="nav-link" href="#faq">FAQ</a>
+                                            </li>
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="#bisnis">Bisnis</a>
                                             </li>
                                             <li class="nav-item">

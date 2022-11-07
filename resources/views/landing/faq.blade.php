@@ -1,4 +1,4 @@
-<section class="faq-area">
+<section class="faq-area" id="faq">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -30,13 +30,13 @@
                                     data-wow-delay="0ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is CRYPTEN?</h4>
+                                            <h4>What is TAMAKOCI </h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -46,13 +46,13 @@
                                     data-wow-delay="300ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is CRYPTO Token?</h4>
+                                            <h4>What is TAMAKOCI Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOC is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -62,13 +62,13 @@
                                     data-wow-delay="600ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is the price of the CRYPTO Token?</h4>
+                                            <h4>What is the price of the TAMAKOCI Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -82,9 +82,9 @@
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -100,13 +100,13 @@
                                     data-wow-delay="0ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is CRYPTEN?</h4>
+                                            <h4>What is TAMAKOCI </h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -116,13 +116,13 @@
                                     data-wow-delay="300ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is CRYPTO Token?</h4>
+                                            <h4>What is TAMAKOCI Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOC is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -132,13 +132,13 @@
                                     data-wow-delay="600ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is the price of the CRYPTO Token?</h4>
+                                            <h4>What is the price of the TAMAKOCI Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOC is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -152,9 +152,9 @@
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOC is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -170,13 +170,13 @@
                                     data-wow-delay="0ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is CRYPTEN?</h4>
+                                            <h4>What is TAMAKOCI </h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOC is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -186,13 +186,13 @@
                                     data-wow-delay="300ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is CRYPTO Token?</h4>
+                                            <h4>What is TAMAKOC Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -202,13 +202,13 @@
                                     data-wow-delay="600ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is the price of the CRYPTO Token?</h4>
+                                            <h4>What is the price of the TAMAKOCI Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOC is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -222,9 +222,9 @@
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>CRYPTO is a utility token based on the ERC20 standard. All
-                                                    transactions on the CRYPTEN platform will be carried out in
-                                                    CRYPTO. TheCRYPTO token will be freely tradable on major
+                                                <p>TAMAKOC is a utility token based on the ERC20 standard. All
+                                                    transactions on the TAMAKOCI platform will be carried out in
+                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>

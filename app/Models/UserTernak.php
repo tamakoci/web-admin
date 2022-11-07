@@ -19,12 +19,17 @@ class UserTernak extends Model
     public static function getUserTernak(){
         $user = auth()->user();
         $data = [];
-        $ternak = UserTernak::where(['user_id'=> $user->id, 'status'=>true])->get();
+        // cek relasi;
+        // $investment = UserTernak('')
+        $ternak = UserTernak::where(['user_id'=> $user->id])->get();
         // return $ternak;
         // dd($ternak);
         foreach ($ternak as $key => $value) {
 
             $invest  = Investment::where(['user_ternak'=>$value->id])->orderByDesc('id')->first();
+            if($ternak->status == 0 && $invest->remains == 0){
+                break;
+            }
             // return $invest;
             $umur_start = date('Y-m-d H:i:s',strtotime($value->buy_date));
             $umur_end = date('Y-m-d H:i:s',strtotime("+".$value->ternak->duration. " day", strtotime($umur_start)));
@@ -33,15 +38,18 @@ class UserTernak extends Model
                 $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_sts      = 0;
+                $remain         = 0;
             }elseif($invest->status == 0){
                 $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_sts      = 0;
+                $remain         = $invest->remains;
             }else{
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
                 $pakan_start    = $makan1;
                 $pakan_end      = $makan2;
+                $remain         = $invest->remains;
                 $pakan_sts      = 1;
             }
             $data[] = [
@@ -54,7 +62,8 @@ class UserTernak extends Model
                 'umur_end'=>$umur_end,
                 'pakan_start'=>$pakan_start,
                 'pakan_end'=>$pakan_end,
-                'pakan_status'=>$pakan_sts
+                'pakan_status'=>$pakan_sts,
+                'remains'=>$remain,
             ];
         }
         return $data;
@@ -77,19 +86,22 @@ class UserTernak extends Model
         }
 
         if(!$invest){
-            $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
-            $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+            $pakan_start    = date("Y-m-d H:i:s"); 
+            $pakan_end      =  date("Y-m-d H:i:s"); 
             $pakan_sts      = 0;
+            $remain         = 0;
         }elseif($invest && $invest->status == 0){
-            $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
-            $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
+            $pakan_start    = date("Y-m-d H:i:s"); 
+            $pakan_end      =  date("Y-m-d H:i:s"); 
             $pakan_sts      = 0;
+            $remain         = $invest->remains;
         }else{
             $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
             $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
             $pakan_start    = $makan1;
             $pakan_end      = $makan2;
             $pakan_sts      = 1;
+            $remain         = $invest->remains;
         }
         
         $data = [
@@ -102,7 +114,8 @@ class UserTernak extends Model
                 'umur_end'=>$umur_end,
                 'pakan_start'=>$pakan_start,
                 'pakan_end'=>$pakan_end,
-                'pakan_status'=>$pakan_sts
+                'pakan_status'=>$pakan_sts,
+                'remains'=>$remain,
             ];
         return $data;
 

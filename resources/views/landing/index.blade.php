@@ -96,7 +96,7 @@
     <!--====== TEAM PART ENDS ======-->
 
     <!--====== FAQ PART START ======-->
-    {{-- @include('landing.faq') --}}
+    @include('landing.faq')
     <!--====== FAQ PART ENDS ======-->
 
     <!--====== BISNIS PART START ======-->

@@ -18,8 +18,9 @@ class CreateInvestmentsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('user_ternak');
             $table->string('transaction',15);
-            $table->integer('remains');
             $table->integer('commision');
+            $table->integer('remains');
+            $table->integer('collected');
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->foreign('user_id')

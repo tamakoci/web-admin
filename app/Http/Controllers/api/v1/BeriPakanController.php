@@ -35,7 +35,7 @@ class BeriPakanController extends Controller
         if(!$userTernak){
             return response()->json(['status'=>'401','message'=>'Kamu tidak memiliki ternak tersebut',],401);
         }
-         if(!$cekPakan){
+        if(!$cekPakan){
             return response()->json(['status'=>'401','message'=>'Ternak tidak dapat diberi pakan tsb',],401);
         }
         // if($cekInvest->status == 1){
@@ -80,6 +80,7 @@ class BeriPakanController extends Controller
                        'user_id' => $user->id,
                        'user_ternak'=>$request->user_ternak_id,
                        'transaction'=>$trxID,
+                       'collected'=>0,
                        'remains'=> 0,
                        'commision'=>$commision,
                        'status'=>1
@@ -96,6 +97,7 @@ class BeriPakanController extends Controller
                     'user_id' => $user->id,
                     'user_ternak'=>$userTernak->id,
                     'transaction'=>$trxID,
+                    'collected'=>0,
                     'remains'=> $remain,
                     'commision'=>$commision,
                     'status'=>1
@@ -104,7 +106,7 @@ class BeriPakanController extends Controller
                     'user_id'=>$user->id,
                     'diamon'=>$wallet->diamon,
                     'pakan'=>$wallet->pakan - $pakan->pakan,
-                    'hasil_ternak' => json_encode($array)
+                    'hasil_ternak' => $wallet->hasil_ternak
                 ]);
             }
             DB::commit();

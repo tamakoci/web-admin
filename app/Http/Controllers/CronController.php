@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CronFail;
 use App\Models\CronLog;
 use App\Models\Investment;
 use App\Models\UserWallet;
@@ -23,10 +24,12 @@ class CronController extends Controller
             $end        = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($start)));
 
             $remains    = $value->remains;
+            $collected  = $value->collected;
             $total      = $value->commision;
             $perjam     = floor($total / 24);
-            $kurang     = $total - $remains;
-            
+            $pendapatan = $remains + $collected;
+            $kurang     = $total - $pendapatan;
+ 
             $produkId   = $value->userTernak->ternak->produk->id;
             $wallet = UserWallet::where('user_id',$value->user_id)->orderByDesc('id')->first();
             $hasil_ternak = json_decode($wallet->hasil_ternak);
@@ -40,68 +43,52 @@ class CronController extends Controller
                     
                     if($end > $now){ // cek tanggal berakhir jika lebih besar dari hari ini berarti masih berjalan;
                     
-                        if(($perjam + $remains) < $total){
+                        if(($perjam + $remains + $collected) < $total){ //jika fee per jam (pembagian perjam) + remain (pendapatan yg masuk) lebih besar dari total_bisa_dapat
                             $update = [
                                 'remains' => $remains + $perjam,
                             ];
-                            $finalProduc = $productInWallet + $perjam;
-                            $array[$produkId]->qty = $finalProduc;
+                        
                         }else{
                             $update = [
-                                'remains' => $remains + $kurang,
+                                'remains' => $remains + $kurang, //berikan sisa belum dapat
                                 'status'  => 0
                             ];
-                            $finalProduc = $productInWallet + $kurang;
-                            $array[$produkId]->qty = $finalProduc;
+                          
                         }
                         Investment::find($value->id)->update($update);
+                        // UserWallet::create([
+                        //     'user_id'=>$value->user_id,
+                        //     'diamon'=>$wallet->diamon,
+                        //     'pakan'=>$wallet->pakan,
+                        //     'hasil_ternak'=>json_encode($array)
+                        // ]);
 
-                        UserWallet::create([
-                            'user_id'=>$value->user_id,
-                            'diamon'=>$wallet->diamon,
-                            'pakan'=>$wallet->pakan,
-                            'hasil_ternak'=>json_encode($array)
-                        ]);
-
-                    }else{ //jika tidak, berikan sisa remain dan ubah ke nonaktif
-                    
+                    }else{ //jika tanggal berakhir jika lebih kecil dari hari ini, berikan sisa remain dan ubah ke nonaktif
                         Investment::find($value->id)->update([
                             'remains' => $remains + $kurang,
                             'status'  => 0
                         ]);
-                        $finalProduc = $productInWallet + $kurang;
-                        $array[$produkId]->qty = $finalProduc;
-                        UserWallet::create([
-                            'user_id'=>$value->user_id,
-                            'diamon'=>$wallet->diamon,
-                            'pakan'=>$wallet->pakan,
-                            'hasil_ternak'=>json_encode($array)
-                        ]);
+                        // $finalProduc = $productInWallet + $kurang;
+                        // $array[$produkId]->qty = $finalProduc;
+                        // UserWallet::create([
+                        //     'user_id'=>$value->user_id,
+                        //     'diamon'=>$wallet->diamon,
+                        //     'pakan'=>$wallet->pakan,
+                        //     'hasil_ternak'=>json_encode($array)
+                        // ]);
 
                     }
                 }else{ // juka ternak domba penghasil daging
-                
                     $tgl_beli   = date("Y-m-d H:i:s", strtotime($value->userTernak->buy_date));
                     $tgl_akhir  = date('Y-m-d H:i:s',strtotime("+7 day", strtotime($tgl_beli)));
                     if($now > $tgl_akhir){ //jika sudah melebihi tgl umur ternak maka bonus daging dikirmkan ke wallet
                         Investment::find($value->id)->update([
-                                'remains' => $total,
+                                'remains' => $remains + $kurang,
                                 'status'  => 0
-                        ]);
-                        $finalProduc = $productInWallet + $total;
-                        $array[$produkId]->qty = $finalProduc;
-                        UserWallet::create([
-                            'user_id'=>$value->user_id,
-                            'diamon'=>$wallet->diamon,
-                            'pakan'=>$wallet->pakan,
-                            'hasil_ternak'=>json_encode($array)
                         ]);
                     }
                         
                 }
-
-
-
                 CronLog::create([
                     'remains' => $jam,
                     'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
@@ -110,6 +97,10 @@ class CronController extends Controller
                 return response()->json(['status'=>200,'message'=>'send produksi ternak '. date("Y-m-d H:i:s")]);
             } catch (\Throwable $e) {
                 DB::rollback();
+                CronFail::create([
+                    'flag'=>'Hasil produksi ternak',
+                    'text'=>$e->getMessage(),
+                ]);
                 dd($e->getMessage());
             }
 
