@@ -27,7 +27,8 @@ class UserTernak extends Model
         $data = [];
         // cek relasi;
         // $investment = UserTernak('')
-        $ternak = UserTernak::where(['user_id'=> $user->id])->get();
+        $ternak = UserTernak::with('ternak')->where(['user_id'=> $user->id])->get();
+        // return $ternak;
         // return $ternak;
         // dd($ternak);
         foreach ($ternak as $key => $value) {
@@ -56,7 +57,7 @@ class UserTernak extends Model
                 $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
                 $remain         = $invest->remains;
             }else{
-                if($value->ternak_id == 4){
+                if($value->ternak->id == 4){
                     $makan1     = date("Y-m-d H:i:s", strtotime($invest->updated_at));
                 }else{
                     $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
@@ -118,8 +119,6 @@ class UserTernak extends Model
             }else{
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
             }
-
-
             $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
             if($now > $makan2){
                 $sts = 0;
