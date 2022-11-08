@@ -81,13 +81,14 @@ class BeriPakanController extends Controller
                        'user_ternak'=>$request->user_ternak_id,
                        'transaction'=>$trxID,
                        'collected'=>0,
-                       'remains'=> 0,
+                       'remains'=> $commision,
                        'commision'=>$commision,
                        'status'=>1
                    ]);
                }else{
                     $investment->update([
-                        'commision'=>$investment->commision + $commision
+                        'remains'=>$investment->remains + $commision,
+                        'commision'=>$investment->commision + $commision,
                     ]);
                }
             }else{
