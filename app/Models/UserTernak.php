@@ -42,9 +42,9 @@ class UserTernak extends Model
             }elseif($invest->status == 0){
                 $cek_remains    = $invest->remains;
                 if($cek_remains > 0){
-                    $pakan_sts      = 0;
-            }else{
                     $pakan_sts      = 1;
+            }else{
+                    $pakan_sts      = 0;
                 }
                 $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
@@ -58,9 +58,9 @@ class UserTernak extends Model
 
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
                 if($now > $makan2){
-                    $sts = 0;
-                }else{
                     $sts = 1;
+                }else{
+                    $sts = 0;
                 }
                 $pakan_start    = $makan1;
                 $pakan_end      = $makan2;
