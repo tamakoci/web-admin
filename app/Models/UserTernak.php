@@ -12,10 +12,16 @@ class UserTernak extends Model
     use HasFactory;
     protected $guarded = ['id'];
     
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
+    public function ternak(){
+        return $this->belongsTo(Ternak::class,'ternak_id');
+    }
+    public function stsPakan(){
+        return $this->hasOne(Investment::class,'id')->latest();
+    }
+    // protected $hidden = [
+    //     'created_at',
+    //     'updated_at',
+    // ];
     public static function getUserTernak(){
         $user = auth()->user();
         $data = [];
@@ -43,7 +49,7 @@ class UserTernak extends Model
                 $cek_remains    = $invest->remains;
                 if($cek_remains > 0){
                     $pakan_sts      = 1;
-            }else{
+                }else{
                     $pakan_sts      = 0;
                 }
                 $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
@@ -87,7 +93,7 @@ class UserTernak extends Model
     public static function getUserTernakDetail($id){
         $invest  = Investment::where(['user_ternak'=>$id])->orderByDesc('id')->first();
            // dd($invest);
-        $userTernak = UserTernak::with('ternak')->find($id);
+        $userTernak = UserTernak::with('ternak','ternak.produk')->find($id);
         $umur_start = date('Y-m-d H:i:s',strtotime($userTernak->buy_date));
         $umur_end = date('Y-m-d H:i:s',strtotime("+".$userTernak->ternak->duration. " day", strtotime($umur_start)));
         $now = date('Y-m-d H:i:s');
@@ -107,11 +113,13 @@ class UserTernak extends Model
             $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
             $remain         = $invest->remains;
         }else{
-           if($userTernak->ternak_id == 4){
-                    $makan1     = date("Y-m-d H:i:s", strtotime($invest->updated_at));
+            if($userTernak->ternak_id == 4){
+                $makan1     = date("Y-m-d H:i:s", strtotime($invest->updated_at));
             }else{
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
             }
+
+
             $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
             if($now > $makan2){
                 $sts = 0;
@@ -135,15 +143,11 @@ class UserTernak extends Model
             'pakan_end'=>$pakan_end,
             'pakan_status'=>$pakan_sts,
             'remains'=>$remain,
+            'produk'    => $userTernak->ternak->produk->name,
+            'satuan'    => $userTernak->ternak->produk->satuan
         ];
         return $data;
 
     }
 
-    public function ternak(){
-        return $this->belongsTo(Ternak::class,'ternak_id');
-    }
-    public function stsPakan(){
-        return $this->hasOne(Investment::class,'id')->latest();
-    }
 }
