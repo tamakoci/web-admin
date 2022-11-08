@@ -29,6 +29,9 @@
         </div>
     </div>
     <div class="card radius-10">
+        <div class="card-header">
+            <h5> Referrals Tree {{ $user->username }}</h5>
+        </div>
         <div class="card-body">
             @if (0 < count($referrals))
                 <div class="d-flex align-items-start">
@@ -52,7 +55,7 @@
                                         id="v-tabs-level-{{ $key }}" role="tabpanel"
                                         aria-labelledby="v-tabs-level-{{ $key }}-tab">
                                         @if (0 < count($referral))
-                                            <div class="">
+                                            <div class="table-responsive">
                                                 <table class="table mb-0">
                                                     <tr>
                                                         <th>No</th>
@@ -139,7 +142,8 @@
                                                                             <div class="user-info ps-3">
                                                                                 <p class="user-name mb-0">
                                                                                 <p class="designattion mb-0">
-                                                                                    {!! date('M d Y', strtotime($t->user->created_at)) !!}</p>
+                                                                                    {!! date('M d Y', strtotime($t->user->created_at)) !!}
+                                                                                </p>
                                                                             </div>
                                                                         </a>
                                                                         <ul class="dropdown-menu dropdown-menu-end">
@@ -154,6 +158,24 @@
                                                                 </td>
                                                             </tr>
                                                         @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        @else
+                                            <div class="table-responsive nowrap">
+                                                <table class="table mb-0">
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Avatar</th>
+                                                        <th>Username</th>
+                                                        <th>Phone</th>
+                                                        <th>Join date</th>
+                                                    </tr>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th colspan="5" class="text-center">No
+                                                                Record</th>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>

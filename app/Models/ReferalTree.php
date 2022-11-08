@@ -20,4 +20,11 @@ class ReferalTree extends Model
         }
         return $group; 
     }
+    public static function referalGroupDetail($id){
+        $group = [];
+        for ($i=1; $i < 4; $i++) { 
+            $group[$i] = ReferalTree::with('user')->where(['user_id'=>$id,'level'=>$i])->get();
+        }
+        return $group; 
+    }
 }

@@ -104,16 +104,17 @@
                                     {{-- @dd($t->getStatus()) --}}
                                 </td>
                                 <td class="text-end">
-                                    <button type="button" data-id="{{ $t->id }}"
+                                    {{-- <button type="button" data-id="{{ $t->id }}"
                                         data-username="{{ $t->username }}" data-avatar="{{ $t->getAvatar() }}"
                                         data-email="{{ $t->email }}" data-phone="{{ $t->phone }}"
                                         data-status="{{ $t->status }}" data-role="{{ $t->user_role }}"
-                                        class="btn btn-warning btn-sm btnEdit">edit</button>
+                                        class="btn btn-warning btn-sm btnEdit">edit</button> --}}
                                     {{-- <form action="{{ url('admin/manage-user') . '/' . $t->id }}" method="POST">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger btn-sm">delete</button>
                                     </form> --}}
+                                    <a href="{{ url('user-profile/' . $t->id) }}" class="btn btn-warning btn-sm">detail</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -18,6 +18,7 @@ class ReferalsController extends Controller
         $data['title'] = 'Referalas';
         $data['table'] = ReferalTree::with('user')->where('user_id',auth()->user()->id)->get();
         $data['referrals'] = ReferalTree::referalGroup();
+        $data['user'] = auth()->user();
         // dd($data);
         return view('user.referals',$data);
     }

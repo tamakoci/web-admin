@@ -5,6 +5,7 @@ namespace App\Http\Controllers\web;
 use App\Http\Controllers\Controller;
 use App\Models\Market;
 use App\Models\Product;
+use App\Models\ReferalTree;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserWallet;
@@ -16,6 +17,7 @@ class UserController extends Controller
     public function index(){
         $data['title'] = 'Profile';
         $data['user'] = Auth::user();
+        $data['referrals'] = ReferalTree::referalGroup();
         $wallet = UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
         $produk = Product::produk();
         // return $produk;
@@ -41,6 +43,7 @@ class UserController extends Controller
         $data['title'] = 'Profile '.ucwords($user->username);
         $data['user'] = $user;
         $data['mark'] = true;
+        $data['referrals'] = ReferalTree::referalGroupDetail($id);
         $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
         $produk = Product::produk();
         // return $produk;

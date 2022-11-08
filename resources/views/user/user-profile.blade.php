@@ -80,28 +80,31 @@
                                     <p class="text-muted font-size-sm">{!! $user->getReferal() !!}</p>
                                 </div>
                             </div>
-                            <hr class="my-4" />
-                            <ul class="list-group list-group-flush">
-                                @foreach ($wallet as $item => $val)
-                                    @if ($item != 'hasil_ternak')
-                                        <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"></i>
-                                                {{ $item != 'hasil_ternak' ? ucfirst($item) : '' }}</h6>
-                                            <span class="text-secondary">{{ $item != 'hasil_ternak' ? $val : '' }}</span>
-                                        </li>
-                                    @else
-                                        @foreach ($val as $item => $val)
+                            @if (auth()->user()->user_role == 1)
+                                <hr class="my-4" />
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($wallet as $item => $val)
+                                        @if ($item != 'hasil_ternak')
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                 <h6 class="mb-0"></i>
-                                                    {{ ucfirst($val->name) }}</h6>
-                                                <span class="text-secondary">{{ $val->qty }}</span>
+                                                    {{ $item != 'hasil_ternak' ? ucfirst($item) : '' }}</h6>
+                                                <span
+                                                    class="text-secondary">{{ $item != 'hasil_ternak' ? $val : '' }}</span>
                                             </li>
-                                        @endforeach
-                                    @endif
-                                @endforeach
-                            </ul>
+                                        @else
+                                            @foreach ($val as $item => $val)
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <h6 class="mb-0"></i>
+                                                        {{ ucfirst($val->name) }}</h6>
+                                                    <span class="text-secondary">{{ $val->qty }}</span>
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -213,46 +216,237 @@
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
-                            Transaction Log
+                    @if (auth()->user()->user_role == 1)
+                        <div class="card radius-10">
+                            <div class="card-header">
+                                <h5> Referrals Tree {{ $user->username }}</h5>
+                            </div>
+                            <div class="card-body">
+                                @if (0 < count($referrals))
+                                    <div class="d-flex align-items-start">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="nav flex-column nav-pills me-3 " id="v-pills-tab"
+                                                    role="tablist" aria-orientation="vertical">
+                                                    @foreach ($referrals as $key => $referral)
+                                                        <button
+                                                            class="nav-link @if ($key == 1) active @endif"
+                                                            id="tabs-level-{{ $key }}" data-bs-toggle="pill"
+                                                            data-bs-target="#v-tabs-level-{{ $key }}"
+                                                            type="button" role="tab"
+                                                            aria-controls="v-tabs-level-{{ $key }}"
+                                                            aria-selected="true">Level
+                                                            {{ $key }}</button>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="tab-content" id="v-pills-tabContent">
+                                                    @foreach ($referrals as $key => $referral)
+                                                        <div class="tab-pane fade show @if ($key == 1) active @endif"
+                                                            id="v-tabs-level-{{ $key }}" role="tabpanel"
+                                                            aria-labelledby="v-tabs-level-{{ $key }}-tab">
+                                                            @if (0 < count($referral))
+                                                                <div class="table-responsive">
+                                                                    <table class="table mb-0">
+                                                                        <tr>
+                                                                            <th>No</th>
+                                                                            <th>Avatar</th>
+                                                                            <th>Username</th>
+                                                                            <th>Phone</th>
+                                                                            <th>Join date</th>
+                                                                        </tr>
+                                                                        <tbody>
+                                                                            @php
+                                                                                $no = 1;
+                                                                            @endphp
+                                                                            @foreach ($referral as $t)
+                                                                                <tr>
+                                                                                    <td>{{ $no++ }}</td>
+                                                                                    <td>
+                                                                                        <div class="user-box dropdown">
+                                                                                            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
+                                                                                                href="#"
+                                                                                                role="button"
+                                                                                                data-bs-toggle="dropdown"
+                                                                                                aria-expanded="false">
+                                                                                                <img src="{{ $t->user->getAvatar() }}"
+                                                                                                    class="user-img"
+                                                                                                    alt="user avatar">
+
+                                                                                            </a>
+                                                                                            <ul
+                                                                                                class="dropdown-menu dropdown-menu-end">
+                                                                                                <li>
+                                                                                                    <a class="dropdown-item"
+                                                                                                        href="{{ url('user-profile/' . $t->user->id) }}"><i
+                                                                                                            class="bx bx-user"></i><span>See
+                                                                                                            Profile</span></a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="user-box dropdown">
+                                                                                            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
+                                                                                                href="#"
+                                                                                                role="button"
+                                                                                                data-bs-toggle="dropdown"
+                                                                                                aria-expanded="false">
+                                                                                                <div
+                                                                                                    class="user-info ps-3">
+                                                                                                    <p
+                                                                                                        class="user-name mb-0">
+                                                                                                        {{ strtoupper($t->user->username) }}
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                            <ul
+                                                                                                class="dropdown-menu dropdown-menu-end">
+                                                                                                <li>
+                                                                                                    <a class="dropdown-item"
+                                                                                                        href="{{ url('user-profile/' . $t->user->id) }}"><i
+                                                                                                            class="bx bx-user"></i><span>See
+                                                                                                            Profile</span></a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="user-box dropdown">
+                                                                                            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
+                                                                                                href="#"
+                                                                                                role="button"
+                                                                                                data-bs-toggle="dropdown"
+                                                                                                aria-expanded="false">
+
+                                                                                                <div
+                                                                                                    class="user-info ps-3">
+                                                                                                    <p
+                                                                                                        class="user-name mb-0">
+                                                                                                        {{ strtoupper($t->user->phone) }}
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                            <ul
+                                                                                                class="dropdown-menu dropdown-menu-end">
+                                                                                                <li>
+                                                                                                    <a class="dropdown-item"
+                                                                                                        href="{{ url('user-profile/' . $t->user->id) }}"><i
+                                                                                                            class="bx bx-user"></i><span>See
+                                                                                                            Profile</span></a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="user-box dropdown">
+                                                                                            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
+                                                                                                href="#"
+                                                                                                role="button"
+                                                                                                data-bs-toggle="dropdown"
+                                                                                                aria-expanded="false">
+
+                                                                                                <div
+                                                                                                    class="user-info ps-3">
+                                                                                                    <p
+                                                                                                        class="user-name mb-0">
+                                                                                                    <p
+                                                                                                        class="designattion mb-0">
+                                                                                                        {!! date('M d Y', strtotime($t->user->created_at)) !!}
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                            <ul
+                                                                                                class="dropdown-menu dropdown-menu-end">
+                                                                                                <li>
+                                                                                                    <a class="dropdown-item"
+                                                                                                        href="{{ url('user-profile/' . $t->user->id) }}"><i
+                                                                                                            class="bx bx-user"></i><span>See
+                                                                                                            Profile</span></a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            @else
+                                                                <div class="table-responsive nowrap">
+                                                                    <table class="table mb-0">
+                                                                        <tr>
+                                                                            <th>No</th>
+                                                                            <th>Avatar</th>
+                                                                            <th>Username</th>
+                                                                            <th>Phone</th>
+                                                                            <th>Join date</th>
+                                                                        </tr>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th colspan="5" class="text-center">No
+                                                                                    Record</th>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @endif
+
+
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table align-middle mb-0" id="example">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>TRX Date</th>
-                                            <th>Trasaction ID</th>
-                                            <th>User</th>
-                                            <th>Amount</th>
-                                            <th>Next Amount</th>
-                                            <th>Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($table as $t)
-                                            <tr class="{{ $t->trx_type == '+' ? 'text-success' : 'text-danger' }}">
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ date('h:i d-M', strtotime($t->created_at)) }}</td>
-                                                <td>{{ $t->trx_id }}</td>
-                                                <td><a href="#">{{ $t->user->username }}</a></td>
-                                                <td class="">{{ $t->last_amount }}</td>
-                                                <td>
-                                                    {{ $t->final_amount }}
-                                                </td>
-                                                <td>{{ $t->detail }}</td>
+                    @endif
+                </div>
+                @if (auth()->user()->user_role == 1)
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Transaction Log
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table align-middle mb-0" id="example">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>TRX Date</th>
+                                                <th>Trasaction ID</th>
+                                                <th>User</th>
+                                                <th>Amount</th>
+                                                <th>Next Amount</th>
+                                                <th>Detail</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($table as $t)
+                                                <tr class="{{ $t->trx_type == '+' ? 'text-success' : 'text-danger' }}">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ date('h:i d-M', strtotime($t->created_at)) }}</td>
+                                                    <td>{{ $t->trx_id }}</td>
+                                                    <td><a href="#">{{ $t->user->username }}</a></td>
+                                                    <td class="">{{ $t->last_amount }}</td>
+                                                    <td>
+                                                        {{ $t->final_amount }}
+                                                    </td>
+                                                    <td>{{ $t->detail }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
