@@ -61,7 +61,11 @@ class UserTernak extends Model
                 }
 
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-                if($now > $makan2){
+                $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
+                $end            = new DateTime($makan2);
+                $itsnow         = new DateTime($now);
+                $interval = $end->diff($itsnow);
+                if($interval->h > 0){
                     $sts = 1;
                 }else{
                     $sts = 0;
@@ -83,7 +87,7 @@ class UserTernak extends Model
                 'pakan_end'=>$pakan_end,
                 'pakan_status'=>$pakan_sts,
                 'remains'=>$remain,
-                'cek' => $value->ternak_id
+                // 'interfal'=>$interval->h
             ];
         }
         return $data;
