@@ -45,7 +45,7 @@ class UserTernak extends Model
                 $pakan_sts      = 0;
                 $remain         = $invest->remains;
             }else{
-                $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
+                $makan1     = date("Y-m-d H:i:s", strtotime($invest->updated_at));
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
                 if($now > $makan2){
                     $sts = 0;
@@ -92,7 +92,7 @@ class UserTernak extends Model
             $pakan_sts      = 0;
             $remain         = $invest->remains;
         }else{
-            $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
+            $makan1     = date("Y-m-d H:i:s", strtotime($invest->updated_at));
             $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
             if($now > $makan2){
                 $sts = 0;
