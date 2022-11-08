@@ -40,9 +40,14 @@ class UserTernak extends Model
                 $pakan_sts      = 0;
                 $remain         = 0;
             }elseif($invest->status == 0){
+                $cek_remains    = $invest->remains;
+                if($cek_remains > 0){
+                    $pakan_sts      = 1;
+                }else{
+                    $pakan_sts      = 0;
+                }
                 $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
                 $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
-                $pakan_sts      = 0;
                 $remain         = $invest->remains;
             }else{
                 if($value->ternak_id == 4){
@@ -92,9 +97,14 @@ class UserTernak extends Model
             $pakan_sts      = 0;
             $remain         = 0;
         }elseif($invest->status == 0){
+            $cek_remains    = $invest->remains;
+            if($cek_remains > 0){
+                $pakan_sts      = 1;
+            }else{
+                $pakan_sts      = 0;
+            }
             $pakan_start    = date("Y-m-d H:i:s"); // this format is string comparable
             $pakan_end      =  date("Y-m-d H:i:s"); // this format is string comparable
-            $pakan_sts      = 0;
             $remain         = $invest->remains;
         }else{
            if($userTernak->ternak_id == 4){
