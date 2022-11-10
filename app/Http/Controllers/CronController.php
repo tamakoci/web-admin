@@ -12,12 +12,9 @@ use Illuminate\Support\Facades\DB;
 class CronController extends Controller
 {
     public function produksiTernak(){
-        // cek di invest;
-        $jam =  date("H");
-        $tanggal =  date("d M");
-        // dd($tanggal);
+
         $invest = Investment::with(['userTernak','userTernak.ternak','userTernak.ternak.produk'])->where('status',1)->get();
-        // dd($invest);
+     
         foreach ($invest as $key => $value) {
             if($value->userTernak->ternak_id != 4 ){
                 $start      = date("Y-m-d H:i:s", strtotime($value->created_at));
@@ -65,12 +62,9 @@ class CronController extends Controller
                     }
                         
                 }
-                CronLog::create([
-                    'remains' => $jam,
-                    'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
-                ]);
+                $jam =  date("H");
+                $tanggal =  date("d M");
                 DB::commit();
-                return response()->json(['status'=>200,'message'=>'send produksi ternak '. date("Y-m-d H:i:s")]);
             } catch (\Throwable $e) {
                 DB::rollback();
                 CronFail::create([
@@ -79,7 +73,13 @@ class CronController extends Controller
                 ]);
                 dd($e->getMessage());
             }
-
+            
         }
+
+        CronLog::create([
+            'remains' => $jam,
+            'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
+        ]);
+        return response()->json(['status'=>200,'message'=>'send produksi ternak '. date("Y-m-d H:i:s")]);
     }
 }
