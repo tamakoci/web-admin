@@ -39,7 +39,10 @@ class ProdukTernakController extends Controller
         $hasil_ternak = json_decode($wallet->hasil_ternak);
         $array = (array)$hasil_ternak;
         
-        $remain = $invest->remains;
+        $remain     = $invest->remains;
+        $collected  = $invest->collected;
+        $newCollect = $collected + $remain;
+        $total      = $invest->commision;
         $productInWallet = $array[$produkId]->qty;
 
         DB::beginTransaction();
@@ -54,10 +57,18 @@ class ProdukTernakController extends Controller
                 'hasil_ternak' => json_encode($array)
             ]);
             //update investment user remains to 0;
-            $invest->update([
-                'remains'=> 0,
-                'collected'=>$remain
-            ]);
+            if(($remain + $collected) == $total){
+                $invest->update([
+                    'remains'   => 0,
+                    'collected' => $newCollect,
+                    'status'    => 0
+                ]);
+            }else{
+                $invest->update([
+                    'remains'   => 0,
+                    'collected' => $newCollect,
+                ]);
+            }
             DB::commit();
             return response()->json(['status'=>200,'message'=>"Colect Produk Ternak Success"]);
         } catch (\Exception $e) {
