@@ -29,13 +29,6 @@ class CronController extends Controller
             $perjam     = floor($total / 24);
             $pendapatan = $remains + $collected;
             $kurang     = $total - $pendapatan;
- 
-            $produkId   = $value->userTernak->ternak->produk->id;
-            $wallet = UserWallet::where('user_id',$value->user_id)->orderByDesc('id')->first();
-            $hasil_ternak = json_decode($wallet->hasil_ternak);
-            $array = (array)$hasil_ternak;
-            $productInWallet = $array[$produkId]->qty;
-           
 
             DB::beginTransaction();
             try {
@@ -49,33 +42,24 @@ class CronController extends Controller
                             ];
                         
                         }else{
-                            $update = [
-                                'remains' => $remains + $kurang, //berikan sisa belum dapat
-                                'status'  => 0
-                            ];
+                           if($remains == 0 && $collected == $total){
+                                $update = [
+                                    'remains' => $remains + $kurang, //berikan sisa belum dapat
+                                    'status'  => 0
+                                ];
+                           }else{
+                                $update = [
+                                    'remains' => $remains + $perjam,
+                                ];
+                           }
                           
                         }
                         Investment::find($value->id)->update($update);
-                        // UserWallet::create([
-                        //     'user_id'=>$value->user_id,
-                        //     'diamon'=>$wallet->diamon,
-                        //     'pakan'=>$wallet->pakan,
-                        //     'hasil_ternak'=>json_encode($array)
-                        // ]);
-
                     }else{ //jika tanggal berakhir jika lebih kecil dari hari ini, berikan sisa remain dan ubah ke nonaktif
                         Investment::find($value->id)->update([
                             'remains' => $remains + $kurang,
                             'status'  => 0
                         ]);
-                        // $finalProduc = $productInWallet + $kurang;
-                        // $array[$produkId]->qty = $finalProduc;
-                        // UserWallet::create([
-                        //     'user_id'=>$value->user_id,
-                        //     'diamon'=>$wallet->diamon,
-                        //     'pakan'=>$wallet->pakan,
-                        //     'hasil_ternak'=>json_encode($array)
-                        // ]);
 
                     }
                 }else{ // juka ternak domba penghasil daging

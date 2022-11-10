@@ -138,6 +138,7 @@ class ComposerStaticInit377a84e2c164c8eed11fcb62fab82ddd
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
             'GrahamCampbell\\ResultType\\' => 26,
+            'Getsolaris\\LaravelMakeService\\' => 30,
         ),
         'F' => 
         array (
@@ -433,6 +434,10 @@ class ComposerStaticInit377a84e2c164c8eed11fcb62fab82ddd
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
+        'Getsolaris\\LaravelMakeService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/getsolaris/laravel-make-service/src',
+        ),
         'Fruitcake\\Cors\\' => 
         array (
             0 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
@@ -527,7 +532,9 @@ class ComposerStaticInit377a84e2c164c8eed11fcb62fab82ddd
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CronController' => __DIR__ . '/../..' . '/app/Http/Controllers/CronController.php',
         'App\\Http\\Controllers\\api\\v1\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/AuthController.php',
+        'App\\Http\\Controllers\\api\\v1\\BeriPakanController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/BeriPakanController.php',
         'App\\Http\\Controllers\\api\\v1\\MarketController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/MarketController.php',
+        'App\\Http\\Controllers\\api\\v1\\ProdukTernakController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/ProdukTernakController.php',
         'App\\Http\\Controllers\\api\\v1\\TernakController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/TernakController.php',
         'App\\Http\\Controllers\\api\\v1\\TopupController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/TopupController.php',
         'App\\Http\\Controllers\\api\\v1\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/UserController.php',
@@ -557,6 +564,7 @@ class ComposerStaticInit377a84e2c164c8eed11fcb62fab82ddd
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Bank' => __DIR__ . '/../..' . '/app/Models/Bank.php',
+        'App\\Models\\CronFail' => __DIR__ . '/../..' . '/app/Models/CronFail.php',
         'App\\Models\\CronLog' => __DIR__ . '/../..' . '/app/Models/CronLog.php',
         'App\\Models\\Investment' => __DIR__ . '/../..' . '/app/Models/Investment.php',
         'App\\Models\\Market' => __DIR__ . '/../..' . '/app/Models/Market.php',
@@ -1520,6 +1528,8 @@ class ComposerStaticInit377a84e2c164c8eed11fcb62fab82ddd
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/ValidGenerator.php',
         'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/CorsServiceProvider.php',
         'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/HandleCors.php',
+        'Getsolaris\\LaravelMakeService\\LaravelMakeServiceProvider' => __DIR__ . '/..' . '/getsolaris/laravel-make-service/src/LaravelMakeServiceProvider.php',
+        'Getsolaris\\LaravelMakeService\\MakeService' => __DIR__ . '/..' . '/getsolaris/laravel-make-service/src/MakeService.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',
         'GrahamCampbell\\ResultType\\Result' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Result.php',
         'GrahamCampbell\\ResultType\\Success' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Success.php',

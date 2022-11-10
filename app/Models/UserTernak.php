@@ -61,14 +61,13 @@ class UserTernak extends Model
                 }
 
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-                $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-                $end            = new DateTime($makan2);
-                $itsnow         = new DateTime($now);
-                $interval = $end->diff($itsnow);
-                if($interval->h > 0){
-                    $sts = 1;
-                }else{
+                // $end            = new DateTime($makan2);
+                // $itsnow         = new DateTime($now);
+                // $interval = $end->diff($itsnow);
+                if($now > $makan2){
                     $sts = 0;
+                }else{
+                    $sts = 1;
                 }
                 $pakan_start    = $makan1;
                 $pakan_end      = $makan2;
@@ -87,14 +86,14 @@ class UserTernak extends Model
                 'pakan_end'=>$pakan_end,
                 'pakan_status'=>$pakan_sts,
                 'remains'=>$remain,
-                // 'interfal'=>$interval->h
             ];
         }
         return $data;
 
     }
     public static function getUserTernakDetail($id){
-        $invest  = Investment::where(['user_ternak'=>$id])->orderByDesc('id')->first();
+        $invest  = Investment::where(['user_ternak'=>$id])->where('remains','!=',0)->orderByDesc('id')->first();
+        // return $invest;
            // dd($invest);
         $userTernak = UserTernak::with('ternak','ternak.produk')->find($id);
         $umur_start = date('Y-m-d H:i:s',strtotime($userTernak->buy_date));
@@ -122,7 +121,7 @@ class UserTernak extends Model
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
             }
             $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-            if($now > $makan2){
+            if($now > $makan2 && $invest->remains == 0 || (($invest->remains + $invest->collected) != $invest->commision)){
                 $sts = 0;
             }else{
                 $sts = 1;
@@ -133,19 +132,20 @@ class UserTernak extends Model
             $pakan_sts      = $sts;
         }
         $data[] = [
-            'id'=>$userTernak->id,
-            'ternak_id'=>$userTernak->ternak_id,
-            'name'=>$userTernak->ternak->name,
-            'avatar'=>$userTernak->ternak->avatar,
-            'time_now'=>$now,
-            'umur_start'=>$umur_start,
-            'umur_end'=>$umur_end,
-            'pakan_start'=>$pakan_start,
-            'pakan_end'=>$pakan_end,
-            'pakan_status'=>$pakan_sts,
-            'remains'=>$remain,
-            'produk'    => $userTernak->ternak->produk->name,
-            'satuan'    => $userTernak->ternak->produk->satuan
+            'id'            => $userTernak->id,
+            'ternak_id'     => $userTernak->ternak_id,
+            'name'          => $userTernak->ternak->name,
+            'avatar'        => $userTernak->ternak->avatar,
+            'time_now'      => $now,
+            'umur_start'    => $umur_start,
+            'umur_end'      => $umur_end,
+            'pakan_start'   => $pakan_start,
+            'pakan_end'     => $pakan_end,
+            'pakan_status'  => $pakan_sts,
+            'remains'       => $remain,
+            'produk'        => $userTernak->ternak->produk->name,
+            'satuan'        => $userTernak->ternak->produk->satuan,
+            'status'        => $pakan_sts
         ];
         return $data;
 

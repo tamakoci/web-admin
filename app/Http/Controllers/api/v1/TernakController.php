@@ -80,13 +80,12 @@ class TernakController extends Controller
         if(!$ternak){
             return response()->json(['status'=>404,'message'=>'Data ternak not found'],404);
         }
-        
+        $dm = $wallet->diamon;
+        if($dm < $ternak->price){
+            return response()->json(['status'=>402,'message'=>'Diamon tidak cukup'],Response::HTTP_PAYMENT_REQUIRED);
+        }
         DB::beginTransaction();
         try {
-            $dm = $wallet->diamon;
-            if($dm < $ternak->price){
-                return response()->json(['status'=>402,'message'=>'Diamon tidak cukup'],Response::HTTP_PAYMENT_REQUIRED);
-            }
             
             $trxID = Transaction::trxID('BT');
             Transaction::create([

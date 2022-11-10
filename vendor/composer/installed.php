@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '06becb5e5f2b8bd7f9824fb904b54dfb91931c43',
+        'reference' => '1174d87ff6808d6b66e14a5b4ed394c59010763c',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -147,6 +147,15 @@
             'aliases' => array(),
             'reference' => '783a74f5e3431d7b9805be8afb60fd0a8f743534',
             'dev_requirement' => false,
+        ),
+        'getsolaris/laravel-make-service' => array(
+            'pretty_version' => 'v1.1.0',
+            'version' => '1.1.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../getsolaris/laravel-make-service',
+            'aliases' => array(),
+            'reference' => '10970fcb6d887cc7de3db1b4d05804d0f29b3f3a',
+            'dev_requirement' => true,
         ),
         'graham-campbell/result-type' => array(
             'pretty_version' => 'v1.1.0',
@@ -400,7 +409,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '06becb5e5f2b8bd7f9824fb904b54dfb91931c43',
+            'reference' => '1174d87ff6808d6b66e14a5b4ed394c59010763c',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
