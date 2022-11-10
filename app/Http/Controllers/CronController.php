@@ -56,11 +56,18 @@ class CronController extends Controller
                         }
                         Investment::find($value->id)->update($update);
                     }else{ //jika tanggal berakhir jika lebih kecil dari hari ini, berikan sisa remain dan ubah ke nonaktif
-                        Investment::find($value->id)->update([
-                            'remains' => $remains + $kurang,
-                            'status'  => 0
-                        ]);
-
+                         if($remains == 0 && $collected == $total){
+                                $update = [
+                                    'remains' => $remains + $kurang, //berikan sisa belum dapat
+                                    'status'  => 0
+                                ];
+                           }else{
+                                $update = [
+                                    'remains' => $remains + $perjam,
+                                ];
+                           }
+                        
+                        Investment::find($value->id)->update($update);
                     }
                 }else{ // juka ternak domba penghasil daging
                     $tgl_beli   = date("Y-m-d H:i:s", strtotime($value->userTernak->buy_date));
