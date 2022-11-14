@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CronController;
+use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\BankController;
 use App\Http\Controllers\web\DashboardConteroller;
@@ -29,6 +30,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
+
+
+Route::get('payment',[PaymentGatewayController::class,'payment']);
+Route::get('process',[PaymentGatewayController::class,'process']);
+Route::get('success',[PaymentGatewayController::class,'success']);
+Route::get('cancel',[PaymentGatewayController::class,'cancel']);
+
+
 
 Route::get('/',[LandingController::class,'index']);
 Route::get('/login', [AuthController::class,'loginView'])->name('login');
