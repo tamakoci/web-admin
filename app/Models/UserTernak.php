@@ -92,7 +92,7 @@ class UserTernak extends Model
 
     }
     public static function getUserTernakDetail($id){
-        $invest  = Investment::where(['user_ternak'=>$id,'status'=>1])->where('remains','!=',0)->orderByDesc('id')->first();
+        $invest  = Investment::where(['user_ternak'=>$id,'status'=>1])->orderByDesc('id')->first();
       
         $userTernak = UserTernak::with('ternak','ternak.produk')->find($id);
         $umur_start = date('Y-m-d H:i:s',strtotime($userTernak->buy_date));
@@ -125,7 +125,7 @@ class UserTernak extends Model
             }else{
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-                if(($now > $makan2) && (($invest->remains + $invest->collected) != $invest->commision)){
+                if($now > $makan2){
                     $sts = 0;
                 }else{
                     $sts = 1;
