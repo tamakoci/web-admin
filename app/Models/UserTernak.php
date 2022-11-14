@@ -92,7 +92,7 @@ class UserTernak extends Model
 
     }
     public static function getUserTernakDetail($id){
-        $invest  = Investment::where(['user_ternak'=>$id])->where('remains','!=',0)->orderByDesc('id')->first();
+        $invest  = Investment::where(['user_ternak'=>$id,'status'=>1])->where('remains','!=',0)->orderByDesc('id')->first();
         // return $invest;
            // dd($invest);
         $userTernak = UserTernak::with('ternak','ternak.produk')->find($id);
