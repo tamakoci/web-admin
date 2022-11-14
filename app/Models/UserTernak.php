@@ -93,8 +93,7 @@ class UserTernak extends Model
     }
     public static function getUserTernakDetail($id){
         $invest  = Investment::where(['user_ternak'=>$id,'status'=>1])->where('remains','!=',0)->orderByDesc('id')->first();
-        // return $invest;
-           // dd($invest);
+      
         $userTernak = UserTernak::with('ternak','ternak.produk')->find($id);
         $umur_start = date('Y-m-d H:i:s',strtotime($userTernak->buy_date));
         $umur_end = date('Y-m-d H:i:s',strtotime("+".$userTernak->ternak->duration. " day", strtotime($umur_start)));
@@ -117,14 +116,20 @@ class UserTernak extends Model
         }else{
             if($userTernak->ternak_id == 4){
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->updated_at));
+                $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
+                if($now > $makan2){
+                    $sts = 0;
+                }else{
+                    $sts = 1;
+                }
             }else{
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
-            }
-            $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
-            if($now > $makan2 && $invest->remains == 0 || (($invest->remains + $invest->collected) != $invest->commision)){
-                $sts = 0;
-            }else{
-                $sts = 1;
+                $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
+                if(($now > $makan2) && (($invest->remains + $invest->collected) != $invest->commision)){
+                    $sts = 0;
+                }else{
+                    $sts = 1;
+                }
             }
             $pakan_start    = $makan1;
             $pakan_end      = $makan2;
