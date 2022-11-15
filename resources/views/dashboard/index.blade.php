@@ -20,7 +20,8 @@
                     ]);
 
                     var options = {
-                        title: 'Presentasi Produk Ternak User'
+                        title: 'Presentasi Produk Ternak User',
+                        is3D: true,
                     };
 
                     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
