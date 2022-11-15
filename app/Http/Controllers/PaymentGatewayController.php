@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chart;
 use Illuminate\Http\Request;
 
 class PaymentGatewayController extends Controller
@@ -74,7 +75,7 @@ class PaymentGatewayController extends Controller
         echo 'process';
     }
     public function cancel(){
-        echo 'cancel';
+       return Chart::countProductUser();
     }
 
 }
