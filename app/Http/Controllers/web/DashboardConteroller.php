@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chart;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,5 +24,9 @@ class DashboardConteroller extends Controller
         $data['susu'] = '700';
         $data['daging'] = '10';
         return view('dashboard.user',$data);
+    }
+    public function chart(){
+        $data = Chart::countProductUser();
+        return response()->json(['status'=>200,'data'=>$data],200);
     }
 }

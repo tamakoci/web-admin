@@ -44,7 +44,7 @@ Route::get('/login', [AuthController::class,'loginView'])->name('login');
 Route::post('/login-post',[AuthController::class,'loginPost']);
 Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
-Route::get('/test', [UserController::class,'test2']);
+Route::get('/chart', [DashboardConteroller::class,'chart']);
 
 Route::group(["middleware"=>"auth"],function(){
     Route::group(['prefix'=>'user'],function(){

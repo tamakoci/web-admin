@@ -1,4 +1,37 @@
 @extends('master.dashboard.index')
+@push('script')
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            $.ajax({
+                type: "GET",
+                url: "{{ url('chart') }}",
+                success: function(rs) {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Task', 'Produk Ternak Harian'],
+                        ['Telur', rs.data.telur],
+                        ['Susu', rs.data.susu],
+                        ['Daging', rs.data.daging],
+
+                    ]);
+
+                    var options = {
+                        title: 'Presentasi Produk Ternak User'
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                    chart.draw(data, options);
+                }
+            })
+
+        }
+    </script>
+@endpush
 @section('content')
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 justify-content-center">
         <div class="col">
@@ -63,6 +96,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card radius-10 border-start border-0 border-3 border-success d-flex">
+            <div class="card-body justify-content-center">
+                <div id="piechart" style="width: 900px; height: 500px;"></div>
             </div>
         </div>
     </div>

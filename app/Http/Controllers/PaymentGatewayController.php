@@ -75,7 +75,7 @@ class PaymentGatewayController extends Controller
         echo 'process';
     }
     public function cancel(){
-       return Chart::countProductUser();
+       echo 'cancel';
     }
 
 }

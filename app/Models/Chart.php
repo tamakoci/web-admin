@@ -24,14 +24,14 @@ class Chart extends Model
                 $daging += $product[3]['qty'];
             }
         }
+        $persen_telur = $telur/1000;
+        $persen_susu = $susu/10;
         return [
-            'telur' => $telur,
-            'telur_persen' => $telur/1000,
-            'susu'  => $susu,
-            'susu_persen'  => $susu/10,
+            'telur' => round($persen_telur),
+            'susu'  => round($persen_susu),
             'daging'=>$daging,
-            'daging_persen'=>$daging
         ];
 
     }
 }
+ 

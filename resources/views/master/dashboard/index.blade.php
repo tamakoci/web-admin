@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/css/semi-dark.css" />
     <link rel="stylesheet" href="{{ asset('') }}assets/css/header-colors.css" />
     <title>{{ $title }} - Tamakoci</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    @stack('pie.js')
     @stack('style')
 </head>
 
