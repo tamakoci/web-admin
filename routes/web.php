@@ -18,6 +18,7 @@ use App\Http\Controllers\web\TopupPanganController;
 use App\Http\Controllers\web\TransactionController;
 use App\Http\Controllers\web\UserController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,7 @@ Route::post('/login-post',[AuthController::class,'loginPost']);
 Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
 Route::get('/chart', [DashboardConteroller::class,'chart']);
+Route::get('user-pie',[DashboardConteroller::class,'wallets']);
 
 Route::group(["middleware"=>"auth"],function(){
     Route::group(['prefix'=>'user'],function(){
