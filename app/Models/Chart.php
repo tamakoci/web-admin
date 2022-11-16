@@ -29,7 +29,7 @@ class Chart extends Model
         return [
             'telur' => round($persen_telur),
             'susu'  => round($persen_susu),
-            'daging'=>$daging,
+            'daging'=> $daging,
         ];
 
     }

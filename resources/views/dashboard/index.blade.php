@@ -100,10 +100,12 @@
             </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card radius-10 border-start border-0 border-3 border-success d-flex">
-            <div class="card-body justify-content-center">
-                <div id="piechart" style="width: 900px; height: 500px;"></div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card radius-10 border-start border-0 border-3 border-success">
+                <div class="card-body">
+                    <div id="piechart" style="width: 500px; height: 300px;"></div>
+                </div>
             </div>
         </div>
     </div>
