@@ -9,7 +9,6 @@ class PaymentGatewayController extends Controller
 {
     public function payment(){
         $url = env('KPAYDEVURL').'transaction-process.php';
-        // dd($url);
         $app = env('KPAYAPP');
         $pass   = env('KPAYPASS');
         $mail   = env('KPAYEMAIL');
@@ -39,7 +38,8 @@ class PaymentGatewayController extends Controller
             'productNo'     => $product_no,
             'productDesc'   => $product_desc,
             "productQty"    => $product_qty,
-            "discountAmt"   => $product_amount,
+            "productAmt"    => $product_amount,
+            "discountAmt"   => 0,
             "processURL"    => url('process'),
             "cancelURL"     => url('cancel'),
             "successURL"    => url('success')
