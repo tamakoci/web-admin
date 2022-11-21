@@ -126,7 +126,11 @@ class UserTernak extends Model
                 $makan1     = date("Y-m-d H:i:s", strtotime($invest->created_at));
                 $makan2     = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($makan1)));
                 if($now > $makan2){
-                    $sts = 0;
+                    if($invest->status == 1 && $invest->remains != 0){
+                        $sts = 1;
+                    }else{
+                        $sts = 0;
+                    }
                 }else{
                     $sts = 1;
                 }
