@@ -12,7 +12,7 @@ class PaymentGatewayController extends Controller
         // dd($url);
         $app = env('KPAYAPP');
         $pass   = env('KPAYPASS');
-        $mail   = 'miartayasa01@gmail.com';
+        $mail   = env('KPAYEMAIL');
         $order_no = '123123skm';
         $order_amount = 10000;
         $msg = 'testing';
@@ -44,7 +44,7 @@ class PaymentGatewayController extends Controller
             "cancelURL"     => url('cancel'),
             "successURL"    => url('success')
         ];
-        return ($data);
+        // return ($data);
         return $this->send($url,json_encode($data));
     }
     public function send($url,$data){
