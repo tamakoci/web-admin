@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\v1\TransactionController as V1TransactionController;
 use App\Http\Controllers\CronController;
 use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\web\AuthController;
@@ -38,6 +39,7 @@ Route::get('process',[PaymentGatewayController::class,'process']);
 Route::get('success',[PaymentGatewayController::class,'success']);
 Route::get('cancel',[PaymentGatewayController::class,'cancel']);
 
+Route::get('tt',[V1TransactionController::class,'trxDiamon']);
 
 
 Route::get('/',[LandingController::class,'index']);

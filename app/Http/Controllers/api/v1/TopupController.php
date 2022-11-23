@@ -35,6 +35,19 @@ class TopupController extends Controller
             'data'      => $pakan,
         ],200);
     }
+
+    public function trxDiamon(Request $request){
+        $validate = Validator::make($request->all(),[
+            'diamon_id' => 'required'
+        ]);
+        if($validate->fails()){
+            return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
+        }   
+        // find user login by token
+        $user = Auth::user();
+        
+    }
+
     public function buyDiamon(Request $request){ 
         $validate = Validator::make($request->all(),[
             'diamon_id' => 'required'
