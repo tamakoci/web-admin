@@ -13,10 +13,18 @@ class TransactionController extends Controller
 {   
     public function __construct()
     {
-        $this->url = env('KPAYDEVURL').'transaction-process.php';
-        $this->app = env('KPAYAPP');
-        $this->pass   = env('KPAYPASS');
-        $this->mail   = env('KPAYEMAIL');
+        $this->url      = env('KPAYDEVURL');
+        $this->app      = env('KPAYAPP');
+        $this->pass     = env('KPAYPASS');
+        $this->mail     = env('KPAYEMAIL');
+    }
+    public function inquiry(Request $request){
+        $data = [
+            'merchantAppCode' => $this->app,
+            'merchantAppPassword' => $this->pass,
+            'transactionNo' => "TD1669184511"
+        ];
+        return $this->send($this->url.'transaction-detail.php',json_encode($data));
     }
 
     public function trxDiamon(Request $request){
@@ -64,22 +72,23 @@ class TransactionController extends Controller
             "cancelURL"     => url('cancel'),
             "successURL"    => url('success')
         ];
-        return $this->send($this->url,json_encode($data));
+        return $this->send($this->url.'transaction-process.php',json_encode($data));
+       
     }
 
     public function send($url,$data){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>$data,
+            CURLOPT_URL             => $url,
+            CURLOPT_RETURNTRANSFER  => true,
+            CURLOPT_ENCODING        => '',
+            CURLOPT_MAXREDIRS       => 10,
+            CURLOPT_TIMEOUT         => 0,
+            CURLOPT_FOLLOWLOCATION  => true,
+            CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST   => 'POST',
+            CURLOPT_POSTFIELDS      => $data,
         ));
 
         $response = curl_exec($curl);

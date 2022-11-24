@@ -40,7 +40,7 @@ Route::get('success',[PaymentGatewayController::class,'success']);
 Route::get('cancel',[PaymentGatewayController::class,'cancel']);
 
 Route::get('tt',[V1TransactionController::class,'trxDiamon']);
-
+Route::get('log',[V1TransactionController::class,'inquiry']);
 
 Route::get('/',[LandingController::class,'index']);
 Route::get('/login', [AuthController::class,'loginView'])->name('login');
@@ -51,6 +51,7 @@ Route::get('/chart', [DashboardConteroller::class,'chart']);
 Route::get('user-pie',[DashboardConteroller::class,'wallets']);
 
 Route::group(["middleware"=>"auth"],function(){
+
     Route::group(['prefix'=>'user'],function(){
         Route::get('/dashboard',[DashboardConteroller::class,'user']);
         Route::resource('referal',ReferalsController::class);
