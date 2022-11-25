@@ -35,9 +35,9 @@ class TransactionController extends Controller
         //     return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
         // }
         $diamon = TopupDiamon::find(3);
-        // if(!$diamon){
-        //     return response()->json(['status'=>404,'message'=>'Data diamon tidak ditemukan!'],404);
-        // }   
+        if(!$diamon){
+            return response()->json(['status'=>404,'message'=>'Data diamon tidak ditemukan!'],404);
+        }   
         // find user login by token
         $user = Auth::user();
         $order_no = Transaction::trxID('TD');
@@ -59,7 +59,7 @@ class TransactionController extends Controller
         $data = [
             'merchantAppCode' => $this->app,
             'merchantAppPassword' => $this->pass,
-            'userEmail'     => $this->mail,
+            'userEmail'     => 'miartayasa10@gmail.com',
             'orderNo'       => $order_no,
             'orderAmt'      => $order_amount,
             'additionalMsg' => $msg,
@@ -72,7 +72,8 @@ class TransactionController extends Controller
             "cancelURL"     => url('cancel'),
             "successURL"    => url('success')
         ];
-        return $this->send($this->url.'transaction-process.php',json_encode($data));
+        $res = $this->send($this->url.'transaction-process.php',json_encode($data));
+        dd($res);
        
     }
 
