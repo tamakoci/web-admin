@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -73,7 +74,28 @@ class TransactionController extends Controller
             "successURL"    => url('success')
         ];
         $res = $this->send($this->url.'transaction-process.php',json_encode($data));
-        dd($res);
+        $arr = json_decode($res,true);
+        if($arr['success'] == 1){
+            Payment::create([
+                'trx_id'    => $arr['result']['ref'],
+                'amount'    => $arr['result']['amount'],
+                'desc'      => 'Topup '.$diamon->diamon.' Diamon',
+                'status'    => 0
+            ]);
+            return response()->json([
+                'status'=> 200,
+                'msg'   => 'Transaction Created',
+                'data'  =>  [
+                    'token'=>$arr['result']['token'],
+                    'amount'=>$arr['result']['amount'],
+                    'trxID'=>$arr['result']['ref'],
+                    'url'=>$arr['result']['checkoutURL'],
+                    'expired'=>$arr['result']['expired']
+                ]
+            ],200);
+        }else{
+            return response()->json(['status'=>500,'msg'=>'Transaction Failed'],500);
+        }
        
     }
 
