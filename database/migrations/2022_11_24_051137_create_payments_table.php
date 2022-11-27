@@ -18,6 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->bigInteger('user_id');
             $table->string('order_no')->unique();
             $table->integer('amount');
+            $table->integer('diamon');
             $table->string('desc')->nullable();
             $table->dateTime('expired');
             $table->string('checkout_url');

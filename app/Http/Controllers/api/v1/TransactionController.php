@@ -80,6 +80,7 @@ class TransactionController extends Controller
                 'user_id'   => $user->id,
                 'order_no'  => $arr['result']['ref'],
                 'amount'    => $arr['result']['amount'],
+                'diamon'    => $diamon->diamon,
                 'desc'      => 'Topup '.$diamon->diamon.' Diamon',
                 'expired'   => $arr['result']['expired'],
                 'checkout_url'=>$arr['result']['checkoutURL'],
