@@ -112,15 +112,15 @@ class CronController extends Controller
                 curl_close($curl);
 
                 $rs = json_decode($response,true);
-                return $rs;
-                // if($rs['success']== 1){
-                //     $py = Payment::find($value->id)->update([
-                //         'status'    => 2,
-                //         'trx_no'    => $rs['result']['transaction']['transactionNo'],
-                //         'trx_date'  => $rs['result']['transaction']['transactionDate'],
-                //         'pay_method'=> $rs['result']['transaction']['paymentMethod']
-                //     ]);
-                // }
+                // return $rs;
+                if($rs['success']== 1){
+                    $py = Payment::find($value->id)->update([
+                        'status'    => 2,
+                        'trx_no'    => $rs['result']['transaction']['transactionNo'],
+                        'trx_date'  => $rs['result']['transaction']['transactionDate'],
+                        'pay_method'=> $rs['result']['transaction']['paymentMethod']
+                    ]);
+                }
             }else{
                 $py = Payment::find($value->id)->update(['status'=>3]);
             }
