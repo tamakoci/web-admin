@@ -23,7 +23,7 @@ class TransactionController extends Controller
         $data = [
             'merchantAppCode' => $this->app,
             'merchantAppPassword' => $this->pass,
-            'transactionNo' => $kode
+            'orderNo' => $kode
         ];
         return $this->send($this->url.'transaction-detail.php',json_encode($data));
     }
