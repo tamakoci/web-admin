@@ -85,9 +85,45 @@ class CronController extends Controller
     }
 
     public function trxStatus(){
-        $payment = Payment::where('status',0)->get();
+        $payment = Payment::where('status',1)->get();
         foreach ($payment as $key => $value) {
-            # code...
+            $now = date("Y-m-d H:i:s");
+            $exp = $value->expired;
+            if($now > $exp){
+                $data = [
+                    'merchantAppCode' => $this->app,
+                    'merchantAppPassword' => $this->pass,
+                    'orderNo' => $value->order_no
+                ];
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL             => env('KPAYDEVURL').'transaction-detail.php',
+                    CURLOPT_RETURNTRANSFER  => true,
+                    CURLOPT_ENCODING        => '',
+                    CURLOPT_MAXREDIRS       => 10,
+                    CURLOPT_TIMEOUT         => 0,
+                    CURLOPT_FOLLOWLOCATION  => true,
+                    CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST   => 'POST',
+                    CURLOPT_POSTFIELDS      => json_encode($data),
+                ));
+
+                $response = curl_exec($curl);
+                curl_close($curl);
+
+                $rs = json_decode($response,true);
+                if($rs['success']== 1){
+                    $py = Payment::find($value->id)->update([
+                        'status'    => 2,
+                        'trx_no'    => $rs['result']['transaction']['transactionNo'],
+                        'trx_date'  => $rs['result']['transaction']['transactionDate'],
+                        'pay_method'=> $rs['result']['transaction']['paymentMethod']
+                    ]);
+                }
+            }else{
+                $py = Payment::find($value->id)->update(['status'=>3]);
+            }
+
         }
     }
 }

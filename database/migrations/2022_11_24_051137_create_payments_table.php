@@ -15,11 +15,14 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('trx_id')->unique();
+            $table->string('order_no')->unique();
             $table->integer('amount');
             $table->string('desc')->nullable();
             $table->dateTime('expired');
             $table->integer('status');
+            $table->string('trx_no')->nullable();
+            $table->dateTime('trx_date')->nullable();
+            $table->string('pay_method')->nullable();
             $table->timestamps();
         });
     }

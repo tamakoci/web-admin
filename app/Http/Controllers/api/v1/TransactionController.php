@@ -77,7 +77,7 @@ class TransactionController extends Controller
         $arr = json_decode($res,true);
         if($arr['success'] == 1){
             Payment::create([
-                'trx_id'    => $arr['result']['ref'],
+                'order_no'    => $arr['result']['ref'],
                 'amount'    => $arr['result']['amount'],
                 'desc'      => 'Topup '.$diamon->diamon.' Diamon',
                 'expired'   => $arr['result']['expired'],
@@ -96,8 +96,7 @@ class TransactionController extends Controller
             ],200);
         }else{
             return response()->json(['status'=>500,'msg'=>'Transaction Failed','data'=>$data],500);
-        }
-       
+        }      
     }
 
     public function send($url,$data){

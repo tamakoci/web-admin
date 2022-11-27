@@ -32,7 +32,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
-
+Route::get('/cron-status-transaksi',[CronController::class,'trxStatus']);
 
 Route::get('payment',[PaymentGatewayController::class,'payment']);
 Route::get('process',[PaymentGatewayController::class,'process']);
