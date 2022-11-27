@@ -69,6 +69,9 @@ class TransactionController extends Controller
             "productQty"    => $product_qty,
             "productAmt"    => $product_amount,
             "discountAmt"   => 0,
+            "processURL"    => url('process'),
+            "cancelURL"     => url('cancel'),
+            "successURL"    => url('success')
         ];
         $res = $this->send($this->url.'transaction-process.php',json_encode($data));
         $arr = json_decode($res,true);
@@ -78,7 +81,7 @@ class TransactionController extends Controller
                 'amount'    => $arr['result']['amount'],
                 'desc'      => 'Topup '.$diamon->diamon.' Diamon',
                 'expired'   => $arr['result']['expired'],
-                'status'    => 0
+                'status'    => 1
             ]);
             return response()->json([
                 'status'=> 200,
@@ -92,7 +95,7 @@ class TransactionController extends Controller
                 ]
             ],200);
         }else{
-            return response()->json(['status'=>500,'msg'=>'Transaction Failed'],500);
+            return response()->json(['status'=>500,'msg'=>'Transaction Failed','data'=>$data],500);
         }
        
     }
