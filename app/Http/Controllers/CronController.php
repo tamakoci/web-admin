@@ -124,12 +124,6 @@ class CronController extends Controller
                     'trx_date'  => $rs['result']['transaction']['transactionDate'],
                     'pay_method'=> $rs['result']['transaction']['paymentMethod']
                 ]);
-            }else{
-                $now = date("Y-m-d H:i:s");
-                $exp = $value->expired;
-                if($now < $exp){   
-                    $py = Payment::find($value->id)->update(['status'=>3]);
-                }
             }
         }
     }
