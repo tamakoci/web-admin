@@ -29,13 +29,13 @@ class TransactionController extends Controller
     }
 
     public function trxDiamon(Request $request){
-        // $validate = Validator::make($request->all(),[
-        //     'diamon_id' => 'required'
-        // ]);
-        // if($validate->fails()){
-        //     return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
-        // }
-        $diamon = TopupDiamon::find(3);
+        $validate = Validator::make($request->all(),[
+            'diamon_id' => 'required'
+        ]);
+        if($validate->fails()){
+            return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
+        }
+        $diamon = TopupDiamon::find($request->diamon_id);
         if(!$diamon){
             return response()->json(['status'=>404,'message'=>'Data diamon tidak ditemukan!'],404);
         }   
@@ -77,7 +77,8 @@ class TransactionController extends Controller
         $arr = json_decode($res,true);
         if($arr['success'] == 1){
             Payment::create([
-                'order_no'    => $arr['result']['ref'],
+                'user_id'   => $user->id,
+                'order_no'  => $arr['result']['ref'],
                 'amount'    => $arr['result']['amount'],
                 'desc'      => 'Topup '.$diamon->diamon.' Diamon',
                 'expired'   => $arr['result']['expired'],
