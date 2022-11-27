@@ -82,6 +82,7 @@ class TransactionController extends Controller
                 'amount'    => $arr['result']['amount'],
                 'desc'      => 'Topup '.$diamon->diamon.' Diamon',
                 'expired'   => $arr['result']['expired'],
+                'checkout_url'=>$arr['result']['checkoutURL'],
                 'status'    => 1
             ]);
             return response()->json([
