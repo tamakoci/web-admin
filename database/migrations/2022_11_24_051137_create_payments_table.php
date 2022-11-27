@@ -18,6 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->string('trx_id')->unique();
             $table->integer('amount');
             $table->string('desc')->nullable();
+            $table->dateTime('expired');
             $table->integer('status');
             $table->timestamps();
         });

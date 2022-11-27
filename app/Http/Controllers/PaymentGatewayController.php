@@ -40,9 +40,6 @@ class PaymentGatewayController extends Controller
             "productQty"    => $product_qty,
             "productAmt"    => $product_amount,
             "discountAmt"   => 0,
-            "processURL"    => url('process'),
-            "cancelURL"     => url('cancel'),
-            "successURL"    => url('success')
         ];
         // return ($data);
         return $this->send($url,json_encode($data));
@@ -66,16 +63,6 @@ class PaymentGatewayController extends Controller
 
         curl_close($curl);
         return $response;
-    }
-
-    public function success(){
-        echo 'success';
-    }
-    public function process(){
-        echo 'process';
-    }
-    public function cancel(){
-       echo 'cancel';
     }
 
 }

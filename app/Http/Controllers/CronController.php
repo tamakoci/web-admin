@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CronFail;
 use App\Models\CronLog;
 use App\Models\Investment;
+use App\Models\Payment;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -81,5 +82,12 @@ class CronController extends Controller
             'note'    => 'cron distribusi hasil ternak tanggal '.$tanggal .' jam ke '.$jam
         ]);
         return response()->json(['status'=>200,'message'=>'send produksi ternak '. date("Y-m-d H:i:s")]);
+    }
+
+    public function trxStatus(){
+        $payment = Payment::where('status',0)->get();
+        foreach ($payment as $key => $value) {
+            # code...
+        }
     }
 }

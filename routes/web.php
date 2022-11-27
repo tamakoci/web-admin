@@ -40,7 +40,7 @@ Route::get('success',[PaymentGatewayController::class,'success']);
 Route::get('cancel',[PaymentGatewayController::class,'cancel']);
 
 Route::get('tt',[V1TransactionController::class,'trxDiamon']);
-Route::get('log',[V1TransactionController::class,'inquiry']);
+Route::get('log/{kode}',[V1TransactionController::class,'inquiry']);
 
 Route::get('/',[LandingController::class,'index']);
 Route::get('/login', [AuthController::class,'loginView'])->name('login');

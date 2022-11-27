@@ -19,11 +19,11 @@ class TransactionController extends Controller
         $this->pass     = env('KPAYPASS');
         $this->mail     = env('KPAYEMAIL');
     }
-    public function inquiry(Request $request){
+    public function inquiry(Request $request,$kode){
         $data = [
             'merchantAppCode' => $this->app,
             'merchantAppPassword' => $this->pass,
-            'transactionNo' => "TD1669184511"
+            'transactionNo' => $kode
         ];
         return $this->send($this->url.'transaction-detail.php',json_encode($data));
     }
@@ -69,9 +69,6 @@ class TransactionController extends Controller
             "productQty"    => $product_qty,
             "productAmt"    => $product_amount,
             "discountAmt"   => 0,
-            "processURL"    => url('process'),
-            "cancelURL"     => url('cancel'),
-            "successURL"    => url('success')
         ];
         $res = $this->send($this->url.'transaction-process.php',json_encode($data));
         $arr = json_decode($res,true);
@@ -80,6 +77,7 @@ class TransactionController extends Controller
                 'trx_id'    => $arr['result']['ref'],
                 'amount'    => $arr['result']['amount'],
                 'desc'      => 'Topup '.$diamon->diamon.' Diamon',
+                'expired'   => $arr['result']['expired'],
                 'status'    => 0
             ]);
             return response()->json([
