@@ -6,6 +6,7 @@ use App\Http\Controllers\api\v1\MarketController;
 use App\Http\Controllers\api\v1\ProdukTernakController;
 use App\Http\Controllers\api\v1\TernakController;
 use App\Http\Controllers\api\v1\TopupController;
+use App\Http\Controllers\api\v1\TransactionController;
 use App\Http\Controllers\api\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,5 +46,9 @@ Route::group(['prefix'=>'v1'],function(){
         Route::post('market-sell',[MarketController::class,'sell']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
+});
+
+Route::group(['prefix'=>'v2','middleware' => ['jwt.verify']],function(){
+        Route::post('buy-diamon',[TransactionController::class,'trxDiamon']);
 });
 
