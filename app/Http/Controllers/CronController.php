@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class CronController extends Controller
 {
+    public function __construct()
+    {
+        $this->url      = env('KPAYDEVURL');
+        $this->app      = env('KPAYAPP');
+        $this->pass     = env('KPAYPASS');
+        $this->mail     = env('KPAYEMAIL');
+    }
     public function produksiTernak(){
 
         $invest = Investment::with(['userTernak','userTernak.ternak','userTernak.ternak.produk'])->where('status',1)->get();
