@@ -144,10 +144,13 @@ class CronController extends Controller
     
     public function sendDiamon($diamon,$user_id,$trx)
     { 
+        $cek = Transaction::where('trx_id',$trx)->first();
+        if($cek){
+            return false;
+        }
         // cek wallet user
         $wallet = UserWallet::where('user_id',$user_id)->orderByDesc('id')->first();
         try {
-           
             DB::beginTransaction();
             if(!$wallet){
                 Transaction::create([
