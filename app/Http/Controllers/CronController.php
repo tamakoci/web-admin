@@ -6,6 +6,9 @@ use App\Models\CronFail;
 use App\Models\CronLog;
 use App\Models\Investment;
 use App\Models\Payment;
+use App\Models\Product;
+use App\Models\TopupDiamon;
+use App\Models\Transaction;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,17 +117,73 @@ class CronController extends Controller
 
             $response = curl_exec($curl);
             curl_close($curl);
-
-            $rs = json_decode($response,true);
-            // return $rs;
+            $py     = Payment::find($value->id);
+            $rs     = json_decode($response,true);
+            $now    = date("Y-m-d H:i:s");
+            $end    = date('Y-m-d H:i:s',strtotime("+1 day", strtotime($py->created_at)));
             if($rs['success']== 1){
-                $py = Payment::find($value->id)->update([
+                $py->update([
                     'status'    => 2,
                     'trx_no'    => $rs['result']['transaction']['transactionNo'],
                     'trx_date'  => $rs['result']['transaction']['transactionDate'],
                     'pay_method'=> $rs['result']['transaction']['paymentMethod']
                 ]);
+                $dm = $py->diamon;
+                $user_id = $dm->user_id;
+                $diamon = TopupDiamon::where('diamon',$dm)->first();
+                $this->sendDiamon($diamon,$user_id);
+            }elseif($now > $end){
+                $py->update([
+                    'status'=>3
+                ]);
             }
+        }
+    }
+
+    
+    public function sendDiamon($diamon,$user_id) :void
+    { 
+        // cek wallet user
+        $wallet = UserWallet::where('user_id',$user_id)->orderByDesc('id')->first();
+        try {
+           
+            DB::beginTransaction();
+            if(!$wallet){
+                Transaction::create([
+                    'user_id' => $user_id,
+                    'last_amount' => 0,
+                    'trx_amount' => $diamon->diamon,
+                    'final_amount'=>$diamon->diamon,
+                    'trx_type'=>'+',
+                    'detail'=>'Topup Diamon By IDR',
+                    'trx_id' => Transaction::trxID('TD')
+                ]);
+                UserWallet::create([
+                    'user_id'=>$user_id,
+                    'diamon'=>$diamon->diamon,
+                    'pakan'=>0,
+                    'hasil_ternak'=> json_encode(Product::produk())
+                ]);
+            }else{
+                Transaction::create([
+                    'user_id' => $user_id,
+                    'last_amount' => $wallet->diamon,
+                    'trx_amount' => $diamon->diamon,
+                    'final_amount'=> $wallet->diamon + $diamon->diamon,
+                    'trx_type'=>'+',
+                    'detail'=>'Topup Diamon By IDR',
+                    'trx_id' => Transaction::trxID('TD')
+                ]);
+                UserWallet::create([
+                    'user_id'=>$user_id,
+                    'diamon'=>$wallet->diamon + $diamon->diamon,
+                    'pakan'=>$wallet->pakan,
+                    'hasil_ternak'=>$wallet->hasil_ternak
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
         }
     }
 }
