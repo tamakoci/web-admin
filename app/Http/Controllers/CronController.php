@@ -129,7 +129,7 @@ class CronController extends Controller
                     'pay_method'=> $rs['result']['transaction']['paymentMethod']
                 ]);
                 $dm = $py->diamon;
-                $user_id = $dm->user_id;
+                $user_id = $py->user_id;
                 $diamon = TopupDiamon::where('diamon',$dm)->first();
                 $this->sendDiamon($diamon,$user_id);
             }elseif($now > $end){
