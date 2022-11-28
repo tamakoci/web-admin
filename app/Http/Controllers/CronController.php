@@ -128,10 +128,11 @@ class CronController extends Controller
                     'trx_date'  => $rs['result']['transaction']['transactionDate'],
                     'pay_method'=> $rs['result']['transaction']['paymentMethod']
                 ]);
-                $dm = $py->diamon;
-                $user_id = $py->user_id;
+                $dm     = $py->diamon;
+                $user_id= $py->user_id;
+                $trx    = $py->order_no;
                 $diamon = TopupDiamon::where('diamon',$dm)->first();
-                $this->sendDiamon($diamon,$user_id);
+                $this->sendDiamon($diamon,$user_id,$trx);
             }elseif($now > $end){
                 $py->update([
                     'status'=>3
@@ -141,7 +142,7 @@ class CronController extends Controller
     }
 
     
-    public function sendDiamon($diamon,$user_id) :void
+    public function sendDiamon($diamon,$user_id,$trx)
     { 
         // cek wallet user
         $wallet = UserWallet::where('user_id',$user_id)->orderByDesc('id')->first();
@@ -156,7 +157,7 @@ class CronController extends Controller
                     'final_amount'=>$diamon->diamon,
                     'trx_type'=>'+',
                     'detail'=>'Topup Diamon By IDR',
-                    'trx_id' => Transaction::trxID('TD')
+                    'trx_id' => $trx
                 ]);
                 UserWallet::create([
                     'user_id'=>$user_id,
@@ -172,7 +173,7 @@ class CronController extends Controller
                     'final_amount'=> $wallet->diamon + $diamon->diamon,
                     'trx_type'=>'+',
                     'detail'=>'Topup Diamon By IDR',
-                    'trx_id' => Transaction::trxID('TD')
+                    'trx_id' => $trx
                 ]);
                 UserWallet::create([
                     'user_id'=>$user_id,
@@ -182,8 +183,10 @@ class CronController extends Controller
                 ]);
             }
             DB::commit();
+            return ['status'=>1];
         } catch (\Exception $e) {
             DB::rollback();
+            return ['status'=>0,'msg'=>$e->getMessage()];
         }
     }
 }
