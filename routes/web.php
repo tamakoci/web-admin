@@ -34,10 +34,10 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
 Route::get('/cron-status-transaksi',[CronController::class,'trxStatus']);
 
-Route::get('payment',[PaymentGatewayController::class,'payment']);
-Route::get('process',[PaymentGatewayController::class,'process']);
-Route::get('success',[PaymentGatewayController::class,'success']);
-Route::get('cancel',[PaymentGatewayController::class,'cancel']);
+Route::get('payment',[V1TransactionController::class,'payment']);
+Route::get('process',[V1TransactionController::class,'process']);
+Route::get('success',[V1TransactionController::class,'success']);
+Route::get('cancel',[V1TransactionController::class,'cancel']);
 
 Route::get('tt',[V1TransactionController::class,'trxDiamon']);
 Route::get('log/{kode}',[V1TransactionController::class,'inquiry']);

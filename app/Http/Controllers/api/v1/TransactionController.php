@@ -79,9 +79,9 @@ class TransactionController extends Controller
             "productQty"    => $product_qty,
             "productAmt"    => $product_amount,
             "discountAmt"   => 0,
-            "processURL"    => "https://coba-ayam-e5vl.vercel.app/",
-            "cancelURL"     => "https://coba-ayam-e5vl.vercel.app/",
-            "successURL"    => "https://coba-ayam-e5vl.vercel.app/"
+            "processURL"    => url('proccess'),
+            "cancelURL"     => url('cancel'),
+            "successURL"    => url('success')
         ];
         $res = $this->send($this->url.'transaction-process.php',json_encode($data));
         $arr = json_decode($res,true);
@@ -131,5 +131,18 @@ class TransactionController extends Controller
 
         curl_close($curl);
         return $response;
+    }
+
+    public function process(){
+        return redirect('https://coba-ayam-e5vl.vercel.app/');
+    }
+    public function success(){
+        return redirect('https://coba-ayam-e5vl.vercel.app/');
+    }
+    public function cancel(){
+        return redirect('https://coba-ayam-e5vl.vercel.app/');
+    }
+    public function payment(){
+        echo 'payment';
     }
 }
