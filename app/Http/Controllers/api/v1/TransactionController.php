@@ -108,7 +108,7 @@ class TransactionController extends Controller
                 ]
             ],200);
         }else{
-            return response()->json(['status'=>500,'msg'=>'Transaction Failed','data'=>$data],500);
+            return response()->json(['status'=>500,'msg'=>'Transaction Failed','data'=>$arr],500);
         }      
     }
 
