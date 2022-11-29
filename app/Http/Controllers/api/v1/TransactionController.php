@@ -31,6 +31,13 @@ class TransactionController extends Controller
         return $this->send($this->url.'transaction-detail.php',json_encode($data));
     }
 
+    public function trxLog(Request $request){
+        $user = Auth::user();
+        $data = Payment::where('user_id',$user->id)->orderByDesc('id')->get();
+        return response()->json(['status'=>200,'msg'=>'Transaction inquiry','data'=>$data]);
+    }
+
+
     public function trxDiamon(Request $request){
         $validate = Validator::make($request->all(),[
             'diamon_id' => 'required'

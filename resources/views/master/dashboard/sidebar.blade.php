@@ -12,7 +12,7 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="{{ url(auth()->user()->user_role == 1 ? 'user' : 'admin' . '/dashboard') }}">
+            <a href="{{ url(auth()->user()->user_role == 1 ? 'user/dashboard' : 'admin/dashboard') }}">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>

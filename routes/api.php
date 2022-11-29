@@ -44,11 +44,13 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('tutor-update',[UserController::class,'updateTutor']);
         Route::get('user-ternak',[TernakController::class,'userTernak']);
         Route::post('market-sell',[MarketController::class,'sell']);
+
+        Route::get('trx-inquiry',[TransactionController::class,'trxLog']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
 });
 
 Route::group(['prefix'=>'v2','middleware' => ['jwt.verify']],function(){
-        Route::post('buy-diamon',[TransactionController::class,'trxDiamon']);
+    Route::post('buy-diamon',[TransactionController::class,'trxDiamon']);
 });
 
