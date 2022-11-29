@@ -81,7 +81,7 @@ class TransactionController extends Controller
             "discountAmt"   => 0,
             "processURL"    => url('process'),
             "cancelURL"     => url('cancel'),
-            "successURL"    => url('success')
+            "successURL"    => "https://coba-ayam-e5vl.vercel.app/"
         ];
         $res = $this->send($this->url.'transaction-process.php',json_encode($data));
         $arr = json_decode($res,true);
