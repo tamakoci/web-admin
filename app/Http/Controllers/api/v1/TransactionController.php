@@ -79,8 +79,8 @@ class TransactionController extends Controller
             "productQty"    => $product_qty,
             "productAmt"    => $product_amount,
             "discountAmt"   => 0,
-            "processURL"    => url('process'),
-            "cancelURL"     => url('cancel'),
+            "processURL"    => "https://coba-ayam-e5vl.vercel.app/",
+            "cancelURL"     => "https://coba-ayam-e5vl.vercel.app/",
             "successURL"    => "https://coba-ayam-e5vl.vercel.app/"
         ];
         $res = $this->send($this->url.'transaction-process.php',json_encode($data));
