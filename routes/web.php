@@ -52,7 +52,7 @@ Route::get('/chart', [DashboardConteroller::class,'chart']);
 Route::get('user-pie',[DashboardConteroller::class,'wallets']);
 
 Route::get('wd',[WithdrawController::class,'wd']);
-Route::get('wd/:id',[WithdrawController::class,'wdq']);
+Route::get('wd/{id}',[WithdrawController::class,'wdq']);
 
 Route::group(["middleware"=>"auth"],function(){
 
