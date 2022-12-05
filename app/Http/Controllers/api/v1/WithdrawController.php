@@ -72,13 +72,7 @@ class WithdrawController extends Controller
         return response()->json(['status'=>200,'message'=>'Data Bank '.$user->username,'data'=>$data],200);
     }
     public function wd(Request $request){
-        $validate = Validator::make($request->all(),[
-            'diamon'        => 'required|numeric|min:1000',
-            'user_bank_id'  => 'required',
-        ]);
-        if($validate->fails()){
-            return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
-        }
+       
         $user = User::find(11);
         $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
         $diamon = 100;
@@ -100,7 +94,7 @@ class WithdrawController extends Controller
             'additionalMsg' => 'Tamakci Wthdrawl ' .$diamon. ' diamon = ' . $diamon * 100 .'IDR',
             'processURL'    => url('proccess')
         ];
-        $res = $this->send($this->url.'transaction-withdrawal.php',json_encode($data));
+        $res = $this->send($this->url.'merchant-withdrawal.php',json_encode($data));
         return response()->json(['status'=>200,'message'=>'Withdrawal in proceess','data'=>json_decode($res,true)]);
     }
 
@@ -133,7 +127,7 @@ class WithdrawController extends Controller
             'additionalMsg' => 'Tamakci Wthdrawl ' .$request->diamon. ' diamon = ' . $request->diamon * 100 .'IDR',
             'processURL'    => url('proccess')
         ];
-        $res = $this->send($this->url.'transaction-withdrawal.php',json_encode($data));
+        $res = $this->send($this->url.'merchant-withdrawal.php',json_encode($data));
         return response()->json(['status'=>200,'message'=>'Withdrawal in proceess','data'=>json_decode($res,true)]);
     }
 
