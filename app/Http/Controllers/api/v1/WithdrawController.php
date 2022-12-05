@@ -160,6 +160,15 @@ class WithdrawController extends Controller
                     'pakan'=>$wallet->pakan,
                     'hasil_ternak'=>$wallet->hasil_ternak
             ]);
+            Transaction::create([
+                'user_id' => $user->id,
+                'last_amount' => $wallet->diamon,
+                'trx_amount' => $request->diamon,
+                'final_amount'=> $wallet->diamon - $request->diamon,
+                'trx_type'=>'-',
+                'detail'=>'Withdrawal Diamon',
+                'trx_id' => $arr['result']['withdrawalNo']
+            ]);
             return response()->json([
                 'status'=> 200,
                 'msg'   => 'Withdrawl Success',
