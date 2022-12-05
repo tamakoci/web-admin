@@ -44,7 +44,7 @@ class WithdrawController extends Controller
                 'user_id'       => $user->id,
                 'bank_id'       => $request->bank_id,
                 'account_name'  => $request->account_name,
-                'account_number'=> $request->account_number,
+                'account_number'=> (string)$request->account_number,
                 'bank_city'     => $request->bank_city
             ]);
             return response()->json(['status'=>200,'message'=>'User Bank Created'],200);
