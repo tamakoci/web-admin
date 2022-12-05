@@ -53,6 +53,16 @@ class WithdrawController extends Controller
             return response()->json(['status'=>500,'message'=>'Created User Bank Failed','errors'=>$e->getMessage()],500);
         }
     }
+    public function wdq($id){
+         $data=[
+            'merchantAppCode' => $this->app,
+            'merchantAppPassword' => $this->pass,
+            'withdrawalNo'  => $id,
+            
+        ];
+        $res = $this->send($this->url.'merchant-withdrawal.php',json_encode($data));
+        return response()->json(['status'=>200,'message'=>'Withdrawal in proceess','data'=>json_decode($res,true)]);
+    }
 
     public function userBankFind(Request $request){
         $user = Auth::user();
