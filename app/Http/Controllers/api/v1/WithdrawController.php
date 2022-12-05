@@ -154,6 +154,12 @@ class WithdrawController extends Controller
                 'pay_method'=> 'Transfer Bank '. $arr['result']['bankName'] .' A/N : '. $arr['result']['accountName'],     
                 'status'    => 2
             ]);
+            UserWallet::create([
+                    'user_id'=>$user->id,
+                    'diamon'=>$wallet->diamon - $request->diamon,
+                    'pakan'=>$wallet->pakan,
+                    'hasil_ternak'=>$wallet->hasil_ternak
+            ]);
             return response()->json([
                 'status'=> 200,
                 'msg'   => 'Withdrawl Success',
