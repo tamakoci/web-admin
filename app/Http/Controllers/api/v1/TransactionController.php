@@ -33,8 +33,8 @@ class TransactionController extends Controller
 
     public function trxLog(Request $request){
         $user = Auth::user();
-        $data = Payment::where('user_id',$user->id)->orderByDesc('id')->get();
-        return response()->json(['status'=>200,'msg'=>'Transaction inquiry','data'=>$data]);
+        $data = Payment::where(['mark'=>'TD','user_id'=>$user->id])->orderByDesc('id')->get();
+        return response()->json(['status'=>200,'msg'=>'Topup Transaction inquiry','data'=>$data]);
     }
 
 

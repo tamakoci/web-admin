@@ -29,7 +29,14 @@ class WithdrawController extends Controller
         $data = Bank::all();
         return response()->json(['status'=>200,'message'=>'Bank List','data'=>$data],200);
     }
-     
+    
+    public function wdLog(){
+        $user = Auth::user();
+        $data = Payment::where(['mark'=>'WD','user_id'=>$user->id])->orderByDesc('id')->get();
+        return response()->json(['status'=>200,'msg'=>'Withdrawal inquiry','data'=>$data]);
+
+    }
+
     public function userBank(Request $request){
         $validate = Validator::make($request->all(),[
             'bank_id'       => 'required',

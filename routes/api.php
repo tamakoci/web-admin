@@ -51,6 +51,7 @@ Route::group(['prefix'=>'v1'],function(){
         Route::post('withdraw',[WithdrawController::class,'withdraw']);
         
         Route::get('trx-inquiry',[TransactionController::class,'trxLog']);
+        Route::get('wd-inquiry',[WithdrawController::class,'wdLog']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
 });
