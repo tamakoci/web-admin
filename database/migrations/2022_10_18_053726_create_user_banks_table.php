@@ -20,7 +20,7 @@ class CreateUserBanksTable extends Migration
             $table->string('account_name',50);
             $table->string('account_number',20);
             $table->boolean('regist')->default(false);
-            $table->string('bank_account')->nullable();
+            $table->string('bank_city')->nullable();
             $table->foreign('user_id')
                     ->references('id')
                     ->on('users')

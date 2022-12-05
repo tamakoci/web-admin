@@ -9,4 +9,12 @@ class Bank extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    protected $hidden = [
+        'status',
+        "created_at",
+        "updated_at"
+    ];
+    public function userbank(){
+        return $this->hasMany(UserBank::class);
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\api\v1\TernakController;
 use App\Http\Controllers\api\v1\TopupController;
 use App\Http\Controllers\api\v1\TransactionController;
 use App\Http\Controllers\api\v1\UserController;
+use App\Http\Controllers\api\v1\WithdrawController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::get('get-pakan-ternak/{id}',[TernakController::class,'getPakanTernak']);
     Route::get('test',[UserController::class,'getUserTernak']);
     Route::get('user-ternak-detail/{id}',[TernakController::class,'userTernakDetail']);
+    Route::get('bank-list',[WithdrawController::class,'bankList']);
 
     Route::group(['middleware' => ['jwt.verify']], function() {
         Route::post('buy-diamon',[TopupController::class,'buyDiamon']);
@@ -44,7 +46,10 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('tutor-update',[UserController::class,'updateTutor']);
         Route::get('user-ternak',[TernakController::class,'userTernak']);
         Route::post('market-sell',[MarketController::class,'sell']);
-
+        Route::post('user-bank-post',[WithdrawController::class,'userBank']);
+        Route::get('user-bank-get',[WithdrawController::class,'userBankFind']);
+        Route::post('withdraw',[WithdrawController::class,'withdraw']);
+        
         Route::get('trx-inquiry',[TransactionController::class,'trxLog']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
