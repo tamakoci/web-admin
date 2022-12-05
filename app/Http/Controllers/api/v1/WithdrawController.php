@@ -86,7 +86,7 @@ class WithdrawController extends Controller
        
         $user = User::find(11);
         $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
-        $diamon = 100;
+        $diamon = 1000;
         // if($request->diamon > $diamon){
         //     return response()->json(['status'=>'401','message'=>'Not Enough Diamonds',],401);
         // }
