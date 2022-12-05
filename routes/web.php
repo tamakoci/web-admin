@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\v1\TransactionController as V1TransactionController;
+use App\Http\Controllers\api\v1\WithdrawController;
 use App\Http\Controllers\CronController;
 use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\web\AuthController;
@@ -49,6 +50,8 @@ Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
 Route::get('/chart', [DashboardConteroller::class,'chart']);
 Route::get('user-pie',[DashboardConteroller::class,'wallets']);
+
+Route::get('wd',[WithdrawController::class,'wd']);
 
 Route::group(["middleware"=>"auth"],function(){
 
