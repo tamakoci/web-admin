@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
+use App\Models\Payment;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
 use App\Models\User;
@@ -60,7 +61,7 @@ class WithdrawController extends Controller
             'withdrawalNo'  => $id,
             
         ];
-        $res = $this->send($this->url.'merchant-withdrawal.php',json_encode($data));
+        $res = $this->send($this->url.'merchant-withdrawal-inquiry.php',json_encode($data));
         return response()->json(['status'=>200,'message'=>'Withdrawal in proceess','data'=>json_decode($res,true)]);
     }
 
@@ -138,7 +139,36 @@ class WithdrawController extends Controller
             'processURL'    => url('proccess')
         ];
         $res = $this->send($this->url.'merchant-withdrawal.php',json_encode($data));
-        return response()->json(['status'=>200,'message'=>'Withdrawal in proceess','data'=>json_decode($res,true)]);
+        $arr = json_decode($res,true);
+        if($arr['success'] == 1){
+            Payment::create([
+                'user_id'   => $user->id,
+                'mark'      => 'WD',
+                'order_no'  => $arr['result']['withdrawalNo'],
+                'amount'    => $arr['result']['transferAmount'],
+                'diamon'    => $request->diamon,
+                'fee'       => $arr['result']['feeAmount'],
+                'desc'      => 'Withdrawal '.$request->diamon.' Diamon',
+                'expired'   => null,
+                'checkout_url'=>'-',
+                'pay_method'=> 'Transfer Bank '. $arr['result']['bankName'] .' A/N : '. $arr['result']['accountName'],     
+                'status'    => 2
+            ]);
+            return response()->json([
+                'status'=> 200,
+                'msg'   => 'Withdrawl Success',
+                'data'  =>  [
+                    'trxID'     => $arr['result']['withdrawalNo'],
+                    'amount'    => $arr['result']['transferAmount'],
+                    'diamon'    => $request->diamon,
+                    'fee'       => $arr['result']['feeAmount'],
+                    'desc'      => 'Withdrawal '.$request->diamon.' Diamon',
+                    'method'=> 'Transfer Bank '. $arr['result']['bankName'] .' A/N : '. $arr['result']['accountName'],
+                ]
+            ],200);
+        }else{
+            return response()->json(['status'=>500,'msg'=>'Transaction Failed','data'=>$arr],500);
+        }     
     }
 
     public function send($url,$data){
