@@ -37,6 +37,14 @@ class TransactionController extends Controller
         return response()->json(['status'=>200,'msg'=>'Topup Transaction inquiry','data'=>$data]);
     }
 
+    public function trxDetails($id){
+        $data =  Payment::find($id);
+        if($data){
+            return response()->json(['status'=>200,'message'=>'Detail Transaction','data'=>$data],200);
+        }else{
+            return response()->json(['status'=>404,'message'=>'Data Not Found'],404);
+        }
+    }
 
     public function trxDiamon(Request $request){
         $validate = Validator::make($request->all(),[
