@@ -62,6 +62,7 @@ class AuthController extends Controller
                 User::createLevelUser($user->id);
             }
             Ternak::giveFreeTernak($user->id);
+            UserWallet::giveFreeDiamond($user->id);
             return response()->json([
                 'status'    => "200",
                 'message'   => 'User Sucessuly Registed',

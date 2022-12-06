@@ -13,6 +13,16 @@ class UserWallet extends Model
         "created_at",
         "updated_at"
     ];
+    public static function giveFreeDiamond($id,$qty = 500){
+        UserWallet::create([
+            'user_id'=>$id,
+            'diamon'=> $qty,
+            'pakan'=>0,
+            'hasil_ternak'=> json_encode(Product::produk())
+        ]);
+    }
+
+
     public static function getWallet(){
         return UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
     }

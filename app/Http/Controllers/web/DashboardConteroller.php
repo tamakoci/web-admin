@@ -18,9 +18,10 @@ class DashboardConteroller extends Controller
         return view('dashboard.index',$data);
     }
     public function user(){
+        $wallet = UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
         $data['title'] = 'Dashboard';
-        $data['diamon'] = '1.000';
-        $data['pakan'] = '5.000';
+        $data['diamon'] = $wallet->diamon;
+        $data['pakan'] = $wallet->pakan;
         return view('dashboard.user',$data);
     }
     public function chart(){

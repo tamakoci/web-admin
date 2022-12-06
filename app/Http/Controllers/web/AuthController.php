@@ -5,6 +5,7 @@ namespace App\Http\Controllers\web;
 use App\Http\Controllers\Controller;
 use App\Models\Ternak;
 use App\Models\User;
+use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,7 @@ class AuthController extends Controller
                 User::createLevelUser($user->id);
             }
             Ternak::giveFreeTernak($user->id);
+            UserWallet::giveFreeDiamond($user->id);
             return redirect()->intended('/login')->with('success','User Created');
 
         } catch (QueryException $e) {

@@ -45,7 +45,7 @@
                             {{-- <p class="mb-0 font-13">+2.5% from last week</p> --}}
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
-                            <i class='bx bxs-cart'></i>
+                            <i class='bx bxs-diamond'></i>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                             {{-- <p class="mb-0 font-13">+5.4% from last week</p> --}}
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
-                            <i class='bx bxs-wallet'></i>
+                            <i class='bx bxs-cookie'></i>
                         </div>
                     </div>
                 </div>
