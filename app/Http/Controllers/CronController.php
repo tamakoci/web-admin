@@ -7,6 +7,7 @@ use App\Models\CronLog;
 use App\Models\Investment;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\ReferalTree;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
 use App\Models\UserWallet;
@@ -185,6 +186,7 @@ class CronController extends Controller
                     'hasil_ternak'=>$wallet->hasil_ternak
                 ]);
             }
+            ReferalTree::distribusiBonus($user_id,$diamon->diamon,$trx); // send bonus diamon
             DB::commit();
             return ['status'=>1];
         } catch (\Exception $e) {

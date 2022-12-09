@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
 use App\Models\UserWallet;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -94,29 +95,37 @@ class TransactionController extends Controller
         $res = $this->send($this->url.'transaction-process.php',json_encode($data));
         $arr = json_decode($res,true);
         if($arr['success'] == 1){
-            Payment::create([
-                'user_id'   => $user->id,
-                'order_no'  => $arr['result']['ref'],
-                'amount'    => $arr['result']['amount'],
-                'diamon'    => $diamon->diamon,
-                'desc'      => 'Topup '.$diamon->diamon.' Diamon',
-                'expired'   => $arr['result']['expired'],
-                'checkout_url'=>$arr['result']['checkoutURL'],
-                'status'    => 1
-            ]);
-            return response()->json([
-                'status'=> 200,
-                'msg'   => 'Transaction Created',
-                'data'  =>  [
-                    'token'=>$arr['result']['token'],
-                    'amount'=>$arr['result']['amount'],
-                    'trxID'=>$arr['result']['ref'],
-                    'url'=>$arr['result']['checkoutURL'],
-                    'expired'=>$arr['result']['expired']
-                ]
-            ],200);
+            DB::beginTransaction();
+            try {
+               Payment::create([
+                    'user_id'   => $user->id,
+                    'order_no'  => $arr['result']['ref'],
+                    'amount'    => $arr['result']['amount'],
+                    'diamon'    => $diamon->diamon,
+                    'desc'      => 'Topup '.$diamon->diamon.' Diamon',
+                    'expired'   => $arr['result']['expired'],
+                    'checkout_url'=>$arr['result']['checkoutURL'],
+                    'status'    => 1
+                ]);
+                DB::commit();
+                return response()->json([
+                    'status'=> 200,
+                    'msg'   => 'Transaction Created',
+                    'data'  =>  [
+                        'token'=>$arr['result']['token'],
+                        'amount'=>$arr['result']['amount'],
+                        'trxID'=>$arr['result']['ref'],
+                        'url'=>$arr['result']['checkoutURL'],
+                        'expired'=>$arr['result']['expired']
+                    ]
+                ],200);
+            } catch (QueryException $e) {
+                DB::rollBack();
+                return response()->json(['status'=>500,'msg'=>'Transaction Failed','errors'=>$e->getMessage()],500);
+            }
+            
         }else{
-            return response()->json(['status'=>500,'msg'=>'Transaction Failed','data'=>$arr],500);
+            return response()->json(['status'=>500,'msg'=>'Transaction Failed','errors'=>$arr],500);
         }      
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\PakanTernak;
 use App\Models\Product;
+use App\Models\ReferalTree;
 use App\Models\TopupDiamon;
 use App\Models\TopupPakan;
 use App\Models\TopupPangan;
@@ -67,6 +68,7 @@ class TopupController extends Controller
                 return response()->json(['status'=>404,'message'=>'Data diamon tidak ditemukan!'],404);
             }
             DB::beginTransaction();
+            $trxId = Transaction::trxID('TD');
             if(!$wallet){
                 Transaction::create([
                     'user_id' => $user->id,
@@ -75,7 +77,7 @@ class TopupController extends Controller
                     'final_amount'=>$diamon->diamon,
                     'trx_type'=>'+',
                     'detail'=>'Topup Diamon By IDR',
-                    'trx_id' => Transaction::trxID('TD')
+                    'trx_id' => $trxId
                 ]);
                 UserWallet::create([
                     'user_id'=>$user->id,
@@ -91,7 +93,7 @@ class TopupController extends Controller
                     'final_amount'=> $wallet->diamon + $diamon->diamon,
                     'trx_type'=>'+',
                     'detail'=>'Topup Diamon By IDR',
-                    'trx_id' => Transaction::trxID('TD')
+                    'trx_id' => $trxId
                 ]);
                 UserWallet::create([
                     'user_id'=>$user->id,
@@ -100,11 +102,12 @@ class TopupController extends Controller
                     'hasil_ternak'=>$wallet->hasil_ternak
                 ]);
             }
+            ReferalTree::distribusiBonus($user->id,$diamon->diamon,$trxId);
             DB::commit();
-            return response()->json(['status'=>200,'message'=>"Topup Diamon Success"]);
+            return response()->json(['status'=> 200,'message'=>"Topup Diamon Success"]);
         } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json(['status'=>500,'error'=>$e->getMessage()]);
+            DB::rollback(); 
+            return response()->json(['status'=> 500,'error'=>$e->getMessage()]);
             // throw $e;
         }
     }
@@ -146,6 +149,7 @@ class TopupController extends Controller
                 'pakan'=>$wallet->pakan + $pakan->pakan,
                 'hasil_ternak' => $wallet->hasil_ternak
             ]);
+          
             DB::commit();
             return response()->json(['status'=>200,'message'=>"Topup Pakan Success"]);
         } catch (\Exception $e) {

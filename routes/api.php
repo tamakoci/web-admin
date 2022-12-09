@@ -4,6 +4,8 @@ use App\Http\Controllers\api\v1\AuthController;
 use App\Http\Controllers\api\v1\BeriPakanController;
 use App\Http\Controllers\api\v1\MarketController;
 use App\Http\Controllers\api\v1\ProdukTernakController;
+use App\Http\Controllers\api\v1\ReferalsCntroller;
+use App\Http\Controllers\api\v1\ReferalsController;
 use App\Http\Controllers\api\v1\TernakController;
 use App\Http\Controllers\api\v1\TopupController;
 use App\Http\Controllers\api\v1\TransactionController;
@@ -51,6 +53,8 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('user-bank-get',[WithdrawController::class,'userBankFind']);
         Route::post('withdraw',[WithdrawController::class,'withdraw']);
         
+        Route::get('referals',[ReferalsController::class,'index']);
+        Route::get('collect-bonus/{id}',[ReferalsController::class,'collectBonus']);
         Route::get('trx-inquiry',[TransactionController::class,'trxLog']);
         Route::get('wd-inquiry',[WithdrawController::class,'wdLog']);
         Route::get('logout', [AuthController::class, 'logout']);
