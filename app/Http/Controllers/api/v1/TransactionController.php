@@ -37,6 +37,33 @@ class TransactionController extends Controller
         $data = Payment::where(['mark'=>'TD','user_id'=>$user->id])->orderByDesc('id')->get();
         return response()->json(['status'=>200,'msg'=>'Topup Transaction inquiry','data'=>$data]);
     }
+    public function trxLogV2(Request $request){
+        $user = Auth::user();
+        $pay = Payment::where(['mark'=>'TD','user_id'=>$user->id])->orderByDesc('id')->limit(5)->get();
+        $data = [];
+        foreach ($pay as $key => $value) {
+            if($value->status == 1){
+                $status = 'Transaction Created';
+            }elseif($value->status == 2){
+                $status = 'Transaction Success';
+            }else{
+                $status = 'Transaction Expired';
+            }
+            $data[] = [
+                'id'        => $value->id,
+                'user_id'   => $value->user_id,
+                'mark'      => $value->mark=='TD' ? 'Topup Diamon':'-',
+                'order_no'  => $value->order_no,
+                'amount'    => $value->amount,
+                'diamon'    => $value->diamon,
+                'desc'      => $value->desc,
+                'expired'   => $value->expired,
+                'checkout_url'=>$value->checkout_url,
+                'status'    => $status
+            ];
+        }
+        return response()->json(['status'=>200,'msg'=>'Topup Transaction inquiry V2','data'=>$data]);
+    }
 
     public function trxDetails($id){
         $data =  Payment::find($id);

@@ -63,5 +63,7 @@ Route::group(['prefix'=>'v1'],function(){
 
 Route::group(['prefix'=>'v2','middleware' => ['jwt.verify']],function(){
     Route::post('buy-diamon',[TransactionController::class,'trxDiamon']);
+    Route::get('trx-inquiry',[TransactionController::class,'trxLogV2']);
+
 });
 
