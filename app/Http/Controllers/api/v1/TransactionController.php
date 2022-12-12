@@ -73,6 +73,23 @@ class TransactionController extends Controller
             return response()->json(['status'=>404,'message'=>'Data Not Found'],404);
         }
     }
+     public function trxDetailsV2($id){
+        $log =  Payment::find($id);
+        if($log){
+            if($log->status == 1){
+                $status = 'Transaction Created';
+            }elseif($log->status == 2){
+                $status = 'Transaction Success';
+            }else{
+                $status = 'Transaction Expired';
+            }
+            $log['mark'] = $log->mark == 'TD' ? 'Topup Diamon':'Withdraw Diamon';
+            $log['status'] = $status;
+            return response()->json(['status'=>200,'message'=>'Detail Transaction','data'=>$log],200);
+        }else{
+            return response()->json(['status'=>404,'message'=>'Data Not Found'],404);
+        }
+    }
 
     public function trxDiamon(Request $request){
         $validate = Validator::make($request->all(),[
