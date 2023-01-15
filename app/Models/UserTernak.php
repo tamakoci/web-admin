@@ -18,16 +18,13 @@ class UserTernak extends Model
     public function stsPakan(){
         return $this->hasOne(Investment::class,'id')->latest();
     }
-    // protected $hidden = [
-    //     'created_at',
-    //     'updated_at',
-    // ];
+
     public static function getUserTernak(){
         $user = auth()->user();
         $data = [];
         // cek relasi;
         // $investment = UserTernak('')
-        $ternak = UserTernak::with('ternak')->where(['user_id'=> $user->id])->get();
+        $ternak = UserTernak::with('ternak')->where(['user_id'=> $user->id,'status'=>1])->get();
         foreach ($ternak as $key => $value) {
 
             $invest  = Investment::where(['user_ternak'=>$value->id])->orderByDesc('id')->first();

@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ReferalTree;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
+use App\Models\UserTernak;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +84,7 @@ class CronController extends Controller
                     'flag'=>'Cron produksi ternak',
                     'note'=>$e->getMessage(),
                 ]);
-                dd($e->getMessage());
+               
             }
             
         }
@@ -142,6 +143,70 @@ class CronController extends Controller
         }
     }
 
+    public function umurTernak(){
+        $ternak = UserTernak::with(['ternak'])->get();
+        $update = 1;
+        foreach ($ternak as $key => $value) {
+           
+            if (date('Y-m-d H:i:s') > date('Y-m-d H:i:s',strtotime($value->buy_date."+".$value->ternak->duration ." days"))) {
+                // UserTernak::find($value->id)->update([
+                //     'status' => 0
+                // ]);
+                $userTernak = UserTernak::with(['ternak','ternak.produk'])->find($value->id);
+                $invest = Investment::with('userTernak')->where('user_ternak',$value->id)->first();
+                if ($invest) {
+                    $wallet = UserWallet::getWalletUserId($invest->user_id);
+                    $hasil_ternak = json_decode($wallet->hasil_ternak);
+                    $array = (array)$hasil_ternak;
+                    $produkId = $userTernak->ternak->produk->id;
+                    $productInWallet = $array[$produkId]->qty;
+                    $total      = $invest->commision;
+                    $remain     = $invest->remains;
+                    $collected  = $invest->collected;
+                    $kurang     = $remain + $collected;
+
+                    if($invest->userTernak->ternak_id == 4){
+                        $finalProduc = $productInWallet + $total;
+                        $array[$produkId]->qty = $finalProduc;
+                        UserWallet::create([
+                            'user_id'=>$invest->user_id,
+                            'diamon'=>$wallet->diamon,
+                            'pakan'=>$wallet->pakan,
+                            'hasil_ternak' => json_encode($array)
+                        ]);
+                        $invest->update([
+                            'collected' => $total,
+                            'status'    => 0
+                        ]);
+                        
+                    }else{
+                        $finalProduc = $productInWallet + ($total - $kurang);
+                        $array[$produkId]->qty = $finalProduc;
+                        UserWallet::create([
+                            'user_id'=>$invest->user_id,
+                            'diamon'=>$wallet->diamon,
+                            'pakan'=>$wallet->pakan,
+                            'hasil_ternak' => json_encode($array)
+                        ]);
+                        $invest->update([
+                            'collected' => $total - $kurang,
+                            'status'    => 0
+                        ]);
+                    };
+                }
+                $userTernak->update([
+                        'status' => 0
+                ]);
+                $update += 1;
+            }
+        }
+        $jam =  date("H");
+        $tanggal =  date("d M");
+        CronLog::create([
+            'remains' => $jam,
+            'note'    => 'cron update umur ternak tanggal '.$tanggal .' jam ke '.$jam . ' success update ' . $update . ' record'
+        ]);
+    }
     
     public function sendDiamon($diamon,$user_id,$trx)
     { 

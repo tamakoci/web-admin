@@ -21,7 +21,7 @@ class ProdukTernakController extends Controller
         if($validate->fails()){
             return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
         }
-        $invest = Investment::where('user_ternak',$request->user_ternak_id)->orderByDesc('id')->first();
+        $invest = Investment::where('user_ternak',$request->user_ternak_id)->first();
         if(!$invest){
             return response()->json(['status'=>'401','message'=>'User Ternak Not Found',],401);
         }

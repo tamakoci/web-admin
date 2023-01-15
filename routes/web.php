@@ -19,6 +19,7 @@ use App\Http\Controllers\web\TopupPakanController;
 use App\Http\Controllers\web\TopupPanganController;
 use App\Http\Controllers\web\TransactionController;
 use App\Http\Controllers\web\UserController;
+use App\Models\UserTernak;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -32,6 +33,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
 Route::get('/cron-status-transaksi',[CronController::class,'trxStatus']);
 
