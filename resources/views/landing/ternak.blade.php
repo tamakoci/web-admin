@@ -8,19 +8,19 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="team-item mt-40">
                     <div class="team-thumb">
                         <img src="{{ asset('') }}/land/img/ayam.png" alt="team">
                     </div>
-                    <div class="team-content text-center">
+                    <div class="team-content">
                         <h4 class="title">Ayam</h4>
                         <span>Menghasilkan telur setara 1 diamond</span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            {{-- <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="team-item mt-40">
                     <div class="team-thumb">
                         <img src="{{ asset('') }}/land/img/sapi.png" alt="team">
@@ -41,7 +41,7 @@
                         <span>Menghasilkan daging setara 1000 diamond</span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="banefits-color-2">

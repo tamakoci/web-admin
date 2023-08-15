@@ -8,7 +8,8 @@
                         <div class="navigation">
                             <div class="container">
                                 <nav class="navbar navbar-expand-lg navbar-light ">
-                                    <a class="navbar-brand text-light text-Logo" href="{{ url('/') }}">TAMAKOCI.</a>
+                                    <a class="navbar-brand text-light text-Logo" href="{{ url('/') }}"><img
+                                            src="{{ asset('ayamku.png') }}" alt="" style="width:180px"></a>
                                     <!-- logo -->
                                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

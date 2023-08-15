@@ -9,8 +9,8 @@
                     <div class="container">
                         <div class="crypten-trade-content">
                             <h3 class="text-light mt-3">Penghasilan Lebih.</h3>
-                            <p>Jadilah juragan Ternak sekarang juga, mulai promosikan Tamakoci di semua akun sosial
-                                media kamu, ajak teman, keluarga untuk beternak di Tamakoci, setiap mereka yang membeli
+                            <p>Jadilah juragan Ternak sekarang juga, mulai promosikan Ayamku di semua akun sosial
+                                media kamu, ajak teman, keluarga untuk beternak di Ayamku, setiap mereka yang membeli
                                 hewan ternak maka kamu akan mendapatkan bonus level komisi dari harga hewan yang dibeli.
                             </p>
                             <p>Syarat:</p>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="banner-area bg_cover"
-                        style="background-image:  linear-gradient(to right, rgba(43, 53, 109, 0.226), rgb(49, 23, 104)), url({{ asset('') }}/land/img/bisnisman.webp);  border-radius: 25px;">
+                        style="background-image:  linear-gradient(to right, rgba(43, 53, 109, 0.226), rgb(49, 23, 104)), url({{ asset('') }}/ayam.jpg);  border-radius: 25px;">
                     </div>
                 </div>
             </div>

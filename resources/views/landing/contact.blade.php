@@ -4,7 +4,7 @@
             <div class="col-lg-6">
                 <div class="section-title text-center">
                     <span>Get in touch</span>
-                    <h3 class="title">Contact Tamakoci</h3>
+                    <h3 class="title">Contact Ayamku</h3>
                     <p>Have any question? Write to us and we’ll get back to you shortly.</p>
                     <ul>
                         <li><a href="tel:+61383766284"><img src="{{ asset('') }}/land/images/icon/icon-7.png"

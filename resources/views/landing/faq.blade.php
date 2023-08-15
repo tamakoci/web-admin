@@ -30,13 +30,13 @@
                                     data-wow-delay="0ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is TAMAKOCI </h4>
+                                            <h4>What is AYAMKU </h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
+                                                <p>AYAMKU is a utility token based on the ERC20 standard. All
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -46,13 +46,13 @@
                                     data-wow-delay="300ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is TAMAKOCI Token?</h4>
+                                            <h4>What is AYAMKU Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
                                                 <p>TAMAKOC is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheAYAMKU token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -62,13 +62,13 @@
                                     data-wow-delay="600ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is the price of the TAMAKOCI Token?</h4>
+                                            <h4>What is the price of the AYAMKU Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
+                                                <p>AYAMKU is a utility token based on the ERC20 standard. All
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -82,9 +82,9 @@
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
+                                                <p>AYAMKU is a utility token based on the ERC20 standard. All
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -100,13 +100,13 @@
                                     data-wow-delay="0ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is TAMAKOCI </h4>
+                                            <h4>What is AYAMKU </h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
+                                                <p>AYAMKU is a utility token based on the ERC20 standard. All
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -116,13 +116,13 @@
                                     data-wow-delay="300ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is TAMAKOCI Token?</h4>
+                                            <h4>What is AYAMKU Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
                                                 <p>TAMAKOC is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -132,13 +132,13 @@
                                     data-wow-delay="600ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is the price of the TAMAKOCI Token?</h4>
+                                            <h4>What is the price of the AYAMKU Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
                                                 <p>TAMAKOC is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheAYAMKU token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -153,8 +153,8 @@
                                         <div class="accrodion-content">
                                             <div class="inner">
                                                 <p>TAMAKOC is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheAYAMKU token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -170,13 +170,13 @@
                                     data-wow-delay="0ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is TAMAKOCI </h4>
+                                            <h4>What is AYAMKU </h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
                                                 <p>TAMAKOC is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheAYAMKU token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -190,9 +190,9 @@
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>TAMAKOCI is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
+                                                <p>AYAMKU is a utility token based on the ERC20 standard. All
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -202,13 +202,13 @@
                                     data-wow-delay="600ms">
                                     <div class="accrodion-inner">
                                         <div class="accrodion-title">
-                                            <h4>What is the price of the TAMAKOCI Token?</h4>
+                                            <h4>What is the price of the AYAMKU Token?</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
                                                 <p>TAMAKOC is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOCI token will be freely tradable on major
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheAYAMKU token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>
@@ -223,8 +223,8 @@
                                         <div class="accrodion-content">
                                             <div class="inner">
                                                 <p>TAMAKOC is a utility token based on the ERC20 standard. All
-                                                    transactions on the TAMAKOCI platform will be carried out in
-                                                    TAMAKOCI. TheTAMAKOC token will be freely tradable on major
+                                                    transactions on the AYAMKU platform will be carried out in
+                                                    AYAMKU. TheTAMAKOC token will be freely tradable on major
                                                     exchanges and is fully compatible with Ethereum wallets.</p>
                                             </div><!-- /.inner -->
                                         </div>

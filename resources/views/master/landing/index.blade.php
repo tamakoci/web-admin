@@ -13,7 +13,7 @@
     <title>{{ $title }} - Tamakoci</title>
 
     <!--favicon-->
-    <link rel="icon" href="{{ asset('') }}logo.png" type="image/png" />
+    <link rel="icon" href="{{ asset('') }}ayamku.png" type="image/png" />
 
     <!--====== Bootstrap css ======-->
     <link rel="stylesheet" href="{{ asset('') }}/land/css/bootstrap.min.css">

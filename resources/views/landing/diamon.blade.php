@@ -18,28 +18,28 @@
                         <div class="crypten-trade-content">
                             {{-- <span>HASILKAN DIAMOND.</span> --}}
                             <h3 class="title">BELI HEWAN & BERI PAKAN</h3>
-                            <p>Tamakoci adalah virtual game peternakan yang sepenuhnya interaktif di mana pemain merawat
-                                dan memberikan makan hewan dan mendapatkan produksi telur, susu dan daging sebagai
+                            <p>Ayamku adalah virtual game peternakan yang sepenuhnya interaktif di mana pemain merawat
+                                dan memberikan makan hewan dan mendapatkan produksi telur sebagai
                                 hasilnya. </p>
                             <p>Ada berbagai kesenangan dari interaksi virtual dari tumbuh kembang nya hewan dan
-                                menghasilkan produk susu, telur, daging yang dapat di jual untuk menghasilkan diamond.
+                                menghasilkan telur yang dapat di jual untuk menghasilkan diamond.
                             </p>
                             <p>Daftar akun baru, dapatkan Gratis 500 Diamond tanpa syarat.</p>
                             <div class="trade-item mt-30">
                                 <img src="{{ asset('') }}/land/images/icon/trade-icon-1.png" alt="">
-                                <h5 class="title">1. HASILKAN TELUR, SUSU & DAGING</h5>
+                                <h5 class="title">1. HASILKAN TELUR</h5>
                                 <p>Dengan membeli ternak dan memberinya makan, ternak kamu dapat menghailkan produk yang
                                     nanti kamu dapat jual lho.</p>
                             </div>
                             <div class="trade-item mt-30">
                                 <img src="{{ asset('') }}/land/images/icon/trade-icon-2.png" alt="">
-                                <h5 class="title">2. HASILKAN DIAMOND</h5>
+                                <h5 class="title">2. DAPATKAN DIAMOND</h5>
                                 <p>Di pasar saat ini banyak membutuhkan produk peternakan, dengan menjualnya ke pasar
                                     kamu akan memperoleh sejumlah diamon.</p>
                             </div>
                             <div class="trade-item mt-30">
                                 <img src="{{ asset('') }}/land/images/icon/trade-icon-3.png" alt="">
-                                <h5 class="title">3. TUKAR DIAMOND </h5>
+                                <h5 class="title">3. TUKARAN DIAMOND </h5>
                                 <p>Diamon yang kamu miliki itu nantinya kamu dapat reedem atau tukarkan dengan rupiah.
                                     Ayo mulai bisnismu</p>
                             </div>
