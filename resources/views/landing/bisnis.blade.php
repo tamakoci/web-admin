@@ -14,8 +14,8 @@
                                 hewan ternak maka kamu akan mendapatkan bonus level komisi dari harga hewan yang dibeli.
                             </p>
                             <p>Syarat:</p>
-                            <p>1. Sebelum membagikan iD Pedagang kamu, pastikan kamu Wajib membeli minimal 1 Sapi per
-                                serial bulan nya, dewan ini sangat berguna untuk aktivasi ID Pedagang Bisnis kamu per 30
+                            <p>1. Sebelum membagikan ID Pedagang kamu, pastikan kamu Wajib membeli minimal 1 ayam per
+                                serial bulan nya, ayam ini sangat berguna untuk aktivasi ID Pedagang Bisnis kamu per 30
                                 Hari.</p>
                             <p>2. Bagikan kode ID Pedagang kamu ke calon downline kamu, setiap dari mereka yang membeli
                                 hewan ternak, maka kamu akan mendapatkan komisi tergantung level member anda.
@@ -23,12 +23,12 @@
                                 <li>
                                     Ayam seharga Rp.45.000 durasi 30 hari.
                                 </li>
-                                <li>
+                                {{-- <li>
                                     Sapi seharga Rp.450.000 durasi 30 hari.
                                 </li>
                                 <li>
                                     Domba seharga Rp.250.000 durasi 7 hari.
-                                </li>
+                                </li> --}}
                             </ul>
                             <ul class="text-style">
                                 <li>
@@ -42,8 +42,8 @@
                                 </li>
                             </ul>
                             </p>
-                            <p>3. Komisi anda dapat dicairkan jika anda terms membeli sapi di per setiap 30 Hari,
-                                pastikan usia sapi anda 3 Hari sebelum habis anda sudah membeli sapi baru, agar komisi
+                            <p>3. Komisi anda dapat dicairkan jika anda terms membeli ayam di per setiap 30 Hari,
+                                pastikan usia ayam anda 3 Hari sebelum habis anda sudah membeli ayam baru, agar komisi
                                 bisnis ini akan terus masuk ke wallet anda</p>
                         </div>
                     </div>

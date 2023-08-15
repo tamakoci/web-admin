@@ -7,7 +7,7 @@
                 <div class="col-lg-5 col-md-8">
                     <div class="login-box">
                         <div class="login-title text-center">
-                            <img src="{{ asset('logo.png') }}" alt="logo" style="max-width: 300px">
+                            <img src="{{ asset('ayamku.png') }}" alt="logo" style="max-width: 300px">
                         </div>
                         <div class="login-input">
                             <form action="{{ url('login-post') }}" method="POST">
