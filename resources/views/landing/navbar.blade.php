@@ -34,12 +34,12 @@
                                             <li class="nav-item">
                                                 <a class="nav-link" href="#ternak">Ternak</a>
                                             </li>
-                                            <li class="nav-item">
+                                            {{-- <li class="nav-item">
                                                 <a class="nav-link" href="#faq">FAQ</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="#bisnis">Bisnis</a>
-                                            </li>
+                                            </li> --}}
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{ url('/login') }}">Login</a>
                                             </li>

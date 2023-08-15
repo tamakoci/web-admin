@@ -19,18 +19,18 @@
                                 Hari.</p>
                             <p>2. Bagikan kode ID Pedagang kamu ke calon downline kamu, setiap dari mereka yang membeli
                                 hewan ternak, maka kamu akan mendapatkan komisi tergantung level member anda.
-                            <ul class="text-style">
+                                {{-- <ul class="text-style">
                                 <li>
                                     Ayam seharga Rp.45.000 durasi 30 hari.
                                 </li>
-                                {{-- <li>
+                                <li>
                                     Sapi seharga Rp.450.000 durasi 30 hari.
                                 </li>
                                 <li>
                                     Domba seharga Rp.250.000 durasi 7 hari.
-                                </li> --}}
-                            </ul>
-                            <ul class="text-style">
+                                </li>
+                            </ul> --}}
+                                {{-- <ul class="text-style">
                                 <li>
                                     Level 1 = 30%
                                 </li>
@@ -40,7 +40,7 @@
                                 <li>
                                     Level 3 = 10%
                                 </li>
-                            </ul>
+                            </ul> --}}
                             </p>
                             <p>3. Komisi anda dapat dicairkan jika anda terms membeli ayam di per setiap 30 Hari,
                                 pastikan usia ayam anda 3 Hari sebelum habis anda sudah membeli ayam baru, agar komisi

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!--====== Title ======-->
-    <title>{{ $title }} - Tamakoci</title>
+    <title>{{ $title }} - Ayamku.</title>
 
     <!--favicon-->
     <link rel="icon" href="{{ asset('') }}ayamku.png" type="image/png" />

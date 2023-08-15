@@ -96,12 +96,12 @@
     <!--====== TEAM PART ENDS ======-->
 
     <!--====== FAQ PART START ======-->
-    @include('landing.faq')
+    {{-- @include('landing.faq') --}}
     <!--====== FAQ PART ENDS ======-->
 
     <!--====== BISNIS PART START ======-->
 
-    @include('landing.bisnis')
+    {{-- @include('landing.bisnis') --}}
 
     <!--====== BISNIS PART ENDS ======-->
 

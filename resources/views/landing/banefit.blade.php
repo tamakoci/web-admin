@@ -3,8 +3,8 @@
         <div class="row justify-content-center mt-n5">
             <div class="col-lg-7">
                 <div class="section-title text-center">
-                    <span>benefits </span>
-                    <h3 class="title">Get to Know Our Ecosystem’s Key Features & Benefits</h3>
+                    <span>Manfaat</span>
+                    <h3 class="title">Kenali Fitur & Manfaat Utama Ekosistem Kami</h3>
                 </div>
             </div>
         </div>
