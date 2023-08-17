@@ -50,7 +50,10 @@ Route::get('/',[LandingController::class,'index']);
 Route::get('/login', [AuthController::class,'loginView'])->name('login');
 Route::post('/login-post',[AuthController::class,'loginPost']);
 Route::post('/login-post-masterplan',[AuthController::class,'loginPost']);
-Route::get('/register', [AuthController::class,'registView']);
+Route::get('/register', function(){
+    return redirect('login');
+});
+// Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
 Route::post('/register-post-masterplan',[AuthController::class,'loginPostMasterplan'])->name('regist.masterplan');
 
