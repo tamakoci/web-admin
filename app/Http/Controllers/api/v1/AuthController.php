@@ -134,6 +134,46 @@ class AuthController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    public function masterplanAuthenticate(Request $request){
+        $user = User::where('username',$request->username)->first();
+        if(!$user){
+            return response()->json([
+                'status'=>401,
+                'message' => 'Error Validation',
+                'errors'=> [
+                    'username' => ['Username not found']
+                ]],401);
+        }
+        if(!Hash::check($request->password,$user->password)){
+            return response()->json([
+                'status' => 401,
+                'message' => 'Error Validation',
+                'errors'=> [
+                    'password' => ['Wrong password']
+                ]],401);
+        }
+        
+        try {
+            if(!$token = JWTAuth::attempt($request->all())){
+                return response()->json([
+                	'status' => "401",
+                	'message' => 'Login credentials are invalid.',
+                    'token' => '-'
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+        } catch (JWTException $e) {
+            // return $credentials;
+            return response()->json([
+                	'status' => 500,
+                	'message' => 'Could not create token: '.$e->getMessage(),
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'Login Success',
+            'token' => $token
+        ]);
+    }
     public function authenticate(Request $request){
         $validator = Validator::make($request->all(),[
             'username' => 'required',

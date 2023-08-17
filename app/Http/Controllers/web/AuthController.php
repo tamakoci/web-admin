@@ -98,6 +98,7 @@ class AuthController extends Controller
         return redirect()->back()->with('error',"Login Gagal !");
 
     }
+    
     public function loginPostMasterplan(Request $request){
         $user = User::where('username',$request->username)->first();
         if ($user) {

@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix'=>'v1'],function(){
     
     Route::post('register-masterplan',[AuthController::class,'masterplanRegister']);
+    Route::post('login-masterplan', [AuthController::class, 'masterplanAuthenticate']);
 
     Route::post('login', [AuthController::class, 'authenticate']);
     Route::post('register', [AuthController::class, 'register']);
