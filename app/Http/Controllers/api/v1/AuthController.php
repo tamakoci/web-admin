@@ -135,31 +135,18 @@ class AuthController extends Controller
         }
     }
     public function masterplanAuthenticate(Request $request){
-        $user = User::where('username',$request->username)->first();
-        if(!$user){
-            return response()->json([
-                'status'=>401,
-                'message' => 'Error Validation',
-                'errors'=> [
-                    'username' => ['Username not found']
-                ]],401);
+        $username = $request->input('username');
+
+        // Find the user by username
+        $user = \App\Models\User::where('username', $username)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
         }
+
+        // Authenticate the user and generate a JWT token
+        $token = JWTAuth::fromUser($user);
         
-        try {
-            if(!$token = JWTAuth::attempt($request->all())){
-                return response()->json([
-                	'status' => "401",
-                	'message' => 'Login credentials are invalid.',
-                    'token' => '-'
-                ], Response::HTTP_UNAUTHORIZED);
-            }
-        } catch (JWTException $e) {
-            // return $credentials;
-            return response()->json([
-                	'status' => 500,
-                	'message' => 'Could not create token: '.$e->getMessage(),
-                ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
         return response()->json([
             'status' => 200,
             'message' => 'Login Success',
