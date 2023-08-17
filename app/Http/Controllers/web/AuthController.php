@@ -99,45 +99,13 @@ class AuthController extends Controller
 
     }
     public function loginPostMasterplan(Request $request){
-        $validator = Validator::make($request->all(),[
-            'username' => 'required',
-            'password' => 'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Error Validation',
-                'errors' => $validator->getMessageBag()
-            ],Response::HTTP_UNAUTHORIZED);
-        }
         $user = User::where('username',$request->username)->first();
-        if(!$user){
-            $user = User::where('email',$request->username)->first();
+        if ($user) {
+            Auth::login($user);
+            return redirect()->intended('user/dashboard')->with('success','Selamat Datang Kembali');
+        } else {
+            return redirect('/login')->with('error', 'User not found');
         }
-        $errors = [];
-        // return response()->json(['data'=>$request->username]);
-        if(!$user){
-            return response()->json([
-                'status'=>401,
-                'message' => 'Error Validation',
-                'errors'=> [
-                    'username' => ['Username not found']
-                ]],401);
-        }
-        if(!Hash::check($request->password,$user->password)){
-            return response()->json([
-                'status' => 401,
-                'message' => 'Error Validation',
-                'errors'=> [
-                    'password' => ['Wrong password']
-                ]],401);
-        }
-        $request->session()->regenerate();
-        return response()->json([
-            'status' => 200,
-            'message' => 'Login Success',
-            'url' => env('APP_URL').'user/dashboard'
-        ]);
     }
     
     public function logout(Request $request){

@@ -52,7 +52,7 @@ Route::post('/login-post',[AuthController::class,'loginPost']);
 Route::post('/login-post-masterplan',[AuthController::class,'loginPost']);
 Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
-Route::post('/register-post-masterplan',[AuthController::class,'registPost'])->name('regist');
+Route::post('/register-post-masterplan',[AuthController::class,'loginPostMasterplan'])->name('regist.masterplan');
 
 Route::get('/chart', [DashboardConteroller::class,'chart']);
 Route::get('user-pie',[DashboardConteroller::class,'wallets']);
