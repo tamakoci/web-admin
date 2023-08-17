@@ -144,14 +144,6 @@ class AuthController extends Controller
                     'username' => ['Username not found']
                 ]],401);
         }
-        if(!Hash::check($request->password,$user->password)){
-            return response()->json([
-                'status' => 401,
-                'message' => 'Error Validation',
-                'errors'=> [
-                    'password' => ['Wrong password']
-                ]],401);
-        }
         
         try {
             if(!$token = JWTAuth::attempt($request->all())){
