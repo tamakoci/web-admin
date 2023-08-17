@@ -13,7 +13,7 @@ class UserWallet extends Model
         "created_at",
         "updated_at"
     ];
-    public static function giveFreeDiamond($id,$qty = 500){
+    public static function giveFreeDiamond($id,$qty = 0){
         UserWallet::create([
             'user_id'=>$id,
             'diamon'=> $qty,

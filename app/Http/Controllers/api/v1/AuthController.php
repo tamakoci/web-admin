@@ -57,7 +57,7 @@ class AuthController extends Controller
             if($referal != null){
                 User::createLevelUser($user->id);
             }
-            Ternak::giveFreeTernak($user->id);
+            // Ternak::giveFreeTernak($user->id);
             UserWallet::giveFreeDiamond($user->id,$gems);
             DB::commit();
             return response()->json([
@@ -117,7 +117,7 @@ class AuthController extends Controller
             if($referal != null){
                 User::createLevelUser($user->id);
             }
-            Ternak::giveFreeTernak($user->id);
+            // Ternak::giveFreeTernak($user->id);
             UserWallet::giveFreeDiamond($user->id);
             DB::commit();
             return response()->json([
