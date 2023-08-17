@@ -141,7 +141,10 @@ class AuthController extends Controller
         $user = \App\Models\User::where('username', $username)->first();
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found'
+            ], 404);
         }
 
         // Authenticate the user and generate a JWT token

@@ -29,14 +29,5 @@ class DatabaseSeeder extends Seeder
             'dm'        => 1,
             'status'    => 1
         ]);
-        Ternak::create([
-            'ternaks'   => 'Ayam',
-            'price'     => '10000',
-            'duration'  => 30,
-            'produk_id' => 1,
-            'avatar'    => 
-        ])
-
-        
     }
 }
