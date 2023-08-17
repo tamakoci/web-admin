@@ -8,8 +8,10 @@ use App\Models\User;
 use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -96,6 +98,48 @@ class AuthController extends Controller
         return redirect()->back()->with('error',"Login Gagal !");
 
     }
+    public function loginPostMasterplan(Request $request){
+        $validator = Validator::make($request->all(),[
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Error Validation',
+                'errors' => $validator->getMessageBag()
+            ],Response::HTTP_UNAUTHORIZED);
+        }
+        $user = User::where('username',$request->username)->first();
+        if(!$user){
+            $user = User::where('email',$request->username)->first();
+        }
+        $errors = [];
+        // return response()->json(['data'=>$request->username]);
+        if(!$user){
+            return response()->json([
+                'status'=>401,
+                'message' => 'Error Validation',
+                'errors'=> [
+                    'username' => ['Username not found']
+                ]],401);
+        }
+        if(!Hash::check($request->password,$user->password)){
+            return response()->json([
+                'status' => 401,
+                'message' => 'Error Validation',
+                'errors'=> [
+                    'password' => ['Wrong password']
+                ]],401);
+        }
+        $request->session()->regenerate();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Login Success',
+            'url' => env('APP_URL').'user/dashboard'
+        ]);
+    }
+    
     public function logout(Request $request){
         Auth::logout();
         $request->session()->invalidate();

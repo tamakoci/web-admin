@@ -12,6 +12,7 @@ use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,60 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+     public function masterplanRegister(Request $request){
+        $validation = [
+            'username'  => 'required|min:5|unique:users,username',
+            'phone'     => 'required|unique:users,phone',
+            'email'     => 'required|email|unique:users,email',
+            'gems'      => 'required|numeric',
+            'password'  => 'required'
+        ];
+        $validator = Validator::make($request->all(),$validation);
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => 401,
+                "message"=>"Validation Error!",
+                'errors' => $validator->getMessageBag()],Response::HTTP_UNAUTHORIZED);
+        }
+        $cek_ref = User::where('user_ref',$request->user_ref)->first();
+        if(!$cek_ref){
+            $referal = null;
+        }else{
+            $referal = $cek_ref->id;
+        }
+        $gems = $request->gems;
+        DB::beginTransaction();
+        try{
+            $user = User::create([
+                'email'     => $request->email,
+                'username'  => $request->username,
+                'phone'     => $request->phone,
+                'user_ref'  => User::makeReferal($request->username),
+                'ref_to'    => $referal,
+                'password'  => $request->password
+            ]);
+           
+            if($referal != null){
+                User::createLevelUser($user->id);
+            }
+            Ternak::giveFreeTernak($user->id);
+            UserWallet::giveFreeDiamond($user->id,$gems);
+            DB::commit();
+            return response()->json([
+                'status'    => "200",
+                'message'   => 'User Sucessuly Registed',
+                'data'      => User::find($user->id)
+            ], Response::HTTP_OK);
+        }catch (QueryException $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => "504",
+                'message' => 'Failed to create user',
+                'data' => $e->errorInfo
+            ],Response::HTTP_GATEWAY_TIMEOUT);
+        }
+       
+    }
 
 
     public function register(Request $request){
@@ -49,6 +104,7 @@ class AuthController extends Controller
         }else{
             $referal = $cek_ref->id;
         }
+        DB::beginTransaction();
         try{
             $user = User::create([
                 'email'     => $request->email,
@@ -63,12 +119,14 @@ class AuthController extends Controller
             }
             Ternak::giveFreeTernak($user->id);
             UserWallet::giveFreeDiamond($user->id);
+            DB::commit();
             return response()->json([
                 'status'    => "200",
                 'message'   => 'User Sucessuly Registed',
                 'data'      => User::find($user->id)
             ], Response::HTTP_OK);
         }catch (QueryException $e) {
+            DB::rollBack();
             return response()->json([
                 'status' => "401",
                 'message' => 'Failed to create user',

@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{{ asset('') }}logo.png" class="logo-icon" alt="logo icon" style="min-width: 100px;">
+            <img src="{{ asset('') }}ayamku.png" class="logo-icon" alt="logo icon" style="min-width: 100px;">
         </div>
         <div>
             {{-- <h4 class="logo-text">Tamakoci</h4> --}}

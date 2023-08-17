@@ -33,6 +33,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
 Route::get('/cron-status-transaksi',[CronController::class,'trxStatus']);
@@ -48,8 +49,11 @@ Route::get('log/{kode}',[V1TransactionController::class,'inquiry']);
 Route::get('/',[LandingController::class,'index']);
 Route::get('/login', [AuthController::class,'loginView'])->name('login');
 Route::post('/login-post',[AuthController::class,'loginPost']);
+Route::post('/login-post-masterplan',[AuthController::class,'loginPost']);
 Route::get('/register', [AuthController::class,'registView']);
 Route::post('/register-post',[AuthController::class,'registPost'])->name('regist');
+Route::post('/register-post-masterplan',[AuthController::class,'registPost'])->name('regist');
+
 Route::get('/chart', [DashboardConteroller::class,'chart']);
 Route::get('user-pie',[DashboardConteroller::class,'wallets']);
 

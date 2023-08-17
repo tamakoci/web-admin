@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
-    <link rel="icon" href="{{ asset('') }}logo.png" type="image/png" />
+    <link rel="icon" href="{{ asset('') }}ayamku.png" type="image/png" />
 
     <!--plugins-->
     <link href="{{ asset('') }}assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/css/dark-theme.css" />
     <link rel="stylesheet" href="{{ asset('') }}assets/css/semi-dark.css" />
     <link rel="stylesheet" href="{{ asset('') }}assets/css/header-colors.css" />
-    <title>{{ $title }} - Tamakoci</title>
+    <title>{{ $title }} - Ayamku.</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     @stack('style')
 </head>
