@@ -259,4 +259,8 @@ class CronController extends Controller
             return ['status'=>0,'msg'=>$e->getMessage()];
         }
     }
+
+    public function berimakan(){
+        $harga = 1666;
+    }
 }

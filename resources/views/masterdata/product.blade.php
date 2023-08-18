@@ -46,7 +46,7 @@
                                     @if ($t->status == 1)
                                         <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
                                     @else
-                                        <span class="badge bg-gradient-bloody text-white shadow-sm w-100">Inactive</span>
+                                        <span class="badge bg-gradient-bloody text-white shadow-sm w-100">Non Active</span>
                                     @endif
                                 </td>
                                 <td class="text-end">
@@ -228,7 +228,7 @@
                                 <div class="col-sm-9">
                                     <select name="status" id="status" class="form-select status">
                                         <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="0">Non Active</option>
                                     </select>
                                 </div>
                             </div>

@@ -24,35 +24,29 @@
     <div class="card radius-10">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table  mb-0" id="example">
+                <table class="table align-middle mb-0" id="example">
                     <thead class="table-light">
                         <tr>
                             <td>No</td>
-                            <th>Title</th>
-                            <th>Message</th>
-                            <th>To User</th>
-                            <th class="text-center">Action</th>
+                            <th>Bank</th>
+                            <th>Bank Code</th>
+                            <th>Buy Date</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $t->title }}</td>
-                                <td>{{ $t->message }}</td>
-                                <td>{!! $t->user_id != null
-                                    ? '<span class="badge bg-gradient-bloody text-white shadow-sm w-100">' . $t->user->username . '</span>'
-                                    : ' <span class="badge bg-gradient-quepal text-white shadow-sm w-100">All User</span>' !!}</td>
-                                <td class="text-end">
-                                    <form action="{{ url('admin/notif/' . $t->id) }}" method="POST">
-                                        <button type="button" data-id="{{ $t->id }}"
-                                            data-title="{{ $t->title }}" data-message="{{ $t->message }}"
-                                            data-user_id="{{ $t->user_id != null ? $t->user_id : '000' }}"
-                                            class="btn btn-warning btn-sm editBtn">edit</button>
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-sm">delete</button>
-                                    </form>
+                                <td>{{ $t->user->username }}</td>
+                                <td>{{ $t->ternak->name }}</td>
+                                <td>{{ dt($t->buy_date) }}</td>
+                                <td>
+                                    @if ($t->status == 1)
+                                        <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
+                                    @else
+                                        <span class="badge bg-gradient-bloody text-white shadow-sm w-100">Inactive</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -79,54 +73,40 @@
                 <div class="modal-body">
                     <div class="border p-4 rounded">
                         {{-- <hr /> --}}
-                        <form action="" method="POST" id="formAdd">
+                        <form action="{{ route('beliayam') }}" method="POST" id="formAdd">
                             @csrf
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Title</label>
+                                <label for="satuan" class="col-sm-3 col-form-label">Ternak</label>
                                 <div class="col-sm-9">
-                                    <input type="text"
-                                        class="form-control @error('title')
-                                        is-invalid
-                                    @enderror"
-                                        id="title" name="title" placeholder="Enter title"
-                                        value="{{ old('title') }}">
-                                    @error('title')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Message</label>
-                                <div class="col-sm-9">
-                                    <textarea type="text"
-                                        class="form-control @error('Message')
-                                        is-invalid
-                                    @enderror"
-                                        id="message" name="message" placeholder="Enter message" value="{{ old('message') }}" rows="5"></textarea>
-                                    @error('message')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">To User</label>
-                                <div class="col-sm-9">
-                                    <select name="user_id" id="" class="form-select form-control">
-                                        <option value="000" selected>ALL USER</option>
-                                        @foreach ($user as $item)
-                                            <option value="{{ $item->id }}">{{ $item->username }}</option>
+                                    <select name="ternak_id" id="ternak_id" class="form-select ternak_id">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($ternak as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->name . ' - ' . nb($item->price) . ' Gems' }}</option>
                                         @endforeach
+
                                     </select>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label for="satuan" class="col-sm-3 col-form-label">User</label>
+                                <div class="col-sm-9">
+                                    <select name="user_id" id="user_id" class="form-select user_id">
+                                        <option selected disabled>--pilih</option>
+                                        @foreach ($user as $u)
+                                            <option value="{{ $u->id }}">
+                                                {{ $u->username . ' - ' . nb($u->wallet->diamon) . ' Gems' }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+
+
                             <div class="row">
                                 <label class="col-sm-3 col-form-label"></label>
                                 <div class="col-sm-9">
-                                    <input type="submit" class="btn btn-primary px-5">
+                                    <button type="submit" class="btn btn-primary px-5">Belikan Ternak</button>
                                 </div>
                             </div>
                         </form>
@@ -155,15 +135,14 @@
                             @csrf
                             @method('put')
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Title</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Bank</label>
                                 <div class="col-sm-9">
                                     <input type="text"
-                                        class="form-control title @error('title')
+                                        class="form-control bank @error('bank')
                                         is-invalid
                                     @enderror"
-                                        id="title" name="title" placeholder="Enter title"
-                                        value="{{ old('title') }}">
-                                    @error('title')
+                                        id="bank" name="bank" placeholder="Enter bank" value="{{ old('bank') }}">
+                                    @error('bank')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -171,16 +150,15 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Message</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Code</label>
                                 <div class="col-sm-9">
-                                    <textarea type="text"
-                                        class="form-control message @error('Message')
+                                    <input type="text"
+                                        class="form-control bank-code @error('code')
                                         is-invalid
                                     @enderror"
-                                        id="message" name="message" placeholder="Enter message" value="{{ old('message') }}" cols="30"
-                                        rows="5"></textarea>
-
-                                    @error('message')
+                                        id="code" name="code" placeholder="Bank Code"
+                                        value="{{ old('code') }}">
+                                    @error('code')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -188,13 +166,11 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">To User</label>
+                                <label for="satuan" class="col-sm-3 col-form-label status">Status</label>
                                 <div class="col-sm-9">
-                                    <select name="user_id" id="" class="form-select user_id form-control">
-                                        <option value="000" selected>ALL USER</option>
-                                        @foreach ($user as $item)
-                                            <option value="{{ $item->id }}">{{ $item->username }}</option>
-                                        @endforeach
+                                    <select name="status" id="status" class="form-select status">
+                                        <option value="1" selected>Active</option>
+                                        <option value="0">Inactive</option>
                                     </select>
                                 </div>
                             </div>
@@ -216,15 +192,15 @@
         $(document).ready(function() {
             $('.editBtn').on('click', function(e) {
                 const id = $(this).data('id'),
-                    title = $(this).data('title'),
-                    message = $(this).data('message'),
-                    user_id = $(this).data('user_id');
-                // console.log(user_id);
+                    bank = $(this).data('bank'),
+                    code = $(this).data('code'),
+                    status = $(this).data('status');
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('admin/notif') }}" + "/" + id)
-                $('.title').val(title)
-                $('.message').val(message)
-                $('.user_id').val(user_id)
+                $('#formEdt').attr('action', "{{ url('admin/bank') }}" + "/" + id)
+                $('.bank').val(bank)
+                $('.bank-code').val(code)
+                // console.log(code);
+                $('.status').val(status)
             })
         })
     </script>

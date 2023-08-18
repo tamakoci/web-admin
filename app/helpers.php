@@ -39,4 +39,15 @@ function tambahEnter($inputString) {
     
     return rtrim($outputString);
 }
+function nb($angka) {
+    $angka_str = str_replace(",", "", $angka);
+    $angka_int = (int) $angka_str;
+
+    $rupiah_format = number_format($angka_int, 0, ',', '.');
+
+    return $rupiah_format;
+}
+function dt($d){
+    return date('d-m-Y H:i:s',strtotime($d));
+}
 

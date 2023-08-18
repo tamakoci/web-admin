@@ -63,6 +63,12 @@ class User extends Authenticatable implements JWTSubject
         return $ref;
 
     }
+    public function wallet(){
+      return $this->hasOne(UserWallet::class,'user_id');
+    }
+    public function notif(){
+        return $this->hasMany(Notif::class);
+    }
     public function getAvatar()
     {
         if($this->avatar) {
@@ -139,4 +145,5 @@ class User extends Authenticatable implements JWTSubject
             'user_role' => $user->user_role
         ];
     }
+    
 }

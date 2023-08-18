@@ -7,6 +7,7 @@ use App\Http\Controllers\PaymentGatewayController;
 use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\BankController;
 use App\Http\Controllers\web\DashboardConteroller;
+use App\Http\Controllers\Web\DeliverController;
 use App\Http\Controllers\web\LandingController;
 use App\Http\Controllers\web\ManageUserController;
 use App\Http\Controllers\web\MarketConteroller;
@@ -80,9 +81,11 @@ Route::group(["middleware"=>"auth"],function(){
         Route::resource('/pakan-ternak',PakanTernakController::class);
         Route::resource('/bank',BankController::class);
         Route::resource('/notif',NotificationController::class);
-
         Route::resource('/manage-user',ManageUserController::class);
         Route::resource('/transaction',TransactionController::class);
+
+        Route::get('/ternak-user',[DeliverController::class,'ternakUser']);
+        Route::post('beli-ayam',[DeliverController::class,'beliAyamPost'])->name('beliayam');
     });
     Route::get('user-profile',[UserController::class,'index']);
     Route::get('user-profile/{id}',[UserController::class,'getUser']);

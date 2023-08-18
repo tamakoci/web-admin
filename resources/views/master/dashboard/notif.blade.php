@@ -15,8 +15,9 @@
              @foreach (notif()['data'] as $item)
                  <a class="dropdown-item" href="javascript:;">
                      <div class="d-flex align-items-center">
-                         <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
-                         </div>
+                         {{-- <div class="notify bg-light-success text-success">
+                            <i class='bx bx-check-square'></i>
+                         </div> --}}
                          <div class="flex-grow-1">
                              <h6 class="msg-name">{{ $item->title }}<span
                                      class="msg-time float-end">{{ $item->created_at->diffForHumans() }}</span></h6>

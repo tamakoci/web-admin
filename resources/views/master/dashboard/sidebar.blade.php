@@ -61,11 +61,28 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ url('/admin/transaction') }}">
-                    <div class="parent-icon"><i class='bx bx-transfer-alt'></i>
+                <a href="{{ url('/admin/notif') }}">
+                    <div class="parent-icon"><i class='bx bx-bell'></i>
                     </div>
-                    <div class="menu-title">Transaction Log</div>
+                    <div class="menu-title">Notifications</div>
                 </a>
+            </li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-transfer-alt"></i>
+                    </div>
+                    <div class="menu-title">Transaction</div>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{ url('/admin/ternak-user') }}">
+                            <i class="bx bx-right-arrow-alt"></i>Ternak User</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/admin/transaction') }}"><i class="bx bx-right-arrow-alt"></i>Log</a>
+                    </li>
+
+                </ul>
             </li>
             <li>
                 <a href="{{ url('/admin/manage-user') }}">

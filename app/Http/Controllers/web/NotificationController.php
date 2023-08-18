@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notif;
+use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -16,7 +18,9 @@ class NotificationController extends Controller
     public function index()
     {
         $data['title'] = 'Notification';
-        $data['table'] = Notif::all();
+        $data['table'] = Notif::with(['user'])->get();
+        $data['user'] = User::where('user_role',1)->get();
+        // dd($data);
         return view('masterdata.notification',$data);
     }
 
@@ -38,7 +42,28 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'message' => 'required',
+            'user_id'=>'required'
+        ]);
+        // dd($request->user_id == '000'?null:$request->user_id);
+        $title = $request->title;
+        $msg = $request->message;
+        $user_id = $request->user_id === '000'?null:$request->user_id;
+        $alluser = $request->user_id === '000'?1:0;
+        try {
+            Notif::create([
+                'title'=>$title,
+                'message'   => $msg,
+                'user_id'   => $user_id,
+                'all_user'   => $alluser
+            ]);
+            return redirect()->back()->with('success','Notification created!');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Server Error');
+            
+        }
     }
 
     /**
@@ -83,6 +108,15 @@ class NotificationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cek = Notif::find($id);
+        if(!$cek){
+            return redirect()->back()->with('error','Notification not found');
+        }
+        try {
+            $cek->delete();
+            return redirect()->back()->with('success','Notification Deleted');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Server Error');
+        }
     }
 }

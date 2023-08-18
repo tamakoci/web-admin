@@ -47,10 +47,10 @@
                                 <td>{{ date('h:i d-M', strtotime($t->created_at)) }}</td>
                                 <td>{{ $t->trx_id }}</td>
                                 <td><a href="#">{{ $t->user->username }}</a></td>
-                                <td class="">{{ $t->last_amount }}</td>
-                                <td class="">{{ $t->trx_amount }}</td>
+                                <td class="">{{ nb($t->last_amount) }}</td>
+                                <td class="">{{ nb($t->trx_amount) }}</td>
                                 <td>
-                                    {{ $t->final_amount }}
+                                    {{ nb($t->final_amount) }}
                                 </td>
                                 <td>{{ $t->detail }}</td>
                             </tr>

@@ -15,6 +15,9 @@ class UserTernak extends Model
     public function ternak(){
         return $this->belongsTo(Ternak::class,'ternak_id');
     }
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
     public function stsPakan(){
         return $this->hasOne(Investment::class,'id')->latest();
     }
