@@ -22,6 +22,7 @@ class UserWallet extends Model
         ]);
     }
 
+
     public static function getWallet(){
         return UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
     }

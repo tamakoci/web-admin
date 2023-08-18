@@ -5,14 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\CronFail;
 use App\Models\CronLog;
 use App\Models\Investment;
+use App\Models\Notif;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ReferalTree;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Models\UserTernak;
 use App\Models\UserWallet;
+use Carbon\Carbon;
+use DateTime;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CronController extends Controller
@@ -259,8 +265,103 @@ class CronController extends Controller
             return ['status'=>0,'msg'=>$e->getMessage()];
         }
     }
+    public function beriPakan(Request $request){
+        $cekTernak= UserTernak::with(['user'])->get();
+        // dd($cekTernak);
+        foreach($cekTernak as $usr){
+            $user = $usr->user;
+            // dd($user);
+            
+            $userTernak = UserTernak::with(['ternak','ternak.produk'])->where('user_id',$user->id)->find($usr->id);
+        
+            $wallet = UserWallet::getWalletUserId($user->id);
+            
+            $produkId = $userTernak->ternak->produk->id;
 
-    public function berimakan(){
-        $harga = 1666;
+            $buyDate = $userTernak->buy_date;
+
+            $now = Carbon::now();
+            $datetime1 = new DateTime($buyDate);
+            $datetime2 = new DateTime($now);
+            $interval = $datetime1->diff($datetime2);
+            
+            $days = $interval->format('%a'); // cek sisa umur ternak
+            if($days > $userTernak->ternak->duration){
+                return response()->json(['status'=>'401','message'=>'Ternak Not Falid',],401);
+                $userTernak->update(['status'=>0]);
+            }
+
+            //hasil ternak;
+            $hasil_ternak = json_decode($wallet->hasil_ternak);
+            $array = (array)$hasil_ternak;
+            $productInWallet = $array[$produkId]->qty;
+            // dd($array);
+
+            // // $commision = rand($ternak->min_benefit,$ternak->max_benefit);
+            $commision = 5375;
+            // $remain = floor($commision / 24);
+            
+            
+            // return $commision;
+            DB::beginTransaction();
+            try {
+                $trxID = Transaction::trxID('BP');
+                // $finalProduc = $productInWallet + $remain;
+                // $array[$produkId]->qty = $finalProduc;
+
+                Investment::create([
+                    'user_id' => $user->id,
+                    'user_ternak'=>$userTernak->id,
+                    'transaction'=>$trxID,
+                    'collected'=>0,
+                    'remains'=> 0,
+                    'commision'=>$commision,
+                    'status'=>1
+                ]);
+                Transaction::create([
+                    'user_id' => $user->id,
+                    'last_amount' => $wallet->diamon,
+                    'trx_amount'   => 1666,
+                    'final_amount'=> $wallet->diamon - 1666,
+                    'trx_type'=>'-',
+                    'detail'=>'Beri Pakan Ternak',
+                    'trx_id' => $trxID
+                ]);
+                UserWallet::create([
+                    'user_id'=>$user->id,
+                    'diamon'=>$wallet->diamon - 1666,
+                    'pakan'=>0,
+                    'hasil_ternak' => $wallet->hasil_ternak
+                ]);
+                makenotif($user->id,'Pakan Ternak','Beripakan ternak setara 1666 gems sukses dilakukan.');
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+            }
+        }
+        return response()->json(['status'=>200,'message'=>"Beri Pakan Success"]);
+
+
+    }
+    public function ambiltelur(){
+        $inv = Investment::where('status',1)->get();
+        foreach ($inv as $u) {
+            // dd($inv);
+            $user = User::find($u->user_id);
+            $wallet = UserWallet::getWalletUserId($user->id);
+            $hasil_ternak = json_decode($wallet->hasil_ternak);
+            $array = (array)$hasil_ternak;
+            $productInWallet = $array[1]->qty;
+            $finalProduc = $productInWallet + $u->commision;
+            $array[1]->qty = $finalProduc;
+            // dd($array);
+            UserWallet::create([
+                'user_id'=>$user->id,
+                'diamon'=>$wallet->diamon,
+                'pakan'=>0,
+                'hasil_ternak' => json_encode($array)
+            ]);
+        }
+        echo 'success';
     }
 }

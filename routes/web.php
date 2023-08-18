@@ -37,11 +37,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('clear-all',function(){
-    Artisan::call('config:clear');
-    Artisan::call('config:cache');
-    Artisan::call('route:clear');
-});
+Route::get('beri-pakan-pagi',[CronController::class,'beriPakan']);
+// Route::get('ambil-telur',[CronController::class,'ambiltelur']); //need check
 
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);

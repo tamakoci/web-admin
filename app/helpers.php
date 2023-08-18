@@ -50,4 +50,12 @@ function nb($angka) {
 function dt($d){
     return date('d-M H:i',strtotime($d));
 }
+function makenotif($user_id,$title,$msg){
+    Notif::create([
+        'title'     => $title,
+        'message'   => $msg,
+        'user_id'   => $user_id,
+        'all_user'  => 0
+    ]);
+}
 

@@ -13,4 +13,5 @@ class Investment extends Model
     public function userTernak(){
         return $this->belongsTo(UserTernak::class,'user_ternak');
     }
+   
 }
