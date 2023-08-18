@@ -10,6 +10,7 @@ use App\Http\Controllers\web\DashboardConteroller;
 use App\Http\Controllers\web\LandingController;
 use App\Http\Controllers\web\ManageUserController;
 use App\Http\Controllers\web\MarketConteroller;
+use App\Http\Controllers\Web\NotificationController;
 use App\Http\Controllers\web\PakanTernakController;
 use App\Http\Controllers\web\ProductController;
 use App\Http\Controllers\web\ReferalsController;
@@ -78,6 +79,7 @@ Route::group(["middleware"=>"auth"],function(){
         Route::resource('/ternak',TernakController::class);
         Route::resource('/pakan-ternak',PakanTernakController::class);
         Route::resource('/bank',BankController::class);
+        Route::resource('/notif',NotificationController::class);
 
         Route::resource('/manage-user',ManageUserController::class);
         Route::resource('/transaction',TransactionController::class);

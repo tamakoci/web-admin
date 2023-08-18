@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Chart;
+use App\Models\Notif;
 use App\Models\User;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class DashboardConteroller extends Controller
         $data['title'] = 'Dashboard';
         $data['diamon'] = $wallet->diamon;
         $data['pakan'] = $wallet->pakan;
+        // dd($data);
         return view('dashboard.user',$data);
     }
     public function chart(){
