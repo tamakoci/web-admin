@@ -22,6 +22,7 @@ use App\Http\Controllers\web\TopupPanganController;
 use App\Http\Controllers\web\TransactionController;
 use App\Http\Controllers\web\UserController;
 use App\Models\UserTernak;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -35,6 +36,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('clear-all',function(){
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('route:clear');
+    Artisan::call('optimize:clear');
+    return 'Caches cleared successfully!';
+});
 
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
