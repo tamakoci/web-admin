@@ -96,8 +96,8 @@ Route::group(["middleware"=>"auth"],function(){
         Route::put('notif-edit/{id}', [TransactionController::class,'notifUpdate'])->name('notif.put');
         Route::delete('notif-delete/{id}', [TransactionController::class,'notifDel'])->name('notif.delete');
         
-        Route::get('/ternak-user',[DeliverController::class,'ternakUser']);
-        Route::post('beli-ayam',[DeliverController::class,'beliAyamPost'])->name('beliayam');
+        Route::get('/ternak-user',[TransactionController::class,'ternakUser']);
+        Route::post('beli-ayam',[TransactionController::class,'beliAyamPost'])->name('beliayam');
     });
     Route::get('user-profile',[UserController::class,'index']);
     Route::get('user-profile/{id}',[UserController::class,'getUser']);
