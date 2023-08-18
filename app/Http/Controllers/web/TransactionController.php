@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notif;
 use App\Models\Transaction;
+use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -85,5 +88,77 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function notifIndex(){
+        $data['title'] = 'Notification';
+        $data['table'] = Notif::with(['user'])->get();
+        $data['user'] = User::where('user_role',1)->get();
+        // dd($data);
+        return view('masterdata.notification',$data);
+    }
+    public function notifStore(Request $request){
+        $request->validate([
+            'title' => 'required',
+            'message' => 'required',
+            'user_id'=>'required'
+        ]);
+        // dd($request->user_id == '000'?null:$request->user_id);
+        $title = $request->title;
+        $msg = $request->message;
+        $user_id = $request->user_id === '000'?null:$request->user_id;
+        $alluser = $request->user_id === '000'?1:0;
+        try {
+            Notif::create([
+                'title'=>$title,
+                'message'   => $msg,
+                'user_id'   => $user_id,
+                'all_user'   => $alluser
+            ]);
+            return redirect()->back()->with('success','Notification created!');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Server Error');
+            
+        }
+    }
+
+    public function notifUpdate(Request $request,$id){
+        $notif = Notif::find($id);
+        $request->validate([
+            'title' => 'required',
+            'message' => 'required',
+            'user_id'=>'required'
+        ]);
+        // dd($request->user_id == '000'?null:$request->user_id);
+        $title = $request->title;
+        $msg = $request->message;
+        $user_id = $request->user_id === '000'?null:$request->user_id;
+        $alluser = $request->user_id === '000'?1:0;
+        try {
+            $notif->update([
+                'title'=>$title,
+                'message'   => $msg,
+                'user_id'   => $user_id,
+                'all_user'   => $alluser
+            ]);
+            return redirect()->back()->with('success','Notification Updated!');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Server Error');
+            
+        }
+    }
+
+    public function notifDel($id)
+    {
+        $cek = Notif::find($id);
+        if(!$cek){
+            return redirect()->back()->with('error','Notification not found');
+        }
+        try {
+            $cek->delete();
+            return redirect()->back()->with('success','Notification Deleted');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Server Error');
+        }
     }
 }

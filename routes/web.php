@@ -41,8 +41,6 @@ Route::get('clear-all',function(){
     Artisan::call('config:clear');
     Artisan::call('config:cache');
     Artisan::call('route:clear');
-    Artisan::call('optimize:clear');
-    return 'Caches cleared successfully!';
 });
 
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
@@ -89,10 +87,15 @@ Route::group(["middleware"=>"auth"],function(){
         Route::resource('/ternak',TernakController::class);
         Route::resource('/pakan-ternak',PakanTernakController::class);
         Route::resource('/bank',BankController::class);
-        Route::resource('/notif',NotificationController::class);
         Route::resource('/manage-user',ManageUserController::class);
         Route::resource('/transaction',TransactionController::class);
-
+        
+        // Route::resource('/notif',NotificationController::class);
+        Route::get('notif',[TransactionController::class,'notifIndex']);
+        Route::post('notif-post',[TransactionController::class,'notifStore'])->name('notif.post');
+        Route::put('notif-edit/{id}', [TransactionController::class,'notifUpdate'])->name('notif.put');
+        Route::delete('notif-delete/{id}', [TransactionController::class,'notifDel'])->name('notif.delete');
+        
         Route::get('/ternak-user',[DeliverController::class,'ternakUser']);
         Route::post('beli-ayam',[DeliverController::class,'beliAyamPost'])->name('beliayam');
     });

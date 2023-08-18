@@ -44,7 +44,7 @@
                                     ? '<span class="badge bg-gradient-bloody text-white shadow-sm w-100">' . $t->user->username . '</span>'
                                     : ' <span class="badge bg-gradient-quepal text-white shadow-sm w-100">All User</span>' !!}</td>
                                 <td class="text-end">
-                                    <form action="{{ url('admin/notif/' . $t->id) }}" method="POST">
+                                    <form action="{{ url('admin/notif-delete/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
                                             data-title="{{ $t->title }}" data-message="{{ $t->message }}"
                                             data-user_id="{{ $t->user_id != null ? $t->user_id : '000' }}"
@@ -79,7 +79,7 @@
                 <div class="modal-body">
                     <div class="border p-4 rounded">
                         {{-- <hr /> --}}
-                        <form action="" method="POST" id="formAdd">
+                        <form action="{{ route('notif.post') }}" method="POST" id="formAdd">
                             @csrf
                             <div class="row mb-3">
                                 <label for="customerno" class="col-sm-3 col-form-label">Title</label>
@@ -221,7 +221,7 @@
                     user_id = $(this).data('user_id');
                 // console.log(user_id);
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('admin/notif') }}" + "/" + id)
+                $('#formEdt').attr('action', "{{ url('admin/notif-edit') }}" + "/" + id)
                 $('.title').val(title)
                 $('.message').val(message)
                 $('.user_id').val(user_id)
