@@ -28,9 +28,9 @@
                     <thead class="table-light">
                         <tr>
                             <td>No</td>
-                            <th>Bank</th>
-                            <th>Bank Code</th>
-                            <th>Buy Date</th>
+                            <th>Username</th>
+                            <th>Ternak</th>
+                            <th>Tanggal Beli</th>
                             <th>Status</th>
                         </tr>
                     </thead>

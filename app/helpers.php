@@ -48,6 +48,6 @@ function nb($angka) {
     return $rupiah_format;
 }
 function dt($d){
-    return date('d-m-Y H:i:s',strtotime($d));
+    return date('d-M H:i',strtotime($d));
 }
 
