@@ -168,7 +168,7 @@ class TransactionController extends Controller
 
     public function ternakUser(){
         $data['title'] = 'Ternak User';
-        $data['table'] = UserTernak::with(['user','ternak'])->get();
+        $data['table'] = UserTernak::with(['user','ternak'])->orderByDesc('id')->get();
         // dd($data);
         $data['user']  = User::with(['wallet'])->where('user_role',1)->get();
         $data['ternak']  = Ternak::where('status',1)->get();
