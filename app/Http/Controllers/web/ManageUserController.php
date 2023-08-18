@@ -18,7 +18,7 @@ class ManageUserController extends Controller
     public function index()
     {
         $data['title'] = 'Manage user';
-        $data['table'] = User::where('user_role',1)->get();
+        $data['table'] = User::with(['wallet'])->where('user_role',1)->get();
         $data['role'] = UserRole::all();
         return view('admin.manage-user',$data);
     }
