@@ -27,6 +27,7 @@ class AuthController extends Controller
             'phone'     => 'required|unique:users,phone',
             'email'     => 'required|email|unique:users,email',
             'gems'      => 'required|numeric',
+            'masterplan_count'  => 'required|numeric',
             'password'  => 'required'
         ];
         $validator = Validator::make($request->all(),$validation);
@@ -51,6 +52,7 @@ class AuthController extends Controller
                 'phone'     => $request->phone,
                 'user_ref'  => User::makeReferal($request->username),
                 'ref_to'    => $referal,
+                'masterplan_count'=>$request->masterplan_count,
                 'password'  => $request->password
             ]);
            
