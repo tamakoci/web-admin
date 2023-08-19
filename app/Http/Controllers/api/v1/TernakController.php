@@ -119,11 +119,31 @@ class TernakController extends Controller
     }
     public function userTernak(){
         $user = Auth::user();
-        $ternak = UserTernak::getUserTernak();
+        $ternakOld = UserTernak::getUserTernak();
+        $t = Ternak::find(1);
+        $ternak = UserTernak::with(['ternak'])->where(['user_id'=>$user->id,'status'=>1])->get();
+        $maxItemsPerGroup = 100;
+        $totalTernak = $ternak->count();
+        $numGroups = ceil($totalTernak / $maxItemsPerGroup);
+
+        for ($i = 0; $i < $numGroups; $i++) {
+            $startIndex = $i * $maxItemsPerGroup;
+            $endIndex = min(($i + 1) * $maxItemsPerGroup, $totalTernak);
+            $groupData = $ternak->slice($startIndex, $endIndex - $startIndex);
+            
+            $groupTernak[] = [
+                'nama' => $t->name,
+                'durasi'=>$t->duration,
+                'avatar'=>$t->avatar,
+                'jumlah' => $groupData->count()
+            ];
+        }
         return response()->json([
             'status'=>200,
             'message'=>'Ternak '.$user->username,
-            'Data'=>$ternak
+            'total' =>$totalTernak,
+            'group'=> $groupTernak,
+            'Data'=>$ternakOld,
         ]);
     }
     public function userTernakDetail($id){

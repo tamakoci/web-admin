@@ -21,6 +21,8 @@ use App\Http\Controllers\web\TopupPakanController;
 use App\Http\Controllers\web\TopupPanganController;
 use App\Http\Controllers\web\TransactionController;
 use App\Http\Controllers\web\UserController;
+use App\Models\Ternak;
+use App\Models\User;
 use App\Models\UserTernak;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
