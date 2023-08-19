@@ -265,7 +265,7 @@ class CronController extends Controller
             return ['status'=>0,'msg'=>$e->getMessage()];
         }
     }
-    public function beriPakan(Request $request){
+    public function beriPakan($pakan_cost=89){
         $cekTernak= UserTernak::with(['user'])->get();
         // dd($cekTernak);
         foreach($cekTernak as $usr){
@@ -321,19 +321,19 @@ class CronController extends Controller
                 Transaction::create([
                     'user_id' => $user->id,
                     'last_amount' => $wallet->diamon,
-                    'trx_amount'   => 1666,
-                    'final_amount'=> $wallet->diamon - 1666,
+                    'trx_amount'   => $pakan_cost,
+                    'final_amount'=> $wallet->diamon - $pakan_cost,
                     'trx_type'=>'-',
                     'detail'=>'Beri Pakan Ternak',
                     'trx_id' => $trxID
                 ]);
                 UserWallet::create([
                     'user_id'=>$user->id,
-                    'diamon'=>$wallet->diamon - 1666,
+                    'diamon'=>$wallet->diamon - $pakan_cost,
                     'pakan'=>0,
                     'hasil_ternak' => $wallet->hasil_ternak
                 ]);
-                makenotif($user->id,'Pakan Ternak','Beripakan ternak setara 1666 gems sukses dilakukan.');
+                makenotif($user->id,'Pakan Ternak','Beripakan ternak setara '.$pakan_cost.' gems sukses dilakukan.');
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
@@ -371,7 +371,7 @@ class CronController extends Controller
         }
         echo 'success';
     }
-    public function beriVaksin(){
+    public function beriVaksin($vaksin_cost =89){
          $cekTernak= UserTernak::with(['user'])->get();
         // dd($cekTernak);
         foreach($cekTernak as $usr){
@@ -417,19 +417,19 @@ class CronController extends Controller
                 Transaction::create([
                     'user_id' => $user->id,
                     'last_amount' => $wallet->diamon,
-                    'trx_amount'   => 1666,
-                    'final_amount'=> $wallet->diamon - 1666,
+                    'trx_amount'   => $vaksin_cost,
+                    'final_amount'=> $wallet->diamon - $vaksin_cost,
                     'trx_type'=>'-',
                     'detail'=>'Beri Vaksin Ternak',
                     'trx_id' => $trxID
                 ]);
                 UserWallet::create([
                     'user_id'=>$user->id,
-                    'diamon'=>$wallet->diamon - 1666,
+                    'diamon'=>$wallet->diamon - $vaksin_cost,
                     'pakan'=>0,
                     'hasil_ternak' => $wallet->hasil_ternak
                 ]);
-                makenotif($user->id,'Suntik Vaksin','suntik vaksin ternak setara 1666 gems sukses dilakukan.');
+                makenotif($user->id,'Suntik Vaksin','suntik vaksin ternak setara '.$vaksin_cost.' gems sukses dilakukan.');
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
@@ -437,7 +437,7 @@ class CronController extends Controller
         }
         return response()->json(['status'=>200,'message'=>"Beri Vaksin Success"]);
     }
-    public function bersihKandang(){
+    public function bersihKandang($tools_cost = 89){
          $cekTernak= UserTernak::with(['user'])->get();
         // dd($cekTernak);
         foreach($cekTernak as $usr){
@@ -483,19 +483,19 @@ class CronController extends Controller
                 Transaction::create([
                     'user_id' => $user->id,
                     'last_amount' => $wallet->diamon,
-                    'trx_amount'   => 1666,
-                    'final_amount'=> $wallet->diamon - 1666,
+                    'trx_amount'   => $tools_cost,
+                    'final_amount'=> $wallet->diamon - $tools_cost,
                     'trx_type'=>'-',
                     'detail'=>'Bersihkan Kandang Ternak',
                     'trx_id' => $trxID
                 ]);
                 UserWallet::create([
                     'user_id'=>$user->id,
-                    'diamon'=>$wallet->diamon - 1666,
+                    'diamon'=>$wallet->diamon - $tools_cost,
                     'pakan'=>0,
                     'hasil_ternak' => $wallet->hasil_ternak
                 ]);
-                makenotif($user->id,'Bersih Kandang','Sukses Bersihkan Kandang Ternak Setara 1666 Gems.');
+                makenotif($user->id,'Bersih Kandang','Sukses Bersihkan Kandang Ternak Setara '.$tools_cost.' Gems.');
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
@@ -505,6 +505,7 @@ class CronController extends Controller
     }
 
     public function kirimBanyakAyam(){
+        return 'disabled';
         $user = User::where('user_role',1)->get();
         foreach ($user as $u) {
             $ut     = UserTernak::where('user_id',$u->id)->where('status',1)->get();
@@ -520,5 +521,34 @@ class CronController extends Controller
             makenotif($u->id,'Deliver Sisa Pembelian Ayam', 'Deliver sisa pembelian sejumlah '.$no.' ekor ayam, dari total '.$m_c.' ekor. Sukses Dikirim!');
         }
         return 'success';
+    }
+
+    public function jualTelur(){
+        $user = User::where('user_role',1)->get();
+        foreach ($user as $key => $value) {
+            $wallet = UserWallet::getWalletUserId($value->id);
+            UserWallet::create([
+                'user_id'=>$value->id,
+                'diamon'=>0,
+                'pakan'=>$wallet->pakan,
+                'hasil_ternak'=>$wallet->hasil_ternak
+            ]);
+
+            jualTelur($value->id,1);
+        }
+    }
+    public function resetWallet(){
+        $user = User::all();
+        //reset tabel wallet;
+        UserWallet::truncate();
+        foreach ($user as $key => $value) {
+            $dm = 537 * $value->masterplan_count;
+            $wallet = UserWallet::create([
+                'user_id'=>$value->id,
+                'diamon'=>$dm,
+                'hasil_ternak'=>'{"1":{"name":"Telur","qty":0}}'
+            ]);
+        }
+        return response()->json(['message' => 'All data in UserWallet table has been deleted'], 200);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Notif;
+use App\Models\Product;
 use App\Models\Ternak;
 use App\Models\Transaction;
 use App\Models\User;
@@ -109,4 +110,43 @@ function kirimAyamLoop($user,$loop){
         beliAyam(1,$user->id);
     }
     makenotif($user->id,'Deliver Pembelian Ayam', 'Pembelian sejumlah '.$loop.' ekor ayam sukses dilakukan');
+}
+function jualTelur($user_id,$productRequest=1){
+    $wallet = UserWallet::getWalletUserId($user_id);
+    $hasil_ternak = json_decode($wallet->hasil_ternak);
+    $array = (array)$hasil_ternak;
+    $productInWallet = $array[1]->qty;
+
+    if($productInWallet < $productRequest){
+        return false;
+    }
+    $finalProduc = $productInWallet - $productRequest;
+    $array[1]->qty = $finalProduc;
+
+    $product = Product::find(1);
+    $profit = $product->dm * $productRequest;
+
+    DB::beginTransaction();
+    try {
+        Transaction::create([
+            'user_id' => $user_id,
+            'last_amount' => $wallet->diamon,
+            'trx_amount' => $profit,
+            'final_amount'=>$wallet->diamon + $profit,
+            'trx_type'=>'+',
+            'detail'=>'Selling '.$productRequest. ' '. $product->satuan.' '.$product->name. ' with '. $profit . ' Diamon. ( 1 '.  $product->satuan .' '. $product->name .' = '.$product->dm.' Diamon )',
+            'trx_id' => Transaction::trxID('TD')
+        ]);
+        UserWallet::create([
+            'user_id'=>$user_id,
+            'diamon'=>$wallet->diamon + $profit,
+            'pakan'=>$wallet->pakan,
+            'hasil_ternak'=>json_encode($array)
+        ]);
+        makenotif($user_id,'Jual Produk','Selling '.$productRequest. ' '. $product->satuan.' '.$product->name. ' with '. $profit . ' Diamon.');
+        DB::commit();
+    } catch (\Exception $e) {
+        DB::rollback();
+    }
+
 }

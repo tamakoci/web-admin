@@ -36,6 +36,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('reset-wallet',[CronController::class,'resetWallet']);
 
 Route::get('beri-pakan-pagi',[CronController::class,'beriPakan']);
 Route::get('beri-vaksin',[CronController::class,'beriVaksin']);
@@ -43,6 +44,7 @@ Route::get('bersih-kandang',[CronController::class,'bersihKandang']);
 Route::get('ambil-telur',[CronController::class,'ambiltelur']); //need check
 
 Route::get('count-ayam',[CronController::class,'kirimBanyakAyam']);
+Route::get('jual-telur',[CronController::class,'jualTelur']);
 
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
