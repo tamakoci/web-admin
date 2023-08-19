@@ -1,7 +1,13 @@
 <?php
 
 use App\Models\Notif;
+use App\Models\Ternak;
+use App\Models\Transaction;
+use App\Models\User;
+use App\Models\UserTernak;
+use App\Models\UserWallet;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 if(!function_exists('active_user')){
@@ -58,4 +64,49 @@ function makenotif($user_id,$title,$msg){
         'all_user'  => 0
     ]);
 }
-
+function beliAyam($ternak_id,$user_id)
+{
+    $user = User::find($user_id);
+    $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
+    if(!$wallet){
+        return false;
+    }
+    $ternak = Ternak::find($ternak_id);
+    if(!$ternak){
+        return false;
+    }
+    $dm = $wallet->diamon;
+    if($dm < $ternak->price){
+        return false;
+    }
+        
+    $trxID = Transaction::trxID('BT');
+    Transaction::create([
+        'user_id' => $user->id,
+        'last_amount' => $dm,
+        'trx_amount'   => $ternak->price,
+        'final_amount'=> $dm - $ternak->price,
+        'trx_type'=>'-',
+        'detail'=>'Buy Ternak By Gems',
+        'trx_id' => $trxID
+    ]);
+    UserWallet::create([
+        'user_id'=>$user->id,
+        'diamon'=>$dm - $ternak->price,
+        'pakan'=>$wallet->pakan,
+        'hasil_ternak' => $wallet->hasil_ternak
+    ]);
+    UserTernak::create([
+        'user_id'=>$user->id,
+        'ternak_id'=>$ternak_id,
+        'buy_date'=> date('Y-m-d H:i:s'),
+        'status'=>1
+    ]);
+            
+}
+function kirimAyamLoop($user,$loop){
+    for ($i = 0; $i < $loop; $i++) {
+        beliAyam(1,$user->id);
+    }
+    makenotif($user->id,'Deliver Pembelian Ayam', 'Pembelian sejumlah '.$loop.' ekor ayam sukses dilakukan');
+}

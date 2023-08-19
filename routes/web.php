@@ -42,6 +42,8 @@ Route::get('beri-vaksin',[CronController::class,'beriVaksin']);
 Route::get('bersih-kandang',[CronController::class,'bersihKandang']);
 Route::get('ambil-telur',[CronController::class,'ambiltelur']); //need check
 
+Route::get('count-ayam',[CronController::class,'kirimBanyakAyam']);
+
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);
 Route::get('/cron-status-transaksi',[CronController::class,'trxStatus']);

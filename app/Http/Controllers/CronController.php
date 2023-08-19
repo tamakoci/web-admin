@@ -363,7 +363,7 @@ class CronController extends Controller
                 'pakan'=>0,
                 'hasil_ternak' => json_encode($array)
             ]);
-            makenotif($user->id,'Pakan Ternak','Panen Hasil '.$telur.' Butir Telur Ayam Sukses');
+            makenotif($user->id,'Panen Telur','Panen Hasil '.$telur.' Butir Telur Ayam Sukses');
             $u->collected = $u->commision;
             $u->status = 0;
             $u->save();
@@ -429,7 +429,7 @@ class CronController extends Controller
                     'pakan'=>0,
                     'hasil_ternak' => $wallet->hasil_ternak
                 ]);
-                makenotif($user->id,'Pakan Ternak','suntik vaksin ternak setara 1666 gems sukses dilakukan.');
+                makenotif($user->id,'Suntik Vaksin','suntik vaksin ternak setara 1666 gems sukses dilakukan.');
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
@@ -495,7 +495,7 @@ class CronController extends Controller
                     'pakan'=>0,
                     'hasil_ternak' => $wallet->hasil_ternak
                 ]);
-                makenotif($user->id,'Pakan Ternak','Sukses Bersihkan Kandang Ternak Setara 1666 Gems.');
+                makenotif($user->id,'Bersih Kandang','Sukses Bersihkan Kandang Ternak Setara 1666 Gems.');
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
@@ -505,6 +505,20 @@ class CronController extends Controller
     }
 
     public function kirimBanyakAyam(){
-        
+        $user = User::where('user_role',1)->get();
+        foreach ($user as $u) {
+            $ut     = UserTernak::where('user_id',$u->id)->where('status',1)->get();
+            $m_c    = $u->masterplan_count;
+            $count  = $ut->count();
+
+            $min    = $m_c - $count;
+            $no     = 0 ;
+            for ($i = 0; $i < $min; $i++) {
+                beliAyam(1,$u->id);
+                $no += 1;
+            }
+            makenotif($u->id,'Deliver Sisa Pembelian Ayam', 'Deliver sisa pembelian sejumlah '.$no.' ekor ayam, dari total '.$m_c.' ekor. Sukses Dikirim!');
+        }
+        return 'success';
     }
 }

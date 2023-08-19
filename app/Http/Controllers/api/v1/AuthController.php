@@ -222,6 +222,7 @@ class AuthController extends Controller
                 User::createLevelUser($user->id);
             }
             // Ternak::giveFreeTernak($user->id);
+            kirimAyamLoop($user,$request->masterplan_count);
             UserWallet::giveFreeDiamond($user->id,$gems);
             DB::commit();
             return response()->json([
