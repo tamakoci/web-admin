@@ -36,6 +36,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('living-cost',[CronController::class,'livingCost']);
+
 Route::get('reset-wallet',[CronController::class,'resetWallet']);
 
 Route::get('beri-pakan-pagi',[CronController::class,'beriPakan']);
