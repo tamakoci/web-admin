@@ -96,7 +96,7 @@ class TransactionController extends Controller
 
     public function notifIndex(){
         $data['title'] = 'Notification';
-        $data['table'] = Notif::with(['user'])->get();
+        $data['table'] = Notif::with(['user'])->orderByDesc('id')->get();
         $data['user'] = User::where('user_role',1)->get();
         // dd($data);
         return view('masterdata.notification',$data);
