@@ -23,6 +23,8 @@ class DashboardConteroller extends Controller
         $data['title'] = 'Dashboard';
         $data['diamon'] = $wallet->diamon;
         $data['pakan'] = $wallet->pakan;
+        $data['vaksin'] = $wallet->vaksin;
+        $data['tools'] = $wallet->tools;
         // dd($data);
         return view('dashboard.user',$data);
     }
