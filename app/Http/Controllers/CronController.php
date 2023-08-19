@@ -503,4 +503,8 @@ class CronController extends Controller
         }
         return response()->json(['status'=>200,'message'=>"Bersih Kandang Success"]);
     }
+
+    public function kirimBanyakAyam(){
+        
+    }
 }

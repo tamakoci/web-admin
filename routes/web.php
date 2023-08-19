@@ -105,4 +105,3 @@ Route::group(["middleware"=>"auth"],function(){
     Route::post('/logout',[AuthController::class,'logout']);
    
 });
-
