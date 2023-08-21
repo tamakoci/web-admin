@@ -494,7 +494,7 @@ class CronController extends Controller
             $min    = $m_c - $count;
             $no     = 0 ;
             for ($i = 0; $i < $min; $i++) {
-                beliAyam(1,$u->id);
+                beliAyam(1,$u->id,497000);
                 $no += 1;
             }
             makenotif($u->id,'Deliver Sisa Pembelian Ayam', 'Deliver sisa pembelian sejumlah '.$no.' ekor ayam, dari total '.$m_c.' ekor. Sukses Dikirim!');

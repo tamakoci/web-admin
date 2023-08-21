@@ -225,7 +225,7 @@ class AuthController extends Controller
             }
             // Ternak::giveFreeTernak($user->id);
             UserWallet::giveDiamond($user->id,$gems);
-            kirimAyamLoop($user,$request->masterplan_count,497000);
+            // kirimAyamLoop($user,$request->masterplan_count,497000);
             DB::commit();
             return response()->json([
                 'status'    => "200",
