@@ -21,11 +21,11 @@ class Product extends Model
         }
         return $prod;
     }
-    public static function produkTelur(){
+    public static function produkTelur($jml){
         $produk = Product::where('status',1)->get();
         $prod=[];
         foreach ($produk as $key => $value) {
-            $prod[$value->id] = [ "name" => $value->name,'qty'=>1];
+            $prod[$value->id] = [ "name" => $value->name,'qty'=>$jml];
         }
         return $prod;
     }

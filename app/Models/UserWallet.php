@@ -13,12 +13,12 @@ class UserWallet extends Model
         "created_at",
         "updated_at"
     ];
-    public static function giveDiamond($id,$qty = 0){
+    public static function giveDiamond($id,$qty = 0,$telur){
         UserWallet::create([
             'user_id'=>$id,
             'diamon'=> $qty,
             'pakan'=>0,
-            'hasil_ternak'=> json_encode(Product::produkTelur())
+            'hasil_ternak'=> json_encode(Product::produkTelur($telur))
         ]);
     }
 
