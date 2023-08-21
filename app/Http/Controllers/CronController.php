@@ -20,6 +20,7 @@ use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPSTORM_META\type;
 
@@ -483,7 +484,7 @@ class CronController extends Controller
     }
 
     public function kirimBanyakAyam(){
-        return 'disabled';
+        // return 'disabled';
         $user = User::where('user_role',1)->get();
         foreach ($user as $u) {
             $ut     = UserTernak::where('user_id',$u->id)->where('status',1)->get();
@@ -524,9 +525,17 @@ class CronController extends Controller
             $wallet = UserWallet::create([
                 'user_id'=>$value->id,
                 'diamon'=>$dm,
-                'hasil_ternak'=>'{"1":{"name":"Telur","qty":0}}'
+                'hasil_ternak'=>'{"1":{"name":"Telur","qty":2}}'
             ]);
         }
         return response()->json(['message' => 'All data in UserWallet table has been deleted'], 200);
+    }
+    public function createDemoAccountAll(){
+        $user = User::where('user_role',1)->where('masterplan_count','!=',0)->get();
+        // dd($user);
+        foreach ($user as $key => $value) {
+           createDemoAccount($value);
+        }
+        return 'demo success';
     }
 }

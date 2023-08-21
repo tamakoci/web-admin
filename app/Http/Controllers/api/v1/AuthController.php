@@ -183,6 +183,8 @@ class AuthController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
     public function masterplanRegister(Request $request){
         $validation = [
             'username'  => 'required|min:5|unique:users,username',
@@ -222,8 +224,8 @@ class AuthController extends Controller
                 User::createLevelUser($user->id);
             }
             // Ternak::giveFreeTernak($user->id);
-            kirimAyamLoop($user,$request->masterplan_count);
-            UserWallet::giveFreeDiamond($user->id,$gems);
+            UserWallet::giveDiamond($user->id,$gems);
+            kirimAyamLoop($user,$request->masterplan_count,497000);
             DB::commit();
             return response()->json([
                 'status'    => "200",

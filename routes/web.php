@@ -38,6 +38,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('create-demo',[CronController::class,'createDemoAccountAll']);
+
 Route::get('living-cost',[CronController::class,'livingCost']);
 
 Route::get('reset-wallet',[CronController::class,'resetWallet']);

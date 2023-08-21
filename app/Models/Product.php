@@ -21,6 +21,14 @@ class Product extends Model
         }
         return $prod;
     }
+    public static function produkTelur(){
+        $produk = Product::where('status',1)->get();
+        $prod=[];
+        foreach ($produk as $key => $value) {
+            $prod[$value->id] = [ "name" => $value->name,'qty'=>1];
+        }
+        return $prod;
+    }
     public function market(){
         return $this->hasMany(Market::class);
     }
