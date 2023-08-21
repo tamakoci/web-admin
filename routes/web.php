@@ -50,6 +50,7 @@ Route::get('bersih-kandang',[CronController::class,'bersihKandang']);
 Route::get('ambil-telur',[CronController::class,'ambiltelur']); //need check
 
 Route::get('count-ayam',[CronController::class,'kirimBanyakAyam']);
+
 Route::get('jual-telur',[CronController::class,'jualTelur']);
 
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);

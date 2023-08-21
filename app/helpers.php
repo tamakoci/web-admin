@@ -195,7 +195,7 @@ function jualTelur($user_id,$productRequest=1){
             'trx_amount' => $profit,
             'final_amount'=>$wallet->diamon + $profit,
             'trx_type'=>'+',
-            'detail'=>'Selling '.$productRequest. ' '. $product->satuan.' '.$product->name. ' with '. $profit . ' Diamon. ( 1 '.  $product->satuan .' '. $product->name .' = '.$product->dm.' Diamon )',
+            'detail'=>'Jual '.$productRequest. ' '. $product->satuan.' '.$product->name. ' setara '. $profit . ' Gems. ( 1 '.  $product->satuan .' '. $product->name .' = '.$product->dm.' Diamon )',
             'trx_id' => Transaction::trxID('TD')
         ]);
         UserWallet::create([
@@ -204,7 +204,7 @@ function jualTelur($user_id,$productRequest=1){
             'pakan'=>$wallet->pakan,
             'hasil_ternak'=>json_encode($array)
         ]);
-        makenotif($user_id,'Jual Produk','Selling '.$productRequest. ' '. $product->satuan.' '.$product->name. ' with '. $profit . ' Diamon.');
+        makenotif($user_id,'Jual Produk','Jual '.$productRequest. ' '. $product->satuan.' '.$product->name. ' setara '. $profit . ' Gems.');
         DB::commit();
     } catch (\Exception $e) {
         DB::rollback();
@@ -344,3 +344,4 @@ function createDemoAccount($user){
         dd($th->getMessage());
     }
 }
+

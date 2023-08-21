@@ -506,15 +506,16 @@ class CronController extends Controller
         $user = User::where('user_role',1)->get();
         foreach ($user as $key => $value) {
             $wallet = UserWallet::getWalletUserId($value->id);
-            UserWallet::create([
-                'user_id'=>$value->id,
-                'diamon'=>0,
-                'pakan'=>$wallet->pakan,
-                'hasil_ternak'=>$wallet->hasil_ternak
-            ]);
+            // UserWallet::create([
+            //     'user_id'=>$value->id,
+            //     'diamon'=>0,
+            //     'pakan'=>$wallet->pakan,
+            //     'hasil_ternak'=>$wallet->hasil_ternak
+            // ]);
 
             jualTelur($value->id,1);
         }
+       echo 'success-jual';
     }
     public function resetWallet(){
         $user = User::all();
