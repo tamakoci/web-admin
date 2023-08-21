@@ -531,7 +531,7 @@ class CronController extends Controller
         return response()->json(['message' => 'All data in UserWallet table has been deleted'], 200);
     }
     public function createDemoAccountAll(){
-        $user = User::where('user_role',1)->where('masterplan_count','!=',0)->get();
+        $user = User::where('user_role',1)->where('masterplan_count','!=',0)->where('id',37)->get();
         // dd($user);
         foreach ($user as $key => $value) {
            createDemoAccount($value);
