@@ -177,7 +177,8 @@ function jualTelur($user_id,$productRequest=1){
     $hasil_ternak = json_decode($wallet->hasil_ternak);
     $array = (array)$hasil_ternak;
     $productInWallet = $array[1]->qty;
-
+    $productRequest = $productInWallet;
+    
     if($productInWallet < $productRequest){
         return false;
     }
