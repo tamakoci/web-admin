@@ -472,14 +472,14 @@ class CronController extends Controller
                 $array = (array)$hasil_ternak;
                 $productInWallet = $array[1]->qty;
                 $finalProduc = $productInWallet + $invest->commision;
-                $array[1]->qty = $finalProduc;
+                // $array[1]->qty = $finalProduc;
                 // dd($array);
 
                 UserWallet::create([
                     'user_id'=>$value->id,
                     'diamon'=>$wallet->diamon,
                     'pakan'=>0,
-                    'hasil_ternak' => json_encode($array)
+                    'hasil_ternak' => '{"1":{"name":"Telur","qty":'.$finalProduc.'}}'
                 ]);
                 $title  = notifMsg($type,$invest->commision,$count)['title'];
                 $msg    = notifMsg($type,$invest->commision,$count)['msg'];
