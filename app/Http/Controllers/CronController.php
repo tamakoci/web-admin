@@ -381,28 +381,30 @@ class CronController extends Controller
 
             $trxID = Transaction::trxID('BP');
 
-            Investment::where('user_id',$value->id)->update(['mark'=>$type]);
-
-
-            UserWallet::create([
-                'user_id'       => $value->id,
-                'diamon'        => $wallet->diamon - $cost,
-                'pakan'         => 0,
-                'hasil_ternak'  => $wallet->hasil_ternak
-            ]);
-            Transaction::create([
-                'user_id'       => $value->id,
-                'last_amount'   => $wallet->diamon,
-                'trx_amount'    => $cost,
-                'final_amount'  => $wallet->diamon - $cost,
-                'trx_type'=>'-',
-                'detail'=>notifMsg($type,$cost)['title'],
-                'trx_id' => $trxID
-            ]);
-            $title  = notifMsg($type,$cost,$count)['title'];
-            $msg    = notifMsg($type,$cost,$count)['msg'];
+            $invest = Investment::where('user_id',$value->id)->update(['mark'=>$type]);
+            if($invest){
+                UserWallet::create([
+                    'user_id'       => $value->id,
+                    'diamon'        => $wallet->diamon - $cost,
+                    'pakan'         => 0,
+                    'hasil_ternak'  => $wallet->hasil_ternak
+                ]);
+                Transaction::create([
+                    'user_id'       => $value->id,
+                    'last_amount'   => $wallet->diamon,
+                    'trx_amount'    => $cost,
+                    'final_amount'  => $wallet->diamon - $cost,
+                    'trx_type'=>'-',
+                    'detail'=>notifMsg($type,$cost)['title'],
+                    'trx_id' => $trxID
+                ]);
+                $title  = notifMsg($type,$cost,$count)['title'];
+                $msg    = notifMsg($type,$cost,$count)['msg'];
             
-           makenotif($value->id,$title,$msg);
+                makenotif($value->id,$title,$msg);
+            }
+
+           
         }
        
         return response()->json(['status'=>200,'message'=>"Beri Vaksin Success"]);
@@ -422,27 +424,30 @@ class CronController extends Controller
 
             $trxID = Transaction::trxID('BP');
 
-            Investment::where('user_id',$value->id)->update(['mark'=>$type]);
+            $invest = Investment::where('user_id',$value->id)->update(['mark'=>$type]);
+            if($invest){
+                UserWallet::create([
+                    'user_id'       => $value->id,
+                    'diamon'        => $wallet->diamon - $cost,
+                    'pakan'         => 0,
+                    'hasil_ternak'  => $wallet->hasil_ternak
+                ]);
+                Transaction::create([
+                    'user_id'       => $value->id,
+                    'last_amount'   => $wallet->diamon,
+                    'trx_amount'    => $cost,
+                    'final_amount'  => $wallet->diamon - $cost,
+                    'trx_type'=>'-',
+                    'detail'=>notifMsg($type,$cost)['title'],
+                    'trx_id' => $trxID
+                ]);
+                $title  = notifMsg($type,$cost,$count)['title'];
+                $msg    = notifMsg($type,$cost,$count)['msg'];
+                makenotif($value->id,$title,$msg);
+            }
 
-            UserWallet::create([
-                'user_id'       => $value->id,
-                'diamon'        => $wallet->diamon - $cost,
-                'pakan'         => 0,
-                'hasil_ternak'  => $wallet->hasil_ternak
-            ]);
-            Transaction::create([
-                'user_id'       => $value->id,
-                'last_amount'   => $wallet->diamon,
-                'trx_amount'    => $cost,
-                'final_amount'  => $wallet->diamon - $cost,
-                'trx_type'=>'-',
-                'detail'=>notifMsg($type,$cost)['title'],
-                'trx_id' => $trxID
-            ]);
-            $title  = notifMsg($type,$cost,$count)['title'];
-            $msg    = notifMsg($type,$cost,$count)['msg'];
             
-            makenotif($value->id,$title,$msg);
+            
         }
         return response()->json(['status'=>200,'message'=>"Bersih Kandang Success"]);
     }
@@ -457,27 +462,29 @@ class CronController extends Controller
             $wallet = UserWallet::getWalletUserId($value->id);
 
             $invest = Investment::where('user_id',$value->id)->orderByDesc('id')->first();
-            $invest->collected  = $invest->commision;
-            $invest->mark       = $type;
-            $invest->status     = 0;
-            $invest->save();
+            if($invest){
+                $invest->collected  = $invest->commision;
+                $invest->mark       = $type;
+                $invest->status     = 0;
+                $invest->save();
 
-            $hasil_ternak = json_decode($wallet->hasil_ternak);
-            $array = (array)$hasil_ternak;
-            $productInWallet = $array[1]->qty;
-            $finalProduc = $productInWallet + $invest->commision;
-            $array[1]->qty = $finalProduc;
-            // dd($array);
+                $hasil_ternak = json_decode($wallet->hasil_ternak);
+                $array = (array)$hasil_ternak;
+                $productInWallet = $array[1]->qty;
+                $finalProduc = $productInWallet + $invest->commision;
+                $array[1]->qty = $finalProduc;
+                // dd($array);
 
-            UserWallet::create([
-                'user_id'=>$value->id,
-                'diamon'=>$wallet->diamon,
-                'pakan'=>0,
-                'hasil_ternak' => json_encode($array)
-            ]);
-            $title  = notifMsg($type,$invest->commision,$count)['title'];
-            $msg    = notifMsg($type,$invest->commision,$count)['msg'];
-            makenotif($value->id,$title,$msg);
+                UserWallet::create([
+                    'user_id'=>$value->id,
+                    'diamon'=>$wallet->diamon,
+                    'pakan'=>0,
+                    'hasil_ternak' => json_encode($array)
+                ]);
+                $title  = notifMsg($type,$invest->commision,$count)['title'];
+                $msg    = notifMsg($type,$invest->commision,$count)['msg'];
+                makenotif($value->id,$title,$msg);
+            }
         }
         return 'success';
        
@@ -518,18 +525,19 @@ class CronController extends Controller
        echo 'success-jual';
     }
     public function resetWallet(){
-        $user = User::all();
+        $user = User::where('user_role',1)->get();
         //reset tabel wallet;
         UserWallet::truncate();
         foreach ($user as $key => $value) {
             $dm = 537 * $value->masterplan_count;
-            $wallet = UserWallet::create([
+            $telur = $value->masterplan_count;
+            UserWallet::create([
                 'user_id'=>$value->id,
                 'diamon'=>$dm,
-                'hasil_ternak'=>'{"1":{"name":"Telur","qty":2}}'
+                'hasil_ternak'=>'{"1":{"name":"Telur","qty":'.$telur.'}}'
             ]);
         }
-        return response()->json(['message' => 'All data in UserWallet table has been deleted'], 200);
+        return response()->json(['message' => 'All data in UserWallet table has been reset'], 200);
     }
     public function createDemoAccountAll(){
         $user = User::where('user_role',1)->where('masterplan_count','!=',0)->where('id',37)->get();
