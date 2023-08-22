@@ -490,7 +490,7 @@ class CronController extends Controller
             UserWallet::create([
                 'user_id'=>$value->id,
                 'diamon'=>$dm,
-                'hasil_ternak'=>'{"1":{"name":"Telur","qty":}}'
+                'hasil_ternak'=>'{"1":{"name":"Telur","qty":0}}'
             ]);
         }
         return response()->json(['message' => 'All data in UserWallet table has been reset'], 200);
