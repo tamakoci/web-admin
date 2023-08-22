@@ -285,82 +285,36 @@ class CronController extends Controller
             $wallet = UserWallet::getWalletUserId($value->id);
 
             $trxID = Transaction::trxID('BP');
+            Investment::create([
+                'user_id'       => $value->id,
+                'user_ternak'   => $user_ternak->id,
+                'transaction'   => $trxID,
+                'collected'     => 0,
+                'remains'       => 0,
+                'commision'     => $commision,
+                'mark'          => $type,
+                'status'        => 1
+            ]);
+            Transaction::create([
+                'user_id'       => $value->id,
+                'last_amount'   => $wallet->diamon,
+                'trx_amount'    => $cost,
+                'final_amount'  => $wallet->diamon - $cost,
+                'trx_type'=>'-',
+                'detail'=>notifMsg($type,$cost,$count)['title'],
+                'trx_id' => $trxID
+            ]);
+            UserWallet::create([
+                'user_id'=>$value->id,
+                'diamon'=>$wallet->diamon - $cost,
+                'pakan'=>0,
+                'hasil_ternak' => $wallet->hasil_ternak
+            ]);
+            
+            $title  = notifMsg($type,$cost,$count)['title'];
+            $msg    = notifMsg($type,$cost,$count)['msg'];
 
-            if($type=1){
-                Investment::create([
-                    'user_id'       => $value->id,
-                    'user_ternak'   => $user_ternak->id,
-                    'transaction'   => $trxID,
-                    'collected'     => 0,
-                    'remains'       => 0,
-                    'commision'     => $commision,
-                    'mark'          => $type,
-                    'status'        => 1
-                ]);
-                Transaction::create([
-                    'user_id'       => $value->id,
-                    'last_amount'   => $wallet->diamon,
-                    'trx_amount'    => $cost,
-                    'final_amount'  => $wallet->diamon - $cost,
-                    'trx_type'=>'-',
-                    'detail'=>notifMsg($type,$cost,$count)['title'],
-                    'trx_id' => $trxID
-                ]);
-                UserWallet::create([
-                    'user_id'=>$value->id,
-                    'diamon'=>$wallet->diamon - $cost,
-                    'pakan'=>0,
-                    'hasil_ternak' => $wallet->hasil_ternak
-                ]);
-                $title  = notifMsg($type,$cost,$count)['title'];
-                $msg    = notifMsg($type,$cost,$count)['msg'];
-
-            }elseif($type==4){
-                $invest = Investment::where('user_id',$value->id)->first();
-                $invest->collected  = $invest->commision;
-                $invest->mark       = $type;
-                $invest->status     = 0;
-                $invest->save();
-
-                $hasil_ternak = json_decode($wallet->hasil_ternak);
-                $array = (array)$hasil_ternak;
-                $productInWallet = $array[1]->qty;
-                $finalProduc = $productInWallet + $invest->commision;
-                $array[1]->qty = $finalProduc;
-                // dd($array);
-
-                UserWallet::create([
-                    'user_id'=>$value->id,
-                    'diamon'=>$wallet->diamon,
-                    'pakan'=>0,
-                    'hasil_ternak' => json_encode($array)
-                ]);
-                $title  = notifMsg($type,$invest->commision,$count)['title'];
-                $msg    = notifMsg($type,$invest->commision,$count)['msg'];
-            }else{
-                $invest = Investment::where('user_id',$value->id)->first();
-                $invest->mark       = $type;
-                $invest->save();
-
-                UserWallet::create([
-                    'user_id'       => $value->id,
-                    'diamon'        => $wallet->diamon - $cost,
-                    'pakan'         => 0,
-                    'hasil_ternak'  => $wallet->hasil_ternak
-                ]);
-                Transaction::create([
-                    'user_id'       => $value->id,
-                    'last_amount'   => $wallet->diamon,
-                    'trx_amount'    => $cost,
-                    'final_amount'  => $wallet->diamon - $cost,
-                    'trx_type'=>'-',
-                    'detail'=>notifMsg($type,$cost)['title'],
-                    'trx_id' => $trxID
-                ]);
-                $title  = notifMsg($type,$cost,$count)['title'];
-                $msg    = notifMsg($type,$cost,$count)['msg'];
-            }
-           makenotif($value->id,$title,$msg);
+            makenotif($value->id,$title,$msg);
         }
         return response()->json(['status'=>200,'message'=>"Beri Pakan Success"]);
     }
