@@ -335,7 +335,7 @@ class CronController extends Controller
 
             $trxID = Transaction::trxID('BP');
 
-            $invest = Investment::where('user_id',$value->id)->update(['mark'=>$type]);
+            $invest = Investment::where('user_id',$value->id)->where('mark',1)->update(['mark'=>$type]);
             if($invest){
                 UserWallet::create([
                     'user_id'       => $value->id,
@@ -378,7 +378,7 @@ class CronController extends Controller
 
             $trxID = Transaction::trxID('BP');
 
-            $invest = Investment::where('user_id',$value->id)->update(['mark'=>$type]);
+            $invest = Investment::where('user_id',$value->id)->where('mark',2)->update(['mark'=>$type]);
             if($invest){
                 UserWallet::create([
                     'user_id'       => $value->id,
@@ -415,18 +415,18 @@ class CronController extends Controller
 
             $wallet = UserWallet::getWalletUserId($value->id);
 
-            $invest = Investment::where('user_id',$value->id)->orderByDesc('id')->first();
+            $invest = Investment::where('user_id',$value->id)->where('mark',3)->orderByDesc('id')->first();
             if($invest){
-                $invest->collected  = $invest->commision;
-                $invest->mark       = $type;
-                $invest->status     = 0;
-                $invest->save();
+                $invest->update([
+                    'collected' =>$invest->commision,
+                    'mark'      => $type,
+                    'status'    => 0
+                ]);
 
-                // $hasil_ternak = json_decode($wallet->hasil_ternak);
-                // $array = (array)$hasil_ternak;
-                // $productInWallet = $array[1]->qty;
-
-                // $finalProduc = $productInWallet + $invest->commision;
+                $hasil_ternak = json_decode($wallet->hasil_ternak);
+                $array = (array)$hasil_ternak;
+                $productInWallet = $array[1]->qty;
+                $finalProduc = $productInWallet + $invest->commision;
                 $finalProduc = $invest->commision;
                 // $array[1]->qty = $finalProduc;
                 // dd($array);
