@@ -489,7 +489,7 @@ class CronController extends Controller
             $telur = $value->masterplan_count;
             UserWallet::create([
                 'user_id'=>$value->id,
-                'diamon'=>$dm,
+                'diamon'=>0,
                 'hasil_ternak'=>'{"1":{"name":"Telur","qty":0}}'
             ]);
         }
