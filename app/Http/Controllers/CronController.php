@@ -422,10 +422,12 @@ class CronController extends Controller
                 $invest->status     = 0;
                 $invest->save();
 
-                $hasil_ternak = json_decode($wallet->hasil_ternak);
-                $array = (array)$hasil_ternak;
-                $productInWallet = $array[1]->qty;
-                $finalProduc = $productInWallet + $invest->commision;
+                // $hasil_ternak = json_decode($wallet->hasil_ternak);
+                // $array = (array)$hasil_ternak;
+                // $productInWallet = $array[1]->qty;
+
+                // $finalProduc = $productInWallet + $invest->commision;
+                $finalProduc = $invest->commision;
                 // $array[1]->qty = $finalProduc;
                 // dd($array);
 
