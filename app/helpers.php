@@ -179,7 +179,7 @@ function jualTelur($user_id,$productRequest=1){
     $productInWallet = $array[1]->qty;
     $productRequest = $productInWallet;
     
-    if($productInWallet < $productRequest){
+    if($productInWallet < $productRequest && $productInWallet == 0){
         return false;
     }
     $finalProduc = $productInWallet - $productRequest;
