@@ -188,7 +188,7 @@ class AuthController extends Controller
     public function masterplanRegister(Request $request){
         $validation = [
             'username'  => 'required|min:5|unique:users,username',
-            'phone'     => 'required|unique:users,phone',
+            // 'phone'     => 'required|unique:users,phone',
             // 'email'     => 'required|email|unique:users,email',
             'gems'      => 'required|numeric',
             'masterplan_count'  => 'required|numeric',
