@@ -44,6 +44,10 @@ Route::get('update-user-wallet',function(){
     foreach ($user as $key => $value) {
         $wallet = UserWallet::getWalletUserId($value->id);
         $hasil_ternak = json_decode($wallet->hasil_ternak);
+        if($hasil_ternak == null){
+            var_dump($wallet);
+            dd($value->id);
+        }
         $array = (array)$hasil_ternak;
         $productInWallet = $array[1]->qty;
     
