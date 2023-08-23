@@ -275,19 +275,18 @@ class CronController extends Controller
         $type=1;
         $user= User::where('user_role',1)->where('masterplan_count','!=',0)->get();
         foreach ($user as $key => $value) {
-            $ternak= UserTernak::with(['user'])->where('user_id',$value->id)->get();
-            $user_ternak = $ternak->first();
+            $ternak= $value->masterplan_count;
             
-            $cost = $ternak->count() * $pakan_cost;
+            $cost = $ternak * $pakan_cost;
             $commision = $value->masterplan_count;
-            $count = $ternak->count();
+            $count = $ternak;
 
             $wallet = UserWallet::getWalletUserId($value->id);
 
             $trxID = Transaction::trxID('BP');
             Investment::create([
                 'user_id'       => $value->id,
-                'user_ternak'   => $user_ternak->id,
+                'user_ternak'   => 1,
                 'transaction'   => $trxID,
                 'collected'     => 0,
                 'remains'       => 0,
@@ -324,12 +323,11 @@ class CronController extends Controller
         $type=2;
         $user= User::where('user_role',1)->get();
         foreach ($user as $key => $value) {
-            $ternak= UserTernak::with(['user'])->where('user_id',$value->id)->get();
-            $user_ternak = $ternak->first();
+            $ternak= $value->masterplan_count;
             
-            $cost = $ternak->count() * $vaksin_cost;
-            $commision = $ternak->count() * 1;
-            $count = $ternak->count();
+            $cost = $ternak * $vaksin_cost;
+            $commision = $ternak * 1;
+            $count = $ternak;
 
             $wallet = UserWallet::getWalletUserId($value->id);
 
@@ -367,12 +365,10 @@ class CronController extends Controller
         $type=3;
         $user= User::where('user_role',1)->get();
         foreach ($user as $key => $value) {
-            $ternak= UserTernak::with(['user'])->where('user_id',$value->id)->get();
-            $user_ternak = $ternak->first();
-            
-            $cost = $ternak->count() * $tools_cost;
-            $commision = $ternak->count() * 1;
-            $count = $ternak->count();
+            $ternak= $value->masterplan_count;
+            $cost =$ternak * $tools_cost;
+            $commision =$ternak * 1;
+            $count =$ternak;
 
             $wallet = UserWallet::getWalletUserId($value->id);
 
@@ -410,18 +406,13 @@ class CronController extends Controller
         $type=4;
         $user= User::where('user_role',1)->get();
         foreach ($user as $key => $value) {
-            $ternak= UserTernak::with(['user'])->where('user_id',$value->id)->get();
-            $count = $ternak->count();
+            $ternak= $value->masterplan_count;
+            $count =$ternak;
 
             $wallet = UserWallet::getWalletUserId($value->id);
 
             $invest = Investment::where('user_id',$value->id)->where('mark',3)->orderByDesc('id')->first();
             if($invest){
-                $invest->update([
-                    'collected' =>$invest->commision,
-                    'mark'      => $type,
-                    'status'    => 0
-                ]);
 
                 $hasil_ternak = json_decode($wallet->hasil_ternak);
                 $array = (array)$hasil_ternak;
@@ -432,11 +423,18 @@ class CronController extends Controller
                 // dd($array);
 
                 UserWallet::create([
-                    'user_id'=>$value->id,
-                    'diamon'=>$wallet->diamon,
-                    'pakan'=>0,
+                    'user_id'   => $value->id,
+                    'diamon'    =>  $wallet->diamon,
+                    'pakan'     =>0,
                     'hasil_ternak' => '{"1":{"name":"Telur","qty":'.$finalProduc.'}}'
                 ]);
+
+                $invest->update([
+                    'collected' =>  $invest->commision,
+                    'mark'      => $type,
+                    'status'    => 0
+                ]);
+                
                 $title  = notifMsg($type,$invest->commision,$count)['title'];
                 $msg    = notifMsg($type,$invest->commision,$count)['msg'];
                 makenotif($value->id,$title,$msg);
