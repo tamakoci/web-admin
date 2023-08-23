@@ -43,8 +43,9 @@ Route::get('update-user-wallet',function(){
     $user = User::where('is_demo',0)->get();
     foreach ($user as $key => $value) {
         $wallet = UserWallet::getWalletUserId($value->id);
-        $hasil_ternak = json_decode($wallet->hasil_ternak);
-        if($hasil_ternak == null){
+        try {
+            $hasil_ternak = json_decode($wallet->hasil_ternak);
+        } catch (Exception $e) {
             var_dump($wallet);
             dd($value->id);
         }
