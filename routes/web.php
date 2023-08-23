@@ -40,7 +40,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 Route::get('update-user-wallet',function(){
-    $user = User::where('is_demo',0)->get();
+    $user = User::where('is_demo',0)->where('user_role',1)->get();
     foreach ($user as $key => $value) {
         $wallet = UserWallet::where('user_id',$value->id)->orderByDesc('id')->first();
         try {
