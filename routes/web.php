@@ -24,6 +24,7 @@ use App\Http\Controllers\web\UserController;
 use App\Models\Ternak;
 use App\Models\User;
 use App\Models\UserTernak;
+use App\Models\UserWallet;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -38,6 +39,21 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('update-user-wallet',function(){
+    $user = User::where('is_demo',0)->get();
+    foreach ($user as $key => $value) {
+        $wallet = UserWallet::getWalletUserId($value->id);
+        $hasil_ternak = json_decode($wallet->hasil_ternak);
+        $array = (array)$hasil_ternak;
+        $productInWallet = $array[1]->qty;
+    
+        $value->gems = $wallet->diamon;
+        $value->telur = $productInWallet;
+        $value->save();
+    }
+    return 'success';
+});
+
 Route::get('create-demo',[CronController::class,'createDemoAccountAll']);
 
 Route::get('living-cost',[CronController::class,'livingCost']);
