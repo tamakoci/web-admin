@@ -42,12 +42,12 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::get('update-user-wallet',function(){
     $user = User::where('is_demo',0)->get();
     foreach ($user as $key => $value) {
-        $wallet = UserWallet::getWalletUserId($value->id);
+        $wallet = UserWallet::where('user_id',$value->id)->orderByDesc('id')->first();
         try {
             $hasil_ternak = json_decode($wallet->hasil_ternak);
         } catch (Exception $e) {
-            var_dump($wallet);
-            dd($value->id);
+            var_dump('id= '. $value->id);
+            dd($wallet);
         }
         $array = (array)$hasil_ternak;
         $productInWallet = $array[1]->qty;
