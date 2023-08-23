@@ -279,7 +279,7 @@ class CronController extends Controller
             $user_ternak = $ternak->first();
             
             $cost = $ternak->count() * $pakan_cost;
-            $commision = $ternak->count() * 1;
+            $commision = $value->masterplan_count;
             $count = $ternak->count();
 
             $wallet = UserWallet::getWalletUserId($value->id);
