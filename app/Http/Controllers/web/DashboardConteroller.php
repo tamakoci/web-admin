@@ -19,6 +19,7 @@ class DashboardConteroller extends Controller
         return view('dashboard.index',$data);
     }
     public function user(){
+        // dd(notifApi());
         $wallet = UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
         $data['title'] = 'Dashboard';
         $data['diamon'] = $wallet->diamon;

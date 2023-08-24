@@ -27,13 +27,13 @@ function notifApi(){
     $data = Notif::where('user_id',auth()->user()->id)->orwhere('all_user',1)->orderByDesc('id')->limit(5)->get();
     $rs = [];
     foreach($data as $d){
-        $rs[] += [
+        $rs[] = [
             'title'     => $d->title,
             'message'   => $d->message,
             'time'      => $d->created_at->diffForHumans()
         ];
     }
-    return ['count'=>$data->count(),'data'=>$data];
+    return ['count'=>$data->count(),'data'=>$rs];
 }
 
 function notifMsg($type,$cost,$count=1){
