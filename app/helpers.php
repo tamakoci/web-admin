@@ -23,6 +23,18 @@ function notif(){
     $data = Notif::where('user_id',auth()->user()->id)->orwhere('all_user',1)->orderByDesc('id')->limit(5)->get();
     return ['data'=>$data,'count'=>$data->count()];
 }
+function notifApi(){
+    $data = Notif::where('user_id',auth()->user()->id)->orwhere('all_user',1)->orderByDesc('id')->limit(5)->get();
+    $rs = [];
+    foreach($data as $d){
+        $rs[] += [
+            'title'     => $d->title,
+            'message'   => $d->message,
+            'time'      => $d->diffForHumans()
+        ];
+    }
+    return ['count'=>$data->count(),'data'=>$data];
+}
 
 function notifMsg($type,$cost,$count=1){
     if($type==1){

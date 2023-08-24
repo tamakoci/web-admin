@@ -113,7 +113,7 @@ class UserController extends Controller
         return [
             'status'=>200,
             'message'=>'Notification User',
-            'data'=>notif()
+            'data'=>notifApi()
         ];
     }
 }
