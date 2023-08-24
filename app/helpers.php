@@ -30,7 +30,7 @@ function notifApi(){
         $rs[] += [
             'title'     => $d->title,
             'message'   => $d->message,
-            'time'      => $d->diffForHumans()
+            'time'      => $d->created_at->diffForHumans()
         ];
     }
     return ['count'=>$data->count(),'data'=>$data];
