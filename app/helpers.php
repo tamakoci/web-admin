@@ -33,7 +33,7 @@ function notifApi(){
             'time'      => $d->created_at->diffForHumans()
         ];
     }
-    return ['count'=>$data->count(),'data'=>$rs];
+    return ['count'=>$data->count(),'notif'=>$rs];
 }
 
 function notifMsg($type,$cost,$count=1){

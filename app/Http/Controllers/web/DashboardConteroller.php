@@ -31,7 +31,7 @@ class DashboardConteroller extends Controller
     }
     public function chart(){
         $data = Chart::countProductUser();
-        return response()->json(['status'=>200,'notif'=>$data],200);
+        return response()->json(['status'=>200,'data'=>$data],200);
     }
     public function wallets(){
         $wallet = UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
