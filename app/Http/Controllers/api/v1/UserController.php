@@ -109,4 +109,11 @@ class UserController extends Controller
     public function getUserTernak(){
     }
 
+    public function getNotif(){
+        return [
+            'status'=>200,
+            'message'=>'Notification User',
+            'data'=>notif()
+        ];
+    }
 }
