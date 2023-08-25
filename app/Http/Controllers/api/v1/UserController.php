@@ -27,20 +27,26 @@ class UserController extends Controller
         // return $produk;
         if($wallet){
             $userWallet = [
-                'diamon'=>$wallet->diamon,
-                'pakan'=>$wallet->pakan,
-                'hasil_ternak'=>$wallet->hasilTernak()
+                'diamon'        => $wallet->diamon,
+                'pakan'         => $wallet->pakan,
+                'vaksin'        => $wallet->vaksin,
+                'tools'         => $wallet->tools,
+                'hasil_ternak'  => $wallet->hasilTernak()
             ];
         }else{
             $new = UserWallet::create([
-                'user_id'=>$user->id,
-                'diamon'=>0,
-                'pakan'=>0,
+                'user_id'       => $user->id,
+                'diamon'        => 0,
+                'pakan'         => 0,
+                'vaksin'        => 0,
+                'tools'         => 0,
                 'hasil_ternak'=> json_encode(Product::produk())
             ]);
             $userWallet = [
-                'diamon'=>$new->diamon,
-                'pakan'=>$new->pakan,
+                'diamon'        => $new->diamon,
+                'pakan'         => $new->pakan,
+                'vaksin'        => $new->vaksin,
+                'tools'         => $new->tools,
                 'hasil_ternak'=>$new->hasilTernak()
             ];
         }

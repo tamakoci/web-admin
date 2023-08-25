@@ -32,9 +32,11 @@ class TransactionController extends Controller
         ];
         return $this->send($this->url.'transaction-detail.php',json_encode($data));
     }
-    public function beliToolsHarian($requiments=89){
-        $user = Auth::user();
-        $cost = ($requiments * 3) * $user->masterplan_count;
+    public function beliToolsHarian($qty){
+        $daycost    = 89;
+        $req        = $qty * $daycost;
+        $user       = Auth::user();
+        $cost       = ($daycost * $req) * $user->masterplan_count;
         $wallet = UserWallet::getWalletUserId($user->id);
         if($wallet->diamon < $cost){
             return response()->json(['status'=>401,'message'=>'Tidak Cukup Gems']);
