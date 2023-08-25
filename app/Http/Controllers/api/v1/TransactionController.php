@@ -33,20 +33,20 @@ class TransactionController extends Controller
         return $this->send($this->url.'transaction-detail.php',json_encode($data));
     }
     public function beliToolsHarian($qty){
-        $daycost    = 89;
-        $req        = $qty * $daycost;
-        $user       = Auth::user();
-        $cost       = ($daycost * $req) * $user->masterplan_count;
+        $daycost            = 89;
+        $user               = Auth::user();
+        $cost_per_day       = ($daycost * 3) * $user->masterplan_count;
+        $global_cost        = $cost_per_day * $qty;
         $wallet = UserWallet::getWalletUserId($user->id);
-        if($wallet->diamon < $cost){
+        if($wallet->diamon < $global_cost){
             return response()->json(['status'=>401,'message'=>'Tidak Cukup Gems']);
         }
-        $task = $cost / 3;
+        $task = $global_cost / 3;
         DB::beginTransaction();
         try {
             UserWallet::create([
                 'user_id'   => $user->id,
-                'diamon'    => $wallet->diamon - $cost,
+                'diamon'    => $wallet->diamon - $global_cost,
                 'pakan'     => $wallet->pakan + $task,
                 'vaksin'        => $wallet->vaksin + $task,
                 'tools'         => $wallet->tools + $task,
@@ -55,8 +55,8 @@ class TransactionController extends Controller
             Transaction::create([
                 'user_id'       => $user->id,
                 'last_amount'   => $wallet->diamon,
-                'trx_amount'    => $cost,
-                'final_amount'  => $wallet->diamon - $cost,
+                'trx_amount'    => $global_cost,
+                'final_amount'  => $wallet->diamon - $global_cost,
                 'trx_type'      => '-',
                 'detail'        => 'Beli Perlengkapan Harian',
                 'trx_id'        => Transaction::trxID('BT')
@@ -64,7 +64,7 @@ class TransactionController extends Controller
             
             DB::commit();
             makenotif($user->id,'Beli Perlengkapan Harian','Beli '.$task.' Pakan + '.$task.' Vaksin + '.$task.' Tools untuk '.$user->masterplan_count. ' ternak, Setara '.$cost.' Gems Success!');
-            return response()->json(['status'=>200,'message'=>"Beli Pakan Vaksin Tools Success!"]);
+            return response()->json(['status'=>200,'message'=>"Beli Pakan Vaksin Tools Untuk ".$qty."Hari Success!"]);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status'=>500,'error'=>$e->getMessage()]);
