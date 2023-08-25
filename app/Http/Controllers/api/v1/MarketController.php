@@ -59,7 +59,7 @@ class MarketController extends Controller
         }
         $finalProduc = $productInWallet - $productRequest;
         $array[$data->product->id]->qty = $finalProduc;
-        $notif = 'Jual '.$productRequest. ' '. $data->product->satuan.' '.$data->product->name. ' setara '. $profit . ' Gems. ( 1 '.  $data->product->satuan .' '. $data->product->name .' = '.$data->product->dm.' Gems )';
+        $notif = 'Jual '.$productRequest. ' '. $data->product->satuan.' '.$data->product->name. ' setara '. nb($profit) . ' Gems. ( 1 '.  $data->product->satuan .' '. $data->product->name .' = '.$data->product->dm.' Gems )';
        
         DB::beginTransaction();
         try {
