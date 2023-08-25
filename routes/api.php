@@ -64,6 +64,17 @@ Route::group(['prefix'=>'v1'],function(){
 
         Route::get('notif-user',[UserController::class,'getNotif']);
 
+        Route::get('beri-pakan',[TernakController::class,'beriPakanWithPakan']);
+        Route::get('beri-vaksin',[TernakController::class,'beriVaksinWithVaksin']);
+        Route::get('bersih-kandang',[TernakController::class,'bersihKandangWithTools']);
+        
+        Route::get('beri-pakan-gems',[TernakController::class,'beriPakanGems']);
+        Route::get('beri-vaksin-gems',[TernakController::class,'beriVaksinGems']);
+        Route::get('bersih-kandang-gems',[TernakController::class,'bersihKandangGems']);
+        
+        Route::get('ambil-telur',[TernakController::class,'ambiltelur']);
+
+        Route::get('beli-tools',[TransactionController::class,'beliToolsHarian']);
 
         Route::get('logout', [AuthController::class, 'logout']);
     });

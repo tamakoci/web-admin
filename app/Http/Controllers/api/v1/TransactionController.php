@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -30,6 +31,42 @@ class TransactionController extends Controller
             'orderNo' => $kode
         ];
         return $this->send($this->url.'transaction-detail.php',json_encode($data));
+    }
+    public function beliToolsHarian($requiments=89){
+        $user = Auth::user();
+        $cost = ($requiments * 3) * $user->masterplan_count;
+        $wallet = UserWallet::getWalletUserId($user->id);
+        if($wallet->diamon < $cost){
+            return response()->json(['status'=>401,'message'=>'Tidak Cukup Gems']);
+        }
+        $task = $cost / 3;
+        DB::beginTransaction();
+        try {
+            UserWallet::create([
+                'user_id'   => $user->id,
+                'diamon'    => $wallet->diamon - $cost,
+                'pakan'     => $wallet->pakan + $task,
+                'vaksin'        => $wallet->vaksin + $task,
+                'tools'         => $wallet->tools + $task,
+                'hasil_ternak'  => $wallet->hasil_ternak
+            ]);
+            Transaction::create([
+                'user_id'       => $user->id,
+                'last_amount'   => $wallet->diamon,
+                'trx_amount'    => $cost,
+                'final_amount'  => $wallet->diamon - $cost,
+                'trx_type'      => '-',
+                'detail'        => 'Beli Perlengkapan Harian',
+                'trx_id'        => Transaction::trxID('BT')
+            ]);
+            
+            DB::commit();
+            makenotif($user->id,'Beli Perlengkapan Harian','Beli '.$task.' Pakan + '.$task.' Vaksin + '.$task.' Tools untuk '.$user->masterplan_count. ' ternak, Setara '.$cost.' Gems Success!');
+            return response()->json(['status'=>200,'message'=>"Beli Pakan Vaksin Tools Success!"]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status'=>500,'error'=>$e->getMessage()]);
+        }
     }
 
     public function trxLog(Request $request){

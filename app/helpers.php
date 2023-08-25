@@ -36,17 +36,17 @@ function notifApi(){
     return ['count'=>$data->count(),'notif'=>$rs];
 }
 
-function notifMsg($type,$cost,$count=1){
+function notifMsg($type,$cost,$count=1,$with='Gems'){
     if($type==1){
         $title  = "Beri Pakan Ternak";
-        $msg    = 'Beripakan ternak setara '.$cost.' gems untuk '.$count.' ayam sukses dilakukan.';
+        $msg    = 'Beripakan ternak setara '.$cost.' '. $with.' untuk '.$count.' ayam sukses dilakukan.';
     }if($type==2){
         $title  = "Beri Vaksin Ternak";
-        $msg    = 'Beri Vaksin setara '.$cost.' gems  untuk '.$count.' ayam sukses dilakukan.';
+        $msg    = 'Beri Vaksin setara '.$cost. ' '. $with.'  untuk '.$count.' ayam sukses dilakukan.';
     }
     if($type==3){
         $title = 'Bersihkan Kandang Ternak';
-        $msg = 'Sukses Bersihkan Kandang  Untuk '.$count.' Ayam Setara '.$cost.' Gems.';
+        $msg = 'Sukses Bersihkan Kandang  Untuk '.$count.' Ayam Setara '.$cost.' '. $with;
     }
     if($type==4){
         $title  = 'Panen Telur';

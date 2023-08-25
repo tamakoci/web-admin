@@ -428,13 +428,12 @@ class CronController extends Controller
                     'pakan'     =>0,
                     'hasil_ternak' => '{"1":{"name":"Telur","qty":'.$finalProduc.'}}'
                 ]);
-
+                
                 $invest->update([
                     'collected' =>  $invest->commision,
                     'mark'      => $type,
                     'status'    => 0
                 ]);
-                
                 $title  = notifMsg($type,$invest->commision,$count)['title'];
                 $msg    = notifMsg($type,$invest->commision,$count)['msg'];
                 makenotif($value->id,$title,$msg);

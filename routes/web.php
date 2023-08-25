@@ -20,6 +20,7 @@ use App\Http\Controllers\web\TopupDiamonController;
 use App\Http\Controllers\web\TopupPakanController;
 use App\Http\Controllers\web\TopupPanganController;
 use App\Http\Controllers\web\TransactionController;
+use App\Http\Controllers\api\v1\TransactionController as TransactionControllerApi;
 use App\Http\Controllers\web\UserController;
 use App\Models\Ternak;
 use App\Models\User;
@@ -108,6 +109,8 @@ Route::group(["middleware"=>"auth"],function(){
     Route::group(['prefix'=>'user'],function(){
         Route::get('/dashboard',[DashboardConteroller::class,'user']);
         Route::resource('referal',ReferalsController::class);
+        Route::get('beli-tools',[TransactionControllerApi::class,'beliToolsHarian']);
+
     });
     Route::group(['prefix'=>'admin'],function(){
         Route::get('/dashboard',[DashboardConteroller::class,'index']);
