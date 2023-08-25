@@ -65,7 +65,7 @@ class TransactionController extends Controller
             DB::commit();
             makenotif($user->id,'
                             Beli Perlengkapan Harian','Beli '.$task.' Pakan + '.$task.' Vaksin + '.$task.' Tools untuk '.
-                            $user->masterplan_count. ' ternak, Setara '.$global_cost.' Gems Success!');
+                            $user->masterplan_count. ' ternak selama '.$qty.' hari, Setara '.$global_cost.' Gems Success!');
             return response()->json(['status'=>200,'message'=>"Beli Pakan Vaksin Tools Untuk ".$qty." Hari Success!"]);
         } catch (\Exception $e) {
             DB::rollback();
