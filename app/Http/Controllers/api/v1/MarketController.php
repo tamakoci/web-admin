@@ -59,7 +59,8 @@ class MarketController extends Controller
         }
         $finalProduc = $productInWallet - $productRequest;
         $array[$data->product->id]->qty = $finalProduc;
-
+        $notif = 'Jual '.$productRequest. ' '. $data->product->satuan.' '.$data->product->name. ' setara '. $profit . ' Gems. ( 1 '.  $data->product->satuan .' '. $data->product->name .' = '.$data->product->dm.' Gems )';
+       
         DB::beginTransaction();
         try {
             Transaction::create([
@@ -68,7 +69,7 @@ class MarketController extends Controller
                 'trx_amount' => $profit,
                 'final_amount'=>$wallet->diamon + $profit,
                 'trx_type'=>'+',
-                'detail'=>'Selling '.$productRequest. ' '. $data->product->satuan.' '.$data->product->name. ' with '. $profit . ' Diamon. ( 1 '.  $data->product->satuan .' '. $data->product->name .' = '.$data->product->dm.' Diamon )',
+                'detail'=> $notif,
                 'trx_id' => Transaction::trxID('TD')
             ]);
             UserWallet::create([
@@ -77,7 +78,9 @@ class MarketController extends Controller
                 'pakan'=>$wallet->pakan,
                 'hasil_ternak'=>json_encode($array)
             ]);
+             
             DB::commit();
+            makenotif($user->id,'Selling On Markets',$notif);
             return response()->json(['status'=>200,'message'=>"Selling Market Success"]);
         } catch (\Exception $e) {
             DB::rollback();
