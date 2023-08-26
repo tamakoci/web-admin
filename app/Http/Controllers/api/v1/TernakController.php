@@ -586,7 +586,7 @@ class TernakController extends Controller
                 'vaksin_date'   => $vaksinDate,
                 'is_kandang'    => $isKandang,
                 'kandag_date'   => $kandangDate,
-                'last_act'      => $act->updated_at,
+                'last_act'      => $act->updated_at->timestamp,
                 'req'           => $req,
                 'running'       => $act->mark,
                 'commison'      => $act->commision,
