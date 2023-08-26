@@ -11,6 +11,7 @@ use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
@@ -121,5 +122,19 @@ class UserController extends Controller
             'message'=>'Notification User',
             'data'=>notifApi()
         ];
+    }
+    public function checkRekening(){
+        $user   = Auth::user();
+        $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$user->username;
+        
+        $response = Http::get($apiUrl);
+        // Check if the request was successful
+        if ($response->successful()) {
+            $data = $response->json();
+            return response()->json($data);
+        } else {
+            return response()->json(['error' => 'Failed to fetch data from the API'], $response->status());
+        }
+
     }
 }
