@@ -541,8 +541,8 @@ class TernakController extends Controller
     public function dayActivity(){
         $user = Auth::user();
         $act = Investment::where('user_id', $user->id)
-            ->where('status',1)
             ->whereDate('created_at', now()->toDateString())
+            ->orderByDesc('id')
             ->first();
         if(!$act){
             return [
@@ -586,9 +586,11 @@ class TernakController extends Controller
                 'vaksin_date'   => $vaksinDate,
                 'is_kandang'    => $isKandang,
                 'kandag_date'   => $kandangDate,
+                'last_act'      => $act->updated_at,
                 'req'           => $req,
                 'running'       => $act->mark,
                 'commison'      => $act->commision,
+                
             ]
         ];
     }
