@@ -576,6 +576,7 @@ class ComposerStaticInit377a84e2c164c8eed11fcb62fab82ddd
         'App\\Models\\PakanTernak' => __DIR__ . '/../..' . '/app/Models/PakanTernak.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
+        'App\\Models\\ProdukTelurDaily' => __DIR__ . '/../..' . '/app/Models/ProdukTelurDaily.php',
         'App\\Models\\ReferalBonus' => __DIR__ . '/../..' . '/app/Models/ReferalBonus.php',
         'App\\Models\\ReferalTree' => __DIR__ . '/../..' . '/app/Models/ReferalTree.php',
         'App\\Models\\Ternak' => __DIR__ . '/../..' . '/app/Models/Ternak.php',

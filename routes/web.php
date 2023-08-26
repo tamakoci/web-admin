@@ -21,6 +21,7 @@ use App\Http\Controllers\web\TopupPakanController;
 use App\Http\Controllers\web\TopupPanganController;
 use App\Http\Controllers\web\TransactionController;
 use App\Http\Controllers\api\v1\TransactionController as TransactionControllerApi;
+use App\Http\Controllers\web\TelurController as WebTelurController;
 use App\Http\Controllers\web\UserController;
 use App\Models\Ternak;
 use App\Models\User;
@@ -118,7 +119,8 @@ Route::group(["middleware"=>"auth"],function(){
         Route::resource('/request-market',MarketConteroller::class);
         Route::resource('/topup-diamon',TopupDiamonController::class);
         Route::resource('/topup-pakan',TopupPakanController::class);
-        Route::resource('/product',ProductController::class);
+        // Route::resource('/product',ProductController::class);
+        Route::resource('/telur',WebTelurController::class);
         Route::resource('/ternak',TernakController::class);
         Route::resource('/pakan-ternak',PakanTernakController::class);
         Route::resource('/bank',BankController::class);

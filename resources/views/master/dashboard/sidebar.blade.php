@@ -38,7 +38,8 @@
                 </a>
                 <ul>
                     <li>
-                        <a href="{{ url('admin/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a>
+                        {{-- <a href="{{ url('admin/product') }}"><i class="bx bx-right-arrow-alt"></i>Product Ternak</a> --}}
+                        <a href="{{ url('admin/telur') }}"><i class="bx bx-right-arrow-alt"></i>Harga Telur</a>
                     </li>
                     <li>
                         <a href="{{ url('admin/ternak') }}"><i class="bx bx-right-arrow-alt"></i>Ternak</a>

@@ -55,6 +55,7 @@ return array(
     'App\\Models\\PakanTernak' => $baseDir . '/app/Models/PakanTernak.php',
     'App\\Models\\Payment' => $baseDir . '/app/Models/Payment.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
+    'App\\Models\\ProdukTelurDaily' => $baseDir . '/app/Models/ProdukTelurDaily.php',
     'App\\Models\\ReferalBonus' => $baseDir . '/app/Models/ReferalBonus.php',
     'App\\Models\\ReferalTree' => $baseDir . '/app/Models/ReferalTree.php',
     'App\\Models\\Ternak' => $baseDir . '/app/Models/Ternak.php',
