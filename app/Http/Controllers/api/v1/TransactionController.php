@@ -72,6 +72,21 @@ class TransactionController extends Controller
             return response()->json(['status'=>500,'error'=>$e->getMessage()]);
         }
     }
+     public function beliToolsInfo(){
+        $daycost            = 89;
+        $user               = Auth::user();
+        $cost_per_day       = ($daycost * 3) * $user->masterplan_count;
+        $global_cost        = $cost_per_day;
+        return [
+            'status'    => 200,
+            'message'   => 'Beli Tools Info',
+            'data'      => [
+                ['day'=>1,'cost'=>$global_cost * 1],
+                ['day'=>2,'cost'=>$global_cost * 2],
+                ['day'=>3,'cost'=>$global_cost * 3],
+            ]
+        ];
+    }
 
     public function trxLog(Request $request){
         $user = Auth::user();

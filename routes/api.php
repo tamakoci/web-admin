@@ -75,6 +75,7 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('ambil-telur',[TernakController::class,'ambiltelur']);
 
         Route::get('beli-tools/{qty}',[TransactionController::class,'beliToolsHarian']);
+        Route::get('beli-tools-info',[TransactionController::class,'beliToolsInfo']);
         Route::get('activity-status',[TernakController::class,'dayActivity']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
