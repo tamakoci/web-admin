@@ -66,14 +66,15 @@ Route::get('living-cost',[CronController::class,'livingCost']);
 
 Route::get('reset-wallet',[CronController::class,'resetWallet']);
 
-Route::get('beri-pakan-pagi',[CronController::class,'beriPakan']);
-Route::get('beri-vaksin',[CronController::class,'beriVaksin']);
-Route::get('bersih-kandang',[CronController::class,'bersihKandang']);
-Route::get('ambil-telur',[CronController::class,'ambiltelur']); //need check
+Route::get('beri-pakan-pagi',[CronController::class,'beriPakan']); //9
+Route::get('beri-vaksin',[CronController::class,'beriVaksin']); //1
+Route::get('bersih-kandang',[CronController::class,'bersihKandang']);//5
+Route::get('ambil-telur',[CronController::class,'ambiltelur']); //6
+
 
 Route::get('count-ayam',[CronController::class,'kirimBanyakAyam']);
 
-Route::get('jual-telur',[CronController::class,'jualTelur']);
+Route::get('jual-telur',[CronController::class,'jualTelur']); //7
 
 Route::get('/cron-umur-ternak',[CronController::class,'umurTernak']);
 Route::get('/cron-produksi-ternak',[CronController::class,'produksiTernak']);

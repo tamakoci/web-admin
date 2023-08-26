@@ -505,7 +505,7 @@ class TernakController extends Controller
                 $array = (array)$hasil_ternak;
                 $productInWallet = $array[1]->qty;
                 $finalProduc = $productInWallet + $invest->commision;
-                $finalProduc = $invest->commision;
+                // $finalProduc = $invest->commision;
                 // $array[1]->qty = $finalProduc;
                 // dd($array);
 
@@ -538,6 +538,7 @@ class TernakController extends Controller
         }
        
     }
+
     public function dayActivity(){
         $user = Auth::user();
         $act = Investment::where('user_id', $user->id)
@@ -546,20 +547,21 @@ class TernakController extends Controller
             ->first();
         if(!$act){
             return [
-            'status' => 400,
-            'message' => 'No Activity Today',
-            'data' => [
-                'is_pakan'      => 0,
-                'pakan_date'    => 0,
-                'is_vaksin'     => 0,
-                'vaksin_date'   => 0,
-                'is_kandang'    => 0,
-                'kandag_date'   => 0,
-                'req'           => 0,
-                'running'       => 0,
-                'commison'      => 0,
-            ]
-        ];
+                'status' => 400,
+                'message' => 'No Activity Today',
+                'data' => [
+                    'is_pakan'      => 0,
+                    'pakan_date'    => 0,
+                    'is_vaksin'     => 0,
+                    'vaksin_date'   => 0,
+                    'is_kandang'    => 0,
+                    'kandag_date'   => 0,
+                    'last_act'      => 0,
+                    'req'           => 0,
+                    'running'       => 0,
+                    'commison'      => 0,
+                ]
+            ];
         }
         $isPakan    = $act->mark >= 1 ? 1 : 0;
         $pakanDate  = $act->mark == 1 ? $act->updated_at : 0;
@@ -586,7 +588,7 @@ class TernakController extends Controller
                 'vaksin_date'   => $vaksinDate,
                 'is_kandang'    => $isKandang,
                 'kandag_date'   => $kandangDate,
-                'last_act'      => $act->updated_at->timestamp,
+                'last_act'      => $act->updated_at,
                 'req'           => $req,
                 'running'       => $act->mark,
                 'commison'      => $act->commision,

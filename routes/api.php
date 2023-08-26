@@ -11,6 +11,8 @@ use App\Http\Controllers\api\v1\TopupController;
 use App\Http\Controllers\api\v1\TransactionController;
 use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\api\v1\WithdrawController;
+use App\Models\Investment;
+use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +43,22 @@ Route::group(['prefix'=>'v1'],function(){
     Route::get('user-ternak-detail/{id}',[TernakController::class,'userTernakDetail']);
     Route::get('bank-list',[WithdrawController::class,'bankList']);
     Route::get('trx-details/{id}',[TransactionController::class,'trxDetails']);
+
+
+    Route::get('reset-activity',function(){
+        Investment::where(['user_id'=>72,'status'=>1])->update(['status'=>0]);
+    });
+    Route::get('inject-wallet',function(){
+        $wallet = UserWallet::getWalletUserId(72);
+        UserWallet::create([
+                    'user_id'   => 72,
+                    'diamon'        => $wallet->diamin + 100000,
+                    'pakan'         => $wallet->pakan,
+                    'vaksin'        => $wallet->vaksin,
+                    'tools'         => $wallet->tools,
+                    'hasil_ternak' => '{"1":{"name":"Telur","qty":1000}}'
+                ]);
+    });
 
     Route::group(['middleware' => ['jwt.verify']], function() {
         Route::post('buy-diamon',[TopupController::class,'buyDiamon']);
