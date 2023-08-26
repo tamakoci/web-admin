@@ -541,6 +541,7 @@ class TernakController extends Controller
     public function dayActivity(){
         $user = Auth::user();
         $act = Investment::where('user_id', $user->id)
+            ->where('status',1)
             ->whereDate('created_at', now()->toDateString())
             ->first();
         if(!$act){
