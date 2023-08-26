@@ -47,6 +47,7 @@ Route::group(['prefix'=>'v1'],function(){
 
     Route::get('reset-activity',function(){
         Investment::where(['user_id'=>72,'status'=>1])->update(['status'=>0]);
+        return response()->json(['status'=>200,'message'=>'Success Reset Activity Dev.acc']);
     });
     Route::get('inject-wallet',function(){
         $wallet = UserWallet::getWalletUserId(72);
@@ -58,6 +59,7 @@ Route::group(['prefix'=>'v1'],function(){
                     'tools'         => $wallet->tools,
                     'hasil_ternak' => '{"1":{"name":"Telur","qty":1000}}'
                 ]);
+        return response()->json(['status'=>200,'message'=>'success Inject Wallet Dev.acc']);
     });
 
     Route::group(['middleware' => ['jwt.verify']], function() {
