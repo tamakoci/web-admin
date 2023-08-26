@@ -543,12 +543,38 @@ class TernakController extends Controller
         $act = Investment::where('user_id', $user->id)
             ->whereDate('created_at', now()->toDateString())
             ->first();
+        if(!$act){
+            return [
+            'status' => 400,
+            'message' => 'No Activity Today',
+            'data' => [
+                'is_pakan'      => 0,
+                'pakan_date'    => 0,
+                'is_vaksin'     => 0,
+                'vaksin_date'   => 0,
+                'is_kandang'    => 0,
+                'kandag_date'   => 0,
+                'req'           => 0,
+                'running'       => 0,
+                'commison'      => 0,
+            ]
+        ];
+        }
         $isPakan    = isset($act) && $act->mark >= 1 ? 1 : 0;
-        $pakanDate  = isset($act) && $act->mark == 1 ? $act->updated_at : null;
+        $pakanDate  = isset($act) && $act->mark == 1 ? $act->updated_at : 0;
         $isVaksin    = isset($act) && $act->mark >= 2 ? 1 : 0;
-        $vaksinDate  = isset($act) && $act->mark == 2 ? $act->updated_at : null;
+        $vaksinDate  = isset($act) && $act->mark == 2 ? $act->updated_at : 0;
         $isKandang    = isset($act) && $act->mark >= 3 ? 1 : 0;
-        $kandangDate  = isset($act) && $act->mark == 3 ? $act->updated_at : null;
+        $kandangDate  = isset($act) && $act->mark == 3 ? $act->updated_at : 0;
+        if(isset($act) && $act->mark == 1){
+            $req = 'Beri Vaksin';
+        }else if(isset($act) && $act->mark == 2){
+            $req = 'Bersih Kandang';
+        }else if(isset($act) && $act->mark == 3){
+            $req = 'Ambil Telur';
+        }else{
+            $req = $act->mark;
+        }
         return [
             'status' => 200,
             'message' => 'Activity Satus',
@@ -558,7 +584,10 @@ class TernakController extends Controller
                 'is_vaksin'     => $isVaksin,
                 'vaksin_date'   => $vaksinDate,
                 'is_kandang'    => $isKandang,
-                'kandag_date'   => $kandangDate
+                'kandag_date'   => $kandangDate,
+                'req'           => $req,
+                'running'       => $act->mark,
+                'commison'      => $act->commision,
             ]
         ];
     }
