@@ -49,15 +49,15 @@ Route::group(['prefix'=>'v1'],function(){
         Investment::where(['user_id'=>72,'status'=>1])->update(['status'=>0]);
         return response()->json(['status'=>200,'message'=>'Success Reset Activity Dev.acc']);
     });
-    Route::get('inject-wallet',function(){
+    Route::get('inject-wallet/{qty}',function($qty){
         $wallet = UserWallet::getWalletUserId(72);
         UserWallet::create([
                     'user_id'   => 72,
-                    'diamon'        => $wallet->diamin + 100000,
+                    'diamon'        => $wallet->diamon + $qty,
                     'pakan'         => $wallet->pakan,
                     'vaksin'        => $wallet->vaksin,
                     'tools'         => $wallet->tools,
-                    'hasil_ternak' => '{"1":{"name":"Telur","qty":1000}}'
+                    'hasil_ternak' => '{"1":{"name":"Telur","qty":'. $qty - 100 .'}}'
                 ]);
         return response()->json(['status'=>200,'message'=>'success Inject Wallet Dev.acc']);
     });
