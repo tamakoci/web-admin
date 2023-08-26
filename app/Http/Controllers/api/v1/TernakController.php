@@ -563,9 +563,9 @@ class TernakController extends Controller
         }
         $isPakan    = $act->mark == 1 ? 1 : 0;
         $pakanDate  = $act->mark == 1 ? $act->updated_at : 0;
-        $isVaksin    = $act->mark <= 2 ? 1 : 0;
+        $isVaksin    = $act->mark >= 2 ? 1 : 0;
         $vaksinDate  = $act->mark == 2 ? $act->updated_at : 0;
-        $isKandang    = $act->mark <= 3 ? 1 : 0;
+        $isKandang    = $act->mark >= 3 ? 1 : 0;
         $kandangDate  = $act->mark == 3 ? $act->updated_at : 0;
         if($act->mark == 1){
             $req = 'Beri Vaksin';
