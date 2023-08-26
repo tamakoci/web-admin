@@ -47,17 +47,17 @@ Route::group(['prefix'=>'v1'],function(){
 
     Route::get('reset-activity',function(){
         Investment::where(['user_id'=>72,'status'=>1])->update(['status'=>0]);
-        return response()->json(['status'=>200,'message'=>'Success Reset Activity Dev.acc']);
+        return response()->json(['status'=>200,'message'=>'Success Reset Activity']);
     });
-    Route::get('inject-wallet/{qty}',function($qty){
+    Route::get('inject-wallet',function(){
         $wallet = UserWallet::getWalletUserId(72);
         UserWallet::create([
                     'user_id'   => 72,
-                    'diamon'        => $wallet->diamon + $qty,
+                    'diamon'        => $wallet->diamon + 100000,
                     'pakan'         => $wallet->pakan,
                     'vaksin'        => $wallet->vaksin,
                     'tools'         => $wallet->tools,
-                    'hasil_ternak' => '{"1":{"name":"Telur","qty":'. $qty - 100 .'}}'
+                    'hasil_ternak' => '{"1":{"name":"Telur","qty":1000}}'
                 ]);
         return response()->json(['status'=>200,'message'=>'success Inject Wallet Dev.acc']);
     });
