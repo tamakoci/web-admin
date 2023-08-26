@@ -538,4 +538,29 @@ class TernakController extends Controller
         }
        
     }
+    public function dayActivity(){
+        $user = Auth::user();
+        $act = Investment::where('user_id', $user->id)
+            ->whereDate('created_at', now()->toDateString())
+            ->first();
+        $isPakan    = isset($act) && $act->mark >= 1 ? 1 : 0;
+        $pakanDate  = isset($act) && $act->mark == 1 ? $act->updated_at : null;
+        $isVaksin    = isset($act) && $act->mark >= 2 ? 1 : 0;
+        $vaksinDate  = isset($act) && $act->mark == 2 ? $act->updated_at : null;
+        $isKandang    = isset($act) && $act->mark >= 3 ? 1 : 0;
+        $kandangDate  = isset($act) && $act->mark == 3 ? $act->updated_at : null;
+        return [
+            'status' => 200,
+            'message' => 'Activity Satus',
+            'data' => [
+                'is_pakan'      => $isPakan,
+                'pakan_date'    => $pakanDate,
+                'is_vaksin'     => $isVaksin,
+                'vaksin_date'   => $vaksinDate,
+                'is_kandang'    => $isKandang,
+                'kandag_date'   => $kandangDate
+            ]
+        ];
+    }
+
 }
