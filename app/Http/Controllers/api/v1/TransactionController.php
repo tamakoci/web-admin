@@ -79,7 +79,7 @@ class TransactionController extends Controller
         $global_cost        = $cost_per_day;
         return [
             'status'    => 200,
-            'message'   => 'Beli Tools Info',
+            'message'   => 'Beli Tools Info '.$user->masterplan_count.' Ternak',
             'data'      => [
                 ['day'=>1,'cost'=>$global_cost * 1],
                 ['day'=>2,'cost'=>$global_cost * 2],
