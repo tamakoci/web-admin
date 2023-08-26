@@ -560,17 +560,17 @@ class TernakController extends Controller
             ]
         ];
         }
-        $isPakan    = isset($act) && $act->mark >= 1 ? 1 : 0;
-        $pakanDate  = isset($act) && $act->mark == 1 ? $act->updated_at : 0;
-        $isVaksin    = isset($act) && $act->mark >= 2 ? 1 : 0;
-        $vaksinDate  = isset($act) && $act->mark == 2 ? $act->updated_at : 0;
-        $isKandang    = isset($act) && $act->mark >= 3 ? 1 : 0;
-        $kandangDate  = isset($act) && $act->mark == 3 ? $act->updated_at : 0;
-        if(isset($act) && $act->mark == 1){
+        $isPakan    = $act->mark == 1 ? 1 : 0;
+        $pakanDate  = $act->mark == 1 ? $act->updated_at : 0;
+        $isVaksin    = $act->mark <= 2 ? 1 : 0;
+        $vaksinDate  = $act->mark == 2 ? $act->updated_at : 0;
+        $isKandang    = $act->mark <= 3 ? 1 : 0;
+        $kandangDate  = $act->mark == 3 ? $act->updated_at : 0;
+        if($act->mark == 1){
             $req = 'Beri Vaksin';
-        }else if(isset($act) && $act->mark == 2){
+        }else if($act->mark == 2){
             $req = 'Bersih Kandang';
-        }else if(isset($act) && $act->mark == 3){
+        }else if($act->mark == 3){
             $req = 'Ambil Telur';
         }else{
             $req = $act->mark;
