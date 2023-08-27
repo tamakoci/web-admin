@@ -103,7 +103,7 @@ class TransactionController extends Controller
             $rs[] = [
                 'id' => $value->id,
                 'desc'=>$value->desc,
-                'trx' =>$value->trx_type .' '. $value->trx_amount . 'Gems',
+                'trx' =>$value->trx_type . $value->trx_amount . ' Gems',
                 'status'=>$value->status==1?'Success':'Pending'
             ];
         }
