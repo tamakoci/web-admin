@@ -382,6 +382,9 @@ function walletUser(){
     $vaksin = 0;
     $tools = 0;
     foreach ($user as $key => $value) {
+        if($value->id==72){
+            dd($value);
+        }
         $wallets = UserWallet::getWalletUserId($value->id);
         $hasil_ternak = json_decode($wallets->hasil_ternak);
         $array = (array)$hasil_ternak;
