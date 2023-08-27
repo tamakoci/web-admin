@@ -80,7 +80,7 @@ Route::group(['prefix'=>'v1'],function(){
         
         Route::get('referals',[ReferalsController::class,'index']);
         Route::get('collect-bonus/{id}',[ReferalsController::class,'collectBonus']);
-        Route::get('trx-inquiry',[TransactionController::class,'trxLog']);
+        Route::get('trx-inquiry',[TransactionController::class,'trxLogTrx']);
         Route::get('wd-inquiry',[WithdrawController::class,'wdLog']);
 
         Route::get('notif-user',[UserController::class,'getNotif']);
