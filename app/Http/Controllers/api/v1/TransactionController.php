@@ -96,7 +96,7 @@ class TransactionController extends Controller
     public function trxLogTrx(){
         $user = Auth::user();
         $data = Transaction::where('user_id',$user->id)
-            ->select(['id','detail AS desc', 'status AS status'])
+            ->select(['id','detail AS desc', 'status AS status','trx_type','trx_amount'])
             ->orderByDesc('id')->limit(5)->get();
         $rs = [];
         foreach ($data as $key => $value) {
