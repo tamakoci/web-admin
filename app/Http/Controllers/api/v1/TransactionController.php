@@ -102,7 +102,7 @@ class TransactionController extends Controller
         foreach ($data as $key => $value) {
             $rs[] = [
                 'id' => $value->id,
-                'detail'=>$value->desc,
+                'desc'=>$value->desc,
                 'status'=>$value->status==1?'Success':'Pending'
             ];
         }
