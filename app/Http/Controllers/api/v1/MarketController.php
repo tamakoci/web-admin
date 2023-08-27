@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Market;
 use App\Models\Product;
+use App\Models\ProdukTelurDaily;
 use App\Models\RequestMarket;
 use App\Models\Transaction;
 use App\Models\UserWallet;
@@ -47,8 +48,11 @@ class MarketController extends Controller
         }
         $data = Market::with('product')->find($request->market_id);
         $productRequest = $data->qty;
-        $profit = $data->qty * $data->product->dm;
-        
+
+        $hargaTelur = ProdukTelurDaily::orderByDesc('id')->first();
+
+        $profit = $hargaTelur->harga * $productRequest;
+
         $wallet = UserWallet::getWallet();
         $hasil_ternak = json_decode($wallet->hasil_ternak);
         $array = (array)$hasil_ternak;
@@ -59,7 +63,7 @@ class MarketController extends Controller
         }
         $finalProduc = $productInWallet - $productRequest;
         $array[$data->product->id]->qty = $finalProduc;
-        $notif = 'Jual '.$productRequest. ' '. $data->product->satuan.' '.$data->product->name. ' setara '. nb($profit) . ' Gems. ( 1 '.  $data->product->satuan .' '. $data->product->name .' = '.$data->product->dm.' Gems )';
+        $notif = 'Jual '.$productRequest. ' '. $data->product->satuan.' '.$data->product->name. ' setara '. nb($profit) . ' Gems. ( 1 '.  $data->product->satuan .' '. $data->product->name .' = '.$hargaTelur->harga.' Gems )';
        
         DB::beginTransaction();
         try {

@@ -12,20 +12,29 @@ use Illuminate\Http\Request;
 class DashboardConteroller extends Controller
 {
     public function index(){
+        // dd(walletUser());
         $data['title'] = 'Dashboard';
-        $data['deposit'] = 'Rp. 1000K';
-        $data['withdrawal'] = 'Rp. 600K';
+        $data['gems'] = 'Rp ' . nb(walletUser()['wallet']);
+        $data['telur'] = nb(walletUser()['telur']);
+        $data['pakan'] = nb(walletUser()['pakan']);
+        $data['vaksin'] = nb(walletUser()['vaksin']);
+        $data['tools'] = nb(walletUser()['tools']);
         $data['member'] = User::where('user_role',1)->count();
         return view('dashboard.index',$data);
     }
     public function user(){
         // dd(notifApi());
         $wallet = UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
+        $hasil_ternak = json_decode($wallet->hasil_ternak);
+        $array = (array)$hasil_ternak;
+        $productInWallet = $array[1]->qty;
+
         $data['title'] = 'Dashboard';
         $data['diamon'] = $wallet->diamon;
         $data['pakan'] = $wallet->pakan;
         $data['vaksin'] = $wallet->vaksin;
         $data['tools'] = $wallet->tools;
+        $data['telur'] = $productInWallet;
         // dd($data);
         return view('dashboard.user',$data);
     }

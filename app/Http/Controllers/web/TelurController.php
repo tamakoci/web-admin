@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProdukTelurDaily;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class TelurController extends Controller
@@ -15,11 +16,15 @@ class TelurController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Product';
+        $data['title'] = 'Telur';
         $data['table'] = ProdukTelurDaily::all();
         return view('masterdata.telur',$data);
     }
 
+    public function lastHarga(){
+        $telur = ProdukTelurDaily::orderByDesc('id')->first();
+        return response()->json(['data'=>$telur]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -38,7 +43,19 @@ class TelurController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'date'=>'required',
+            'harga'=>'required',
+            'percent'=>'required',
+        ]);
+        try {
+            ProdukTelurDaily::create($request->all());
+            return redirect()->back()->with('success','New Record Telur created!');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Error: '.$th->getMessage());
+            
+        }
     }
 
     /**
@@ -72,7 +89,22 @@ class TelurController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'date'=>'required',
+            'harga'=>'required',
+            'percent'=>'required',
+        ]);
+        $produk  = ProdukTelurDaily::find($id);
+        if(!$produk){
+            return redirect()->back()->with('error','Produk Telur Not Found!');
+        }
+        try {
+           $produk->update($request->all());
+            return redirect()->back()->with('success','New Record Telur Updated!');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Error: '.$th->getMessage());
+            
+        }
     }
 
     /**
@@ -83,6 +115,16 @@ class TelurController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produk  = ProdukTelurDaily::find($id);
+        if(!$produk){
+            return redirect()->back()->with('error','Produk Telur Not Found!');
+        }
+        try {
+           $produk->delete();
+            return redirect()->back()->with('success','New Record Telur Updated!');
+        } catch (QueryException $th) {
+            return redirect()->back()->with('error','Error: '.$th->getMessage());
+            
+        }
     }
 }

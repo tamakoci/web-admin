@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
 use App\Models\PakanTernak;
+use App\Models\ProdukTelurDaily;
 use App\Models\Ternak;
 use App\Models\Transaction;
 use App\Models\User;
@@ -28,6 +29,24 @@ class TernakController extends Controller
             'data'=>$ternak],
             Response::HTTP_OK);
     }
+    public function hargaTelur(){
+        $telur = ProdukTelurDaily::orderByDesc('id')->limit(5)->get();
+        $telurNow = ProdukTelurDaily::orderByDesc('id')->first();
+        $harga = [];
+        $date  = [];
+        foreach ($telur as $key => $value) {
+            $harga[] = $value->harga;
+            $date[]  = $value->date;
+        }
+        $data = ['price'=>$harga,'date'=>$date,'now'=>'Harga Saat Ini: '.$telurNow->harga.' ('.$telurNow->percent.'%) '];
+        
+        return [
+            'status'    => 200,
+            'message'   => 'Grafik Harga Telur',
+            'data'      => $data
+        ];
+    }
+
     public function getPakanTernak($id){
         $pakan = PakanTernak::with(['ternak','ternak.produk'])->where('ternak_id',$id)->get();
         $data = [];

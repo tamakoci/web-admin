@@ -100,6 +100,7 @@
     <script src="{{ asset('') }}assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js"></script>
     <!--app JS-->
     <script src="{{ asset('') }}assets/sweetalert/sweetalert2.all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

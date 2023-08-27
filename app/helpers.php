@@ -3,6 +3,7 @@
 use App\Models\Investment;
 use App\Models\Notif;
 use App\Models\Product;
+use App\Models\ProdukTelurDaily;
 use App\Models\Ternak;
 use App\Models\Transaction;
 use App\Models\User;
@@ -18,6 +19,18 @@ if(!function_exists('active_user')){
 
     $user = 'test';
     return $user;
+}
+function hargaPasar(){
+    $telur = ProdukTelurDaily::orderByDesc('id')->limit(5)->get();
+    $telurNow = ProdukTelurDaily::orderByDesc('id')->first();
+    $harga = [];
+    $date  = [];
+    foreach ($telur as $key => $value) {
+       $harga[] = $value->harga;
+       $date[]  = $value->date;
+    }
+    
+    return ['price'=>$harga,'date'=>$date,'now'=>'Harga Saat Ini: '.$telurNow->harga.' ('.$telurNow->percent.'%) '];
 }
 function notif(){
     $data = Notif::where('user_id',auth()->user()->id)->orwhere('all_user',1)->orderByDesc('id')->limit(5)->get();
@@ -198,7 +211,10 @@ function jualTelur($user_id,$productRequest=1){
     $array[1]->qty = $finalProduc;
 
     $product = Product::find(1);
-    $profit = $product->dm * $productRequest;
+
+    $hargaTelur = ProdukTelurDaily::orderByDesc('id')->first();
+
+    $profit = $hargaTelur->harga * $productRequest;
 
     DB::beginTransaction();
     try {
@@ -208,7 +224,7 @@ function jualTelur($user_id,$productRequest=1){
             'trx_amount' => $profit,
             'final_amount'=>$wallet->diamon + $profit,
             'trx_type'=>'+',
-            'detail'=>'Jual '.$productRequest. ' '. $product->satuan.' '.$product->name. ' setara '. $profit . ' Gems. ( 1 '.  $product->satuan .' '. $product->name .' = '.$product->dm.' Diamon )',
+            'detail'=>'Jual '.$productRequest. ' '. $product->satuan.' '.$product->name. ' setara '. $profit . ' Gems. ( 1 '.  $product->satuan .' '. $product->name .' = '.$hargaTelur->harga.' Diamon )',
             'trx_id' => Transaction::trxID('TD')
         ]);
         UserWallet::create([
@@ -357,4 +373,28 @@ function createDemoAccount($user){
         dd($th->getMessage());
     }
 }
+
+function walletUser(){
+    $user = User::where(['is_demo'=>0,'user_role'=>1])->where('id','!=',72)->get();
+    $diamon = 0;
+    $telur = 0;
+    $pakan = 0;
+    $vaksin = 0;
+    $tools = 0;
+    foreach ($user as $key => $value) {
+        $wallets = UserWallet::getWalletUserId($value->id);
+        $hasil_ternak = json_decode($wallets->hasil_ternak);
+        $array = (array)$hasil_ternak;
+        $productInWallet = $array[1]->qty;
+
+        $diamon += $wallets->diamon;
+        $telur += $productInWallet;
+
+        $pakan += $wallets->pakan;
+        $vaksin += $wallets->vaksin;
+        $tools += $wallets->tools;
+    }
+    return ['wallet'=>$diamon,'telur'=>$telur,'pakan'=>$pakan,'vaksin'=>$vaksin,'tools'=>$tools];
+}
+
 

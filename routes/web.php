@@ -106,6 +106,8 @@ Route::get('user-pie',[DashboardConteroller::class,'wallets']);
 Route::get('wd',[WithdrawController::class,'wd']);
 Route::get('wd/{id}',[WithdrawController::class,'wdq']);
 
+Route::get('last-telur',[WebTelurController::class,'lastHarga']);
+
 Route::group(["middleware"=>"auth"],function(){
 
     Route::group(['prefix'=>'user'],function(){

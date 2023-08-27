@@ -42,10 +42,10 @@
                                 <td>{{ $t->harga }}</td>
                                 <td>{{ $t->percent }}</td>
                                 <td class="text-end">
-                                    <form action="{{ url('admin/product/' . $t->id) }}" method="POST">
-                                        <button type="button" data-id="{{ $t->id }}" data-name="{{ $t->name }}"
-                                            data-satuan="{{ $t->satuan }}" data-dm="{{ $t->dm }}"
-                                            data-status="{{ $t->status }}"
+                                    <form action="{{ url('admin/telur/' . $t->id) }}" method="POST">
+                                        <button type="button" data-id="{{ $t->id }}"
+                                            data-harga="{{ $t->harga }}" data-date="{{ $t->date }}"
+                                            data-percet="{{ $t->percet }}"
                                             class="btn btn-warning btn-sm editBtn">edit</button>
                                         @csrf
                                         @method('delete')
@@ -80,15 +80,14 @@
                         <form action="" method="POST" id="formAdd">
                             @csrf
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Name</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Tanggal</label>
                                 <div class="col-sm-9">
-                                    <input type="text"
-                                        class="form-control @error('name')
+                                    <input type="date"
+                                        class="form-control @error('date')
                                         is-invalid
                                     @enderror"
-                                        id="name" name="name" placeholder="Enter Product Name"
-                                        value="{{ old('customer') }}">
-                                    @error('name')
+                                        id="date" name="date" placeholder="Tanggal" value="{{ old('date') }}">
+                                    @error('date')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -96,15 +95,11 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Satuan</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Harga Sebelumnya</label>
                                 <div class="col-sm-9">
-                                    <input type="text"
-                                        class="form-control @error('satuan')
-                                        is-invalid
-                                    @enderror"
-                                        id="satuan" name="satuan" placeholder="Enter Satuan Produk"
-                                        value="{{ old('satuan') }}">
-                                    @error('satuan')
+                                    <input type="text" class="form-control Lastharga" id="harga"
+                                        placeholder="Harga Dulu" readonly>
+                                    @error('harga')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -112,30 +107,38 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Setara Diamon</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Harga</label>
                                 <div class="col-sm-9">
                                     <input type="text"
-                                        class="form-control @error('dm')
+                                        class="form-control hargaTerbaru @error('harga')
+                                        is-invalid
+                                    @enderror"
+                                        id="harga" name="harga" placeholder="Enter Harga" value="{{ old('harga') }}"
+                                        autofocus>
+                                    @error('harga')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Presentase</label>
+                                <div class="col-sm-9">
+                                    <input type="text"
+                                        class="form-control presentase @error('percent')
                                         is-invalid
                                     @enderror "
-                                        id="dm" name="dm" placeholder="Enter Diamon"
-                                        value="{{ old('dm') }}">
-                                    @error('dm')
+                                        id="percent" name="percent" placeholder="000" value="{{ old('percent') }}"
+                                        readonly>
+                                    @error('percent')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label for="satuan" class="col-sm-3 col-form-label">Status</label>
-                                <div class="col-sm-9">
-                                    <select name="status" id="status" class="form-select status">
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
+
                             <div class="row">
                                 <label class="col-sm-3 col-form-label"></label>
                                 <div class="col-sm-9">
@@ -168,15 +171,32 @@
                             @csrf
                             @method('PUT')
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Name</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Tanggal</label>
+                                <div class="col-sm-9">
+                                    <input type="date"
+                                        class="form-control date @error('date')
+                                        is-invalid
+                                    @enderror"
+                                        id="date" name="date" placeholder="Tanggal"
+                                        value="{{ old('date') }}">
+                                    @error('date')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="customerno" class="col-sm-3 col-form-label">Harga</label>
                                 <div class="col-sm-9">
                                     <input type="text"
-                                        class="form-control @error('name')
+                                        class="form-control hargaTerbaru harga @error('harga')
                                         is-invalid
-                                    @enderror name"
-                                        id="name" name="name" placeholder="Enter Product Name"
-                                        value="{{ old('name') }}">
-                                    @error('name')
+                                    @enderror"
+                                        id="harga" name="harga" placeholder="Enter Harga"
+                                        value="{{ old('harga') }}" autofocus>
+                                    @error('harga')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -184,46 +204,22 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Satuan</label>
+                                <label for="customerno" class="col-sm-3 col-form-label">Presentase</label>
                                 <div class="col-sm-9">
                                     <input type="text"
-                                        class="form-control @error('satuan')
+                                        class="form-control percent presentase @error('percent')
                                         is-invalid
-                                    @enderror satuan"
-                                        id="satuan" name="satuan" placeholder="Enter Satuan Produk"
-                                        value="{{ old('satuan') }}">
-                                    @error('satuan')
+                                    @enderror "
+                                        id="percent" name="percent" placeholder="000" value="{{ old('percent') }}"
+                                        readonly>
+                                    @error('percent')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label for="customerno" class="col-sm-3 col-form-label">Setara Diamon</label>
-                                <div class="col-sm-9">
-                                    <input type="text"
-                                        class="form-control @error('dm')
-                                        is-invalid
-                                    @enderror dm"
-                                        id="dm" name="dm" placeholder="Enter Diamon"
-                                        value="{{ old('dm') }}">
-                                    @error('dm')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="satuan" class="col-sm-3 col-form-label">Status</label>
-                                <div class="col-sm-9">
-                                    <select name="status" id="status" class="form-select status">
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Non Active</option>
-                                    </select>
-                                </div>
-                            </div>
+
                             <div class="row">
                                 <label class="col-sm-3 col-form-label"></label>
                                 <div class="col-sm-9">
@@ -240,21 +236,73 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            LasthargaTelur();
+
+            async function LasthargaTelur() {
+                try {
+                    const harga = await lastTelur();
+                    $('.Lastharga').val(harga);
+                    // Continue with the logic that uses the harga value
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+
             $('.editBtn').on('click', function() {
                 const id = $(this).data('id'),
-                    name = $(this).data('name'),
-                    satuan = $(this).data('satuan'),
-                    dm = $(this).data('dm')
+                    date = $(this).data('date'),
+                    harga = $(this).data('harga'),
+                    percent = $(this).data('percent')
                 status = $(this).data('status')
 
                 $('#edtModal').modal('show');
-                $('#formEdt').attr('action', "{{ url('admin/product') }}" + "/" + id)
-                $('.name').val(name);
-                $('.satuan').val(satuan);
-                $('.dm').val(dm);
-                $('.status').val(status);
-
+                $('#formEdt').attr('action', "{{ url('admin/telur') }}" + "/" + id)
+                $('.date').val(date);
+                $('.harga').val(harga);
+                $('.percent').val(percent);
             })
+
+            $('.hargaTerbaru').on('keyup', delay(function(e) {
+                var hargaToday = $(this).val();
+
+                lastTelur().then(function(harga) {
+                    var percent = ((hargaToday - harga) / harga) * 100;
+                    $('.presentase').val(percent.toFixed(2))
+                    console.log('percenase', percent);
+
+                }).catch(function(error) {
+                    console.error('Error:', error);
+                });
+            }, 500));
+
+            function delay(callback, ms) {
+                var timer = 0;
+                return function() {
+                    var context = this,
+                        args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(function() {
+                        callback.apply(context, args);
+                    }, ms || 0);
+                };
+            }
+
+            function lastTelur() {
+                return new Promise(function(resolve, reject) {
+                    $.ajax({
+                        url: "{{ url('last-telur') }}", // Replace with the actual API endpoint
+                        method: 'GET',
+                        dataType: 'json', // Expected data type
+                        success: function(rs) {
+                            resolve(rs.data.harga);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            reject(errorThrown);
+                        }
+                    });
+                });
+            }
+
         })
     </script>
 @endpush
