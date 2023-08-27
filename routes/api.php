@@ -43,6 +43,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::get('user-ternak-detail/{id}',[TernakController::class,'userTernakDetail']);
     Route::get('bank-list',[WithdrawController::class,'bankList']);
     Route::get('trx-details/{id}',[TransactionController::class,'trxDetails']);
+    Route::get('grafik-telur',[TernakController::class,'hargaTelur']);
 
 
     Route::get('reset-activity',function(){
@@ -93,7 +94,6 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('bersih-kandang-gems',[TernakController::class,'bersihKandangGems']);
         
         Route::get('ambil-telur',[TernakController::class,'ambiltelur']);
-        Route::get('grafik-telur',[TernakController::class,'hargaTelur']);
 
         Route::get('beli-tools/{qty}',[TransactionController::class,'beliToolsHarian']);
         Route::get('beli-tools-info',[TransactionController::class,'beliToolsInfo']);
