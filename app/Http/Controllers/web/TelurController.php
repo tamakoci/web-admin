@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProdukTelurDaily;
 use Illuminate\Http\Request;
 
 class TelurController extends Controller
@@ -14,7 +15,9 @@ class TelurController extends Controller
      */
     public function index()
     {
-        return 'telur';
+        $data['title'] = 'Product';
+        $data['table'] = ProdukTelurDaily::all();
+        return view('masterdata.telur',$data);
     }
 
     /**
