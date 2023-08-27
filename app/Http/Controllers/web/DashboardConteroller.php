@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class DashboardConteroller extends Controller
 {
     public function index(){
-        dd(walletUser());
+        // dd(walletUser());
         $data['title'] = 'Dashboard';
         $data['gems'] = nb(walletUser()['wallet']);
         $data['telur'] = nb(walletUser()['telur']);
