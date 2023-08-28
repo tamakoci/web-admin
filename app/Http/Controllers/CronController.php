@@ -273,7 +273,7 @@ class CronController extends Controller
    
     public function beriPakan($pakan_cost=89){
         $type=1;
-        $user= User::where('user_role',1)->where('masterplan_count','!=',0)->get();
+        $user= User::where('user_role',1)->where('masterplan_count','!=',0)->where('is_auto',1)->get();
         foreach ($user as $key => $value) {
             $ternak= $value->masterplan_count;
             
