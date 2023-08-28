@@ -139,38 +139,36 @@ class TernakController extends Controller
     }
     public function userTernak(){
         $user = Auth::user();
-        $ternakOld = UserTernak::getUserTernak();
+        
         $t = Ternak::find(1);
-        $ternak = UserTernak::with(['ternak'])->where(['user_id'=>$user->id,'status'=>1])->get();
+        $ternak = UserTernak::with(['ternak'])->where(['user_id' => $user->id, 'status' => 1])->get();
+
         $maxItemsPerGroup = 100;
-        $totalTernak = $user->jml_ternak;
-        // $totalTernak = $ternak->count();
+        $totalTernak = $user->jml_ternak; // 720
+
         $numGroups = ceil($totalTernak / $maxItemsPerGroup);
-
-        $tanggalPembelian = $user->created_at;
-
-        // Periode umur (720 hari)
-        $umur = $t->duration;
-
-        // Hitung tanggal kedaluwarsa
-        $tanggalKedaluwarsa = $tanggalPembelian->addDays($umur);
-
-        // Hitung sisa hari
-        $sisaHari = Carbon::now()->diffInDays($tanggalKedaluwarsa);
 
         for ($i = 0; $i < $numGroups; $i++) {
             $startIndex = $i * $maxItemsPerGroup;
             $endIndex = min(($i + 1) * $maxItemsPerGroup, $totalTernak);
             $groupData = $ternak->slice($startIndex, $endIndex - $startIndex);
-            
+
+            // Hitung sisa hari untuk setiap grup
+            $tanggalPembelian = $user->created_at;
+            $umur = $t->duration;
+            $tanggalKedaluwarsa = $tanggalPembelian->addDays($umur);
+            $sisaHari = Carbon::now()->diffInDays($tanggalKedaluwarsa);
+
             $groupTernak[] = [
-                'nama'   => $t->name,
+                'nama' => $t->name,
                 'durasi' => $t->duration,
                 'avatar' => $t->avatar,
                 'jumlah' => $groupData->count(),
-                'sisa_hari'   => $sisaHari
+                'sisa_hari' => $sisaHari
             ];
         }
+
+        $ternakOld = UserTernak::getUserTernak();
         return response()->json([
             'status'=>200,
             'message'=>'Ternak '.$user->username,
