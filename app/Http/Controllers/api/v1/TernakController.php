@@ -139,21 +139,17 @@ class TernakController extends Controller
     }
     public function userTernak(){
         $user = Auth::user();
-        
+
         $t = Ternak::find(1);
-        $ternak = UserTernak::with(['ternak'])->where(['user_id' => $user->id, 'status' => 1])->get();
+       
 
         $maxItemsPerGroup = 100;
         $totalTernak = $user->jml_ternak; // 720
-
+        $remaining_ternak = $totalTernak;
         $numGroups = ceil($totalTernak / $maxItemsPerGroup);
 
         for ($i = 0; $i < $numGroups; $i++) {
-            $startIndex = $i * $maxItemsPerGroup;
-            $endIndex = min(($i + 1) * $maxItemsPerGroup, $totalTernak);
-            $groupData = $ternak->slice($startIndex, $endIndex - $startIndex);
-
-            // Hitung sisa hari untuk setiap grup
+            $jumlah = min($maxItemsPerGroup, $remaining_ternak);
             $tanggalPembelian = $user->created_at;
             $umur = $t->duration;
             $tanggalKedaluwarsa = $tanggalPembelian->addDays($umur);
@@ -163,12 +159,14 @@ class TernakController extends Controller
                 'nama' => $t->name,
                 'durasi' => $t->duration,
                 'avatar' => $t->avatar,
-                'jumlah' => $groupData->count(),
+                'jumlah' => $jumlah,
                 'sisa_hari' => $sisaHari
             ];
+            $remaining_ternak -= $jumlah;
         }
 
         $ternakOld = UserTernak::getUserTernak();
+        $ternak = UserTernak::with(['ternak'])->where(['user_id' => $user->id, 'status' => 1])->get();
         return response()->json([
             'status'=>200,
             'message'=>'Ternak '.$user->username,
