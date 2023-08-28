@@ -217,6 +217,8 @@ class AuthController extends Controller
                 'user_ref'  => User::makeReferal($request->username),
                 'ref_to'    => $referal,
                 'masterplan_count'=>$request->masterplan_count,
+                'jml_ternak'    => $request->masterplan_count,
+                'is_auto'    => 1,
                 'password'  => $request->password
             ]);
            
