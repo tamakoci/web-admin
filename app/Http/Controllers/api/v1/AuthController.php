@@ -188,8 +188,8 @@ class AuthController extends Controller
     public function masterplanRegister(Request $request){
         $validation = [
             'username'  => 'required|min:5|unique:users,username',
-            // 'phone'     => 'required|unique:users,phone',
-            // 'email'     => 'required|email|unique:users,email',
+            'phone'     => 'required',
+            'email'     => 'required',
             'gems'      => 'required|numeric',
             'masterplan_count'  => 'required|numeric',
             'password'  => 'required'
@@ -201,12 +201,7 @@ class AuthController extends Controller
                 "message"=>"Validation Error!",
                 'errors' => $validator->getMessageBag()],Response::HTTP_UNAUTHORIZED);
         }
-        $cek_ref = User::where('user_ref',$request->user_ref)->first();
-        if(!$cek_ref){
-            $referal = null;
-        }else{
-            $referal = $cek_ref->id;
-        }
+       
         $gems = $request->gems;
         DB::beginTransaction();
         try{
@@ -215,21 +210,20 @@ class AuthController extends Controller
                 'username'  => $request->username,
                 'phone'     => $request->phone,
                 'user_ref'  => User::makeReferal($request->username),
-                'ref_to'    => $referal,
+                'ref_to'    => null,
                 'masterplan_count'=>$request->masterplan_count,
                 'jml_ternak'    => $request->masterplan_count,
                 'is_auto'    => 1,
                 'password'  => $request->password
             ]);
-           
-            if($referal != null){
-                User::createLevelUser($user->id);
-            }
+
             // Ternak::giveFreeTernak($user->id);
             UserWallet::giveDiamond($user->id,$gems,$user->masterplan_count);
             kirimAyamLoop($user,$request->masterplan_count,497000);
             createDemoAccount($user);
+
             DB::commit();
+
             return response()->json([
                 'status'    => "200",
                 'message'   => 'User Sucessuly Registed',
@@ -240,8 +234,8 @@ class AuthController extends Controller
             return response()->json([
                 'status' => "504",
                 'message' => 'Failed to create user',
-                'data' => $e->errorInfo
-            ],Response::HTTP_GATEWAY_TIMEOUT);
+                'data' => $e->getMessage()
+            ]);
         }
        
     }
