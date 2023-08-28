@@ -38,7 +38,7 @@ class TernakController extends Controller
             $harga[] = $value->harga;
             $date[]  = $value->date;
         }
-        $data = ['price'=>$harga,'date'=>$date,'now'=>'Harga Saat Ini: '.$telurNow->harga.' ('.$telurNow->percent.'%) '];
+        $data = ['price'=>$harga,'date'=>$date,'now'=>$telurNow->harga.' ('.$telurNow->percent.'%) '];
         
         return [
             'status'    => 200,
