@@ -143,8 +143,20 @@ class TernakController extends Controller
         $t = Ternak::find(1);
         $ternak = UserTernak::with(['ternak'])->where(['user_id'=>$user->id,'status'=>1])->get();
         $maxItemsPerGroup = 100;
-        $totalTernak = $ternak->count();
+        $totalTernak = $user->jml_ternak;
+        // $totalTernak = $ternak->count();
         $numGroups = ceil($totalTernak / $maxItemsPerGroup);
+
+        $tanggalPembelian = $user->created_at;
+
+        // Periode umur (720 hari)
+        $umur = $t->duration;
+
+        // Hitung tanggal kedaluwarsa
+        $tanggalKedaluwarsa = $tanggalPembelian->addDays($umur);
+
+        // Hitung sisa hari
+        $sisaHari = Carbon::now()->diffInDays($tanggalKedaluwarsa);
 
         for ($i = 0; $i < $numGroups; $i++) {
             $startIndex = $i * $maxItemsPerGroup;
@@ -152,10 +164,11 @@ class TernakController extends Controller
             $groupData = $ternak->slice($startIndex, $endIndex - $startIndex);
             
             $groupTernak[] = [
-                'nama' => $t->name,
-                'durasi'=>$t->duration,
-                'avatar'=>$t->avatar,
-                'jumlah' => $groupData->count()
+                'nama'   => $t->name,
+                'durasi' => $t->duration,
+                'avatar' => $t->avatar,
+                'jumlah' => $groupData->count(),
+                'sisa_hari'   => $sisaHari
             ];
         }
         return response()->json([
@@ -163,7 +176,7 @@ class TernakController extends Controller
             'message'=>'Ternak '.$user->username,
             'total' =>$totalTernak,
             'group'=> $groupTernak,
-            'Data'=>$ternakOld,
+            // 'Data'=>$ternakOld,
         ]);
     }
     public function userTernakDetail($id){

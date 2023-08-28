@@ -61,6 +61,16 @@ Route::get('update-user-wallet',function(){
     return 'success';
 });
 
+Route::get('update-ternak-user',function(){
+    $user = User::all();
+    foreach ($user as $key => $value) {
+       $value->update(['jml_ternak'=>$value->masterplan_count]);
+    }
+
+    
+    return 'success user ternak';
+});
+
 Route::get('create-demo',[CronController::class,'createDemoAccountAll']);
 
 Route::get('living-cost',[CronController::class,'livingCost']);
