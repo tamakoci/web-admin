@@ -20,7 +20,7 @@
         </li>
         @if (auth()->user()->user_role == 1)
             <li>
-                <a href="{{ url('user/referal') }}">
+                <a href="{{ url('user/bank-account') }}">
                     <div class="parent-icon"><i class='bx bx-money'></i>
                     </div>
                     <div class="menu-title">Bank Account</div>
