@@ -44,7 +44,7 @@
                             <h4 class="my-1 text-info">{{ nb($diamon) }}</h4>
                             <p class="mb-0 font-13">Konversi Hadiah Setara
                                 <br><span class="text-primary">Rp {{ nb($diamon) }}</span> <mark
-                                    class="text-secondary">(1GM
+                                    class="text-secondary">(1GEMS
                                     = 1IDR)</mark>
                             </p>
                         </div>
