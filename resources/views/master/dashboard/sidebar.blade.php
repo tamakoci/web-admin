@@ -19,11 +19,18 @@
             </a>
         </li>
         @if (auth()->user()->user_role == 1)
-            <li>
+            {{-- <li>
                 <a href="{{ url('user/bank-account') }}">
-                    <div class="parent-icon"><i class='bx bx-money'></i>
+                    <div class="parent-icon"><i class='bx bx-building-house'></i>
                     </div>
                     <div class="menu-title">Bank Account</div>
+                </a>
+            </li> --}}
+            <li>
+                <a href="{{ url('user/withdrawl') }}">
+                    <div class="parent-icon"><i class='bx bx-money'></i>
+                    </div>
+                    <div class="menu-title">Withdrawl Now</div>
                 </a>
             </li>
             {{-- <li>

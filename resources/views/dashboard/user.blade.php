@@ -37,12 +37,16 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 justify-content-center">
         <div class="col">
             <div class="card radius-10 border-start border-0 border-3 border-info">
-                <div class="card-body">
+                <div class="card-body" style="height: 130px">
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Gems</p>
                             <h4 class="my-1 text-info">{{ nb($diamon) }}</h4>
-                            {{-- <p class="mb-0 font-13">+2.5% from last week</p> --}}
+                            <p class="mb-0 font-13">Konversi Hadiah Setara
+                                <br><span class="text-primary">Rp {{ nb($diamon) }}</span> <mark
+                                    class="text-secondary">(1GM
+                                    = 1IDR)</mark>
+                            </p>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
                             <i class='bx bxs-diamond'></i>
@@ -53,12 +57,12 @@
         </div>
         <div class="col">
             <div class="card radius-10 border-start border-0 border-3 border-warning">
-                <div class="card-body">
+                <div class="card-body" style="height: 130px">
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Telur</p>
                             <h4 class="my-1 text-warning">{{ $telur }}</h4>
-                            {{-- <p class="mb-0 font-13">+5.4% from last week</p> --}}
+
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto">
                             <i class='bx bxs-circle'></i>

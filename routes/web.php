@@ -23,6 +23,7 @@ use App\Http\Controllers\web\TransactionController;
 use App\Http\Controllers\api\v1\TransactionController as TransactionControllerApi;
 use App\Http\Controllers\web\TelurController as WebTelurController;
 use App\Http\Controllers\web\UserController;
+use App\Http\Controllers\web\WithdrawlController;
 use App\Models\Ternak;
 use App\Models\User;
 use App\Models\UserTernak;
@@ -97,8 +98,8 @@ Route::group(["middleware"=>"auth"],function(){
         Route::get('/dashboard',[DashboardConteroller::class,'user']);
         Route::resource('referal',ReferalsController::class);
         Route::get('bank-account',[UserController::class,'bankAcc']);
+        Route::resource('withdrawl',WithdrawlController::class);
         Route::get('beli-tools',[TransactionControllerApi::class,'beliToolsHarian']);
-
     });
     Route::group(['prefix'=>'admin'],function(){
         Route::get('/dashboard',[DashboardConteroller::class,'index']);

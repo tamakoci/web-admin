@@ -35,6 +35,19 @@ class UserController extends Controller
                 'hasil_ternak'=> $produk
                 ];
         }
+        $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.auth()->user()->username;
+        $response = Http::get($apiUrl);
+        if ($response->successful()) {
+            $rs = $response->json();
+            $data['acc'] = $rs['data'];
+        }else{
+            $data['acc'] =[
+                "nama_bank" => null,
+                "nama_akun" => null,
+                "no_rek" => null,
+                "kota_cabang" => null,
+            ];
+        }
         $data['wallet']= $userWallet;
         $data['table'] = Transaction::where('user_id',auth()->user()->id)->orderByDesc('id')->get();
         return view('user.user-profile',$data);
@@ -60,6 +73,19 @@ class UserController extends Controller
                 'pakan'=>0,
                 'hasil_ternak'=> $produk
                 ];
+        }
+        $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.auth()->user()->username;
+        $response = Http::get($apiUrl);
+        if ($response->successful()) {
+            $rs = $response->json();
+            $data['acc'] = $rs['data'];
+        }else{
+            $data['acc'] =[
+                "nama_bank" => null,
+                "nama_akun" => null,
+                "no_rek" => null,
+                "kota_cabang" => null,
+            ];
         }
         $data['wallet']= $userWallet;
         $hasil_ternak = json_decode($wallet->hasil_ternak);

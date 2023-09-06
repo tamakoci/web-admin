@@ -216,7 +216,63 @@
                             </form>
                         </div>
                     </div>
-                    @if (auth()->user()->user_role == 1)
+                    <div class="card radius-10">
+                        <div class="card-header">
+                            <h5> Bank Account {{ $user->username }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ url('user-profile') . '/' . $user->id }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">BANK ID</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="bank_id" class="form-control"
+                                            value="{{ $acc['nama_bank'] }}" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Nama Akun</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="account_name" class="form-control"
+                                            value="{{ $acc['nama_akun'] }}" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">No Rekening</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="account_number" class="form-control"
+                                            value="{{ $acc['no_rek'] }}" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Kota Cabang</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="bank_city" class="form-control"
+                                            value="{{ $acc['kota_cabang'] }}" />
+                                    </div>
+                                </div>
+
+                                {{-- <div class="row">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="submit" class="btn btn-primary px-4" value="Save Changes" />
+                                    </div>
+                                </div> --}}
+                            </form>
+
+                        </div>
+                    </div>
+                    {{-- @if (auth()->user()->user_role == 1)
                         <div class="card radius-10">
                             <div class="card-header">
                                 <h5> Referrals Tree {{ $user->username }}</h5>
@@ -404,7 +460,7 @@
 
                             </div>
                         </div>
-                    @endif
+                    @endif --}}
                 </div>
                 @if (auth()->user()->user_role == 1)
                     <div class="col-sm-12">
