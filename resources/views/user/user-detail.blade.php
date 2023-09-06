@@ -77,7 +77,45 @@
                                 <div class="mt-3">
                                     <h4>{{ strtoupper($user->username) }}</h4>
                                     <p class="text-secondary mb-1">{{ $user->email }}</p>
-                                    <p class="text-muted font-size-sm">{!! $user->getReferal() !!}</p>
+                                    <p class="text-muted font-size-sm">{!! $user->getRole() !!}</p>
+                                </div>
+                                <div class="mt-2">
+                                    <table class="table table-berdered">
+                                        <tbody>
+                                            <tr>
+                                                <td><i class='bx bxs-diamond'></i></td>
+                                                <td>{{ $diamon }}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <i class='bx bxs-circle'></i>
+                                                </td>
+                                                <td>{{ $telur }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class='bx bxs-cookie'></i>
+                                                </td>
+                                                <td>{{ $pakan }}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <i class='bx bxs-first-aid'></i>
+                                                </td>
+                                                <td>{{ $vaksin }}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <i class='bx bxs-wrench'></i>
+                                                </td>
+                                                <td>{{ $tools }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +168,7 @@
                         </div>
                     </div>
 
-                    <div class="card radius-10">
+                    {{-- <div class="card radius-10">
                         <div class="card-header">
                             <h5> Referrals Tree {{ $user->username }}</h5>
                         </div>
@@ -304,7 +342,7 @@
 
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-sm-12">
                     <div class="card">

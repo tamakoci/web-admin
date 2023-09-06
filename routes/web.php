@@ -41,35 +41,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('update-user-wallet',function(){
-    $user = User::where('is_demo',0)->where('user_role',1)->get();
-    foreach ($user as $key => $value) {
-        $wallet = UserWallet::where('user_id',$value->id)->orderByDesc('id')->first();
-        try {
-            $hasil_ternak = json_decode($wallet->hasil_ternak);
-        } catch (Exception $e) {
-            var_dump('id= '. $value->id);
-            dd($wallet);
-        }
-        $array = (array)$hasil_ternak;
-        $productInWallet = $array[1]->qty;
-    
-        $value->gems = $wallet->diamon;
-        $value->telur = $productInWallet;
-        $value->save();
-    }
-    return 'success';
-});
 
-Route::get('update-ternak-user',function(){
-    $user = User::all();
-    foreach ($user as $key => $value) {
-       $value->update(['jml_ternak'=>$value->masterplan_count]);
-    }
-
-    
-    return 'success user ternak';
-});
+Route::get('rek-acc',[CronController::class,'rekAcc']);
 
 Route::get('create-demo',[CronController::class,'createDemoAccountAll']);
 
@@ -123,6 +96,7 @@ Route::group(["middleware"=>"auth"],function(){
     Route::group(['prefix'=>'user'],function(){
         Route::get('/dashboard',[DashboardConteroller::class,'user']);
         Route::resource('referal',ReferalsController::class);
+        Route::get('bank-account',[UserController::class,'bankAcc']);
         Route::get('beli-tools',[TransactionControllerApi::class,'beliToolsHarian']);
 
     });

@@ -7,6 +7,7 @@ use App\Models\ProdukTelurDaily;
 use App\Models\Ternak;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserBank;
 use App\Models\UserTernak;
 use App\Models\UserWallet;
 use Illuminate\Support\Facades\Auth;
@@ -101,7 +102,7 @@ function nb($angka) {
     return $rupiah_format;
 }
 function dt($d){
-    return date('d-M H:i',strtotime($d));
+    return date('d M Y',strtotime($d));
 }
 function makenotif($user_id,$title,$msg){
     Notif::create([
@@ -398,6 +399,24 @@ function walletUser(){
         $tools += $wallets->tools;
     }
     return ['wallet'=>$diamon,'telur'=>$telur,'pakan'=>$pakan,'vaksin'=>$vaksin,'tools'=>$tools];
+}
+
+function sameBankAcc(){
+    //user login
+    $user = Auth::user();
+    //bank user
+    $bank = UserBank::where('user_id',$user->id)->first();
+    //bank user not found;
+    if(!$bank)return false;
+    $checkSame = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->first();
+    if($checkSame->count() <=1) return false;
+    $checkSameFirst = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->first();
+    if($checkSameFirst != $user->id) return false;
+
+    $data = [];
+    foreach ($checkSame as $key => $value) {
+        # code...
+    }
 }
 
 

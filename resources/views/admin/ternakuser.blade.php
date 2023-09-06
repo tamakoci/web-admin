@@ -12,12 +12,12 @@
                 </ol>
             </nav>
         </div>
-        <div class="ms-auto">
+        {{-- <div class="ms-auto">
             <div class="btn-group">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><i
                         class="bx bx-plus"></i> Add</button>
             </div>
-        </div>
+        </div> --}}
     </div>
     <!--end breadcrumb-->
 
@@ -30,6 +30,7 @@
                             <td>No</td>
                             <th>Username</th>
                             <th>Ternak</th>
+                            <th>Jumlah</th>
                             <th>Tanggal Beli</th>
                             <th>Status</th>
                         </tr>
@@ -38,9 +39,10 @@
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $t->user->username }}</td>
-                                <td>{{ $t->ternak->name }}</td>
-                                <td>{{ dt($t->buy_date) }}</td>
+                                <td>{{ $t->username }}</td>
+                                <td>{{ 'Ayam' }}</td>
+                                <td>{{ $t->masterplan_count }}</td>
+                                <td>{{ dt($t->created_at) }}</td>
                                 <td>
                                     @if ($t->status == 1)
                                         <span class="badge bg-gradient-quepal text-white shadow-sm w-100">Active</span>
@@ -156,8 +158,7 @@
                                         class="form-control bank-code @error('code')
                                         is-invalid
                                     @enderror"
-                                        id="code" name="code" placeholder="Bank Code"
-                                        value="{{ old('code') }}">
+                                        id="code" name="code" placeholder="Bank Code" value="{{ old('code') }}">
                                     @error('code')
                                         <div class="invalid-feedback">
                                             {{ $message }}

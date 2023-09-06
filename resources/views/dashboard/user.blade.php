@@ -67,12 +67,12 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-md-2">
             <div class="card radius-10 border-start border-0 border-3 border-danger">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Total Pakan</p>
+                            <p class="mb-0 text-secondary">Pakan</p>
                             <h4 class="my-1 text-danger">{{ $pakan }}</h4>
                             {{-- <p class="mb-0 font-13">+5.4% from last week</p> --}}
                         </div>
@@ -84,12 +84,12 @@
             </div>
         </div>
 
-        <div class="col">
+        <div class="col-md-2">
             <div class="card radius-10 border-start border-0 border-3 border-success">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Total Vaksin</p>
+                            <p class="mb-0 text-secondary">Vaksin</p>
                             <h4 class="my-1 text-success">{{ $vaksin }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
@@ -99,12 +99,12 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-md-2">
             <div class="card radius-10 border-start border-0 border-3 border-warning">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Total Tools</p>
+                            <p class="mb-0 text-secondary">Tools</p>
                             <h4 class="my-1 text-warning">{{ $tools }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto">
@@ -114,7 +114,14 @@
                 </div>
             </div>
         </div>
-
+        <div class="col-md-6">
+            <div class="card radius-10 border-start border-0 border-3 border-info">
+                <div class="card-body">
+                    <div id="chart"></div>
+                    {{-- <div id="piechart" style="width: 500px; height: 300px;"></div> --}}
+                </div>
+            </div>
+        </div>
 
     </div>
     {{-- <div class="row justify-content-center">
@@ -126,16 +133,9 @@
             </div>
         </div>
     </div> --}}
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card radius-10 border-start border-0 border-3 border-info">
-                <div class="card-body">
-                    <div id="chart"></div>
-                    {{-- <div id="piechart" style="width: 500px; height: 300px;"></div> --}}
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- <div class="row justify-content-center">
+       
+    </div> --}}
 @endsection
 @push('script')
     {{-- <script type="text/javascript">

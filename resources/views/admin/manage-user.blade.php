@@ -83,10 +83,9 @@
                             <th>No</th>
                             <th>Avatar</th>
                             <th>Username</th>
-                            <th>Gems</th>
+                            {{-- <th>Gems</th> --}}
                             <th>Email</th>
                             <th>Phone</th>
-                            <th>Role</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -97,10 +96,10 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td><img src="{{ $t->getAvatar() }}" alt="image{{ $t->username }}" width="100px"></td>
                                 <td>{{ $t->username }}</td>
-                                <td>{{ nb($t->wallet->diamon) }}</td>
+                                {{-- <td>{{ nb($t->wallet->diamon) }}</td> --}}
                                 <td>{{ $t->email }}</td>
                                 <td>{{ $t->phone }}</td>
-                                <td>{!! $t->getRole() !!}</td>
+                                {{-- <td>{!! $t->getRole() !!}</td> --}}
                                 <td>
                                     {!! $t->getStatus() !!}
                                     {{-- @dd($t->getStatus()) --}}

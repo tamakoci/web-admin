@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -61,6 +62,14 @@ class UserController extends Controller
                 ];
         }
         $data['wallet']= $userWallet;
+        $hasil_ternak = json_decode($wallet->hasil_ternak);
+        $array = (array)$hasil_ternak;
+        $productInWallet = $array[1]->qty;
+        $data['diamon'] = $wallet->diamon;
+        $data['pakan'] = $wallet->pakan;
+        $data['vaksin'] = $wallet->vaksin;
+        $data['tools'] = $wallet->tools;
+        $data['telur'] = $productInWallet;
         $data['table'] = Transaction::where('user_id',$user->id)->orderByDesc('id')->get();
         return view('user.user-detail',$data);
     }
@@ -100,5 +109,25 @@ class UserController extends Controller
         // dd($tgl1);
         // dd($tgl2);
     }
+    public function bankAcc(){
+        $user = Auth::user();
+        $data['title'] = 'Bank Account';
+        $data['user']= $user;
+        $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$user->username;
+        $response = Http::get($apiUrl);
+        if ($response->successful()) {
+            $rs = $response->json();
+            $data['acc'] = $rs['data'];
+        }else{
+            $data['acc'] =[
+                "nama_bank" => null,
+                "nama_akun" => null,
+                "no_rek" => null,
+                "kota_cabang" => null,
+            ];
+        }
+        return view('user.bank-acc',$data);
+    }
+    
     
 }

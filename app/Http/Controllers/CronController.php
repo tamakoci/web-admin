@@ -12,6 +12,7 @@ use App\Models\ReferalTree;
 use App\Models\TopupDiamon;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserBank;
 use App\Models\UserTernak;
 use App\Models\UserWallet;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 use function PHPSTORM_META\type;
 
@@ -32,6 +34,27 @@ class CronController extends Controller
         $this->app      = env('KPAYAPP');
         $this->pass     = env('KPAYPASS');
         $this->mail     = env('KPAYEMAIL');
+    }
+    public function rekAcc(){
+        $user = User::where('is_demo',0)->get();
+        foreach ($user as $key => $value) {
+            $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$value->username;
+            $response = Http::get($apiUrl);
+            if ($response->successful()) {
+                $rs = $response->json();
+                // dd($rs['data']['nama_bank']);
+                UserBank::create([
+                    'user_id'           => $value->id,
+                    'bank_id'           => 14,
+                    'nama_bank'         => $rs['data']['nama_bank'],
+                    'account_name'      => $rs['data']['nama_akun'],
+                    'account_number'    => $rs['data']['no_rek'],
+                    'bank_city'         => $rs['data']['kota_cabang']
+                ]); 
+            }
+           
+        }
+        return 'done';
     }
     public function produksiTernak(){
 

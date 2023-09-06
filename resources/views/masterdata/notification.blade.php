@@ -28,9 +28,9 @@
                     <thead class="table-light">
                         <tr>
                             <td>No</td>
+                            <th>User</th>
                             <th>Title</th>
                             <th>Message</th>
-                            <th>To User</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -38,11 +38,12 @@
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $t->title }}</td>
-                                <td>{{ $t->message }}</td>
                                 <td>{!! $t->user_id != null
                                     ? '<span class="badge bg-gradient-bloody text-white shadow-sm w-100">' . $t->user->username . '</span>'
                                     : ' <span class="badge bg-gradient-quepal text-white shadow-sm w-100">All User</span>' !!}</td>
+                                <td>{{ $t->title }}</td>
+                                <td>{{ $t->message }}</td>
+
                                 <td class="text-end">
                                     <form action="{{ url('admin/notif-delete/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"

@@ -18,15 +18,22 @@
                 <div class="menu-title">Dashboard</div>
             </a>
         </li>
-        {{-- @if (auth()->user()->user_role == 1)
+        @if (auth()->user()->user_role == 1)
             <li>
+                <a href="{{ url('user/referal') }}">
+                    <div class="parent-icon"><i class='bx bx-money'></i>
+                    </div>
+                    <div class="menu-title">Bank Account</div>
+                </a>
+            </li>
+            {{-- <li>
                 <a href="{{ url('user/referal') }}">
                     <div class="parent-icon"><i class='bx bx-money'></i>
                     </div>
                     <div class="menu-title">Referals</div>
                 </a>
-            </li>
-        @endif --}}
+            </li> --}}
+        @endif
 
         @if (auth()->user()->user_role == 2)
             <li class="menu-label">Admin Area</li>
