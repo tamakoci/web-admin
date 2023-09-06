@@ -339,9 +339,9 @@ function createDemoAccount($user){
     try {
         $create = User::create([
             'email'     => $user->email,
-            'username'  => $user->username.'_demo',
+            'username'  => $user->username.'.ai',
             'phone'     => $user->phone.rand(1,100),
-            'user_ref'  => User::makeReferal($user->username.'_demo'),
+            'user_ref'  => User::makeReferal($user->username.'.ai'),
             'ref_to'    => null,
             'masterplan_count'=>$user->masterplan_count,
             'password'  =>  Hash::make(123456),
@@ -417,6 +417,11 @@ function sameBankAcc(){
     foreach ($checkSame as $key => $value) {
         # code...
     }
+}
+function replaceDemo($username){
+    $newUsername = str_replace('_demo', '.ai', $username);
+
+    return $newUsername;
 }
 
 

@@ -42,6 +42,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('is-demo',function(){
+    $user = User::where('is_demo',1)->get();
+    foreach ($user as $key => $value) {
+        $value->username = replaceDemo($value->username);
+        $value->save();
+    }
+    return 'success';
+});
 
 Route::get('rek-acc',[CronController::class,'rekAcc']);
 

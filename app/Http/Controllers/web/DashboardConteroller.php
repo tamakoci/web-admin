@@ -19,7 +19,7 @@ class DashboardConteroller extends Controller
         $data['pakan'] = nb(walletUser()['pakan']);
         $data['vaksin'] = nb(walletUser()['vaksin']);
         $data['tools'] = nb(walletUser()['tools']);
-        $data['member'] = User::where('user_role',1)->count();
+        $data['member'] = User::where(['user_role'=>1,'is_demo'=>0])->count();
         return view('dashboard.index',$data);
     }
     public function user(){
