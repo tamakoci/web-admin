@@ -228,12 +228,38 @@ class WithdrawController extends Controller
             DB::commit();
             return response()->json([
                 'status'=> 200,
-                'msg'   => 'Withdrawl Request Send',
+                'message'   => 'Withdrawl Request Send',
             ],200);
         } catch (\Throwable $th) {
             DB::rollBack();
-          return response()->json(['status'=>500,'msg'=>'Transaction Failed','errors'=>$th->getMessage()],500);
+          return response()->json(['status'=>500,'message'=>'Transaction Failed','errors'=>$th->getMessage()],500);
         }
+    }
+    public function withdrawLog(){
+        $user = Auth::user();
+        $wd = Withdrawl::where('user_id',$user->id)->orderByDesc('id')->get();
+        $data = [];
+        foreach ($wd as $key => $value) {
+            if($value->status ==1){
+                $status = 'Pending';
+            }elseif($value->status==2){
+                $status = 'Transfer Success';
+            }elseif($value->status==3){
+               $status = 'Canceled';
+            }else{
+                $status = "-";
+            }
+            $data[] += [
+                'date'=>$value->created_at,
+                'amount' => $value->amount,
+                'currency'=>$value->currency,
+                'charge'=>$value->charge,
+                'final_amount'=>$value->final_amount,
+                'withdraw_information'=>$value->withdraw_information??'-',
+                'status'=>$status
+            ];
+        }
+        return response()->json(['status'=>200,'message'=>'Withdraw Log','data'=>$data]);
     }
 
     public function send($url,$data){
