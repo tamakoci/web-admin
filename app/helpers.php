@@ -418,7 +418,7 @@ function sameBankAcc(){
     if(!$bank)return false;
     $checkSame = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->get();
     if($checkSame->count() <=1) return false;
-    $checkSameFirst = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->first();
+    $checkSameFirst = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->first();
     if($checkSameFirst->user_id != $user->id) return false;
  
     $gemss = 0;
