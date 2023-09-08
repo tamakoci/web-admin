@@ -226,10 +226,13 @@ class WithdrawController extends Controller
                 'hasil_ternak'     => $wallet->hasil_ternak,
             ]);
             DB::commit();
-            return redirect()->back()->with('success','Withdrawl Request Send');
+            return response()->json([
+                'status'=> 200,
+                'msg'   => 'Withdrawl Request Send',
+            ],200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->with('error','Error: '.$th->getMessage());
+          return response()->json(['status'=>500,'msg'=>'Transaction Failed','errors'=>$th->getMessage()],500);
         }
     }
 
