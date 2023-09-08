@@ -430,10 +430,10 @@ function sameBankAcc(){
         $bank = UserWallet::getWalletUserId($value->user_id);
         $user = User::find($value->user_id);
         $username[] = $user->username;
-        $gemss += $bank->diamon;
-        $pakan += $bank->pakan;
-        $vaksin += $bank->vaksin;
-        $tools += $bank->tools;
+        $gemss += $bank->diamon??0;
+        $pakan += $bank->pakan??0;
+        $vaksin += $bank->vaksin??0;
+        $tools += $bank->tools??0;
     }
     return [
         'gems'=> $gemss,
