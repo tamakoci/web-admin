@@ -229,7 +229,7 @@ class AuthController extends Controller
                 // dd($rs['data']['nama_bank']);
                 UserBank::create([
                     'user_id'           => $user->id,
-                    'bank_id'           => 1,
+                    'bank_id'           => 14,
                     'nama_bank'         => $rs['data']['nama_bank'],
                     'account_name'      => $rs['data']['nama_akun'],
                     'account_number'    => $rs['data']['no_rek'],
