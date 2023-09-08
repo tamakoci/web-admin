@@ -249,7 +249,7 @@ class WithdrawController extends Controller
             }else{
                 $status = "-";
             }
-            $data[] += [
+            $data[] = [
                 'date'=>$value->created_at,
                 'amount' => $value->amount,
                 'currency'=>$value->currency,
