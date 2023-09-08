@@ -195,14 +195,14 @@ class WithdrawController extends Controller
     //     }     
     // }
     public function withdraw(Request $request){
-         $validate = Validator::make($request->all(),[
+        $validate = Validator::make($request->all(),[
             'amount'        => 'required|numeric|min:1000',
         ]);
         if($validate->fails()){
             return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
         }
         $wallet = UserWallet::getWallet();
-        if($wallet->diamon - $request->amount <0)return redirect()->back()->with('error','Not Enough Gems');
+        if($wallet->diamon - $request->amount <0)return response()->json(['status'=>'401','message'=>'Not Enough Gems'],401);
         $user = $request->user();
         // dd($request->all());
 
