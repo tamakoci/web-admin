@@ -77,6 +77,7 @@ Route::group(['prefix'=>'v1'],function(){
         Route::post('user-bank-post',[WithdrawController::class,'userBank']);
         Route::get('user-bank-get',[WithdrawController::class,'userBankFind']);
         Route::post('withdraw',[WithdrawController::class,'withdraw']);
+        Route::get('withdraw-log',[WithdrawController::class,'withdrawLog']);
         
         Route::get('referals',[ReferalsController::class,'index']);
         Route::get('collect-bonus/{id}',[ReferalsController::class,'collectBonus']);
