@@ -401,27 +401,49 @@ function walletUser(){
     return ['wallet'=>$diamon,'telur'=>$telur,'pakan'=>$pakan,'vaksin'=>$vaksin,'tools'=>$tools];
 }
 
-function sameBankAcc(){
-    //user login
-    $user = Auth::user();
-    //bank user
-    $bank = UserBank::where('user_id',$user->id)->first();
-    //bank user not found;
-    if(!$bank)return false;
-    $checkSame = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->first();
-    if($checkSame->count() <=1) return false;
-    $checkSameFirst = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->first();
-    if($checkSameFirst != $user->id) return false;
-
-    $data = [];
-    foreach ($checkSame as $key => $value) {
-        # code...
-    }
-}
 function replaceDemo($username){
     $newUsername = str_replace('_demo', '.ai', $username);
 
     return $newUsername;
+}
+
+function sameBankAcc(){
+    //user login
+    $user = Auth::user();
+    if($user->is_demo) return false;
+    //bank user
+    $bank = UserBank::where('user_id',$user->id)->first();
+    // dd($bank);
+    //bank user not found;
+    if(!$bank)return false;
+    $checkSame = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->get();
+    if($checkSame->count() <=1) return false;
+    $checkSameFirst = UserBank::where(['nama_bank'=>$bank->nama_bank,'account_name'=>$bank->account_name])->orderByDesc('id')->first();
+    if($checkSameFirst->user_id != $user->id) return false;
+ 
+    $gemss = 0;
+    $pakan = 0;
+    $vaksin = 0;
+    $tools = 0;
+    $username = [];
+    foreach ($checkSame as $key => $value) {
+        $bank = UserWallet::getWalletUserId($value->user_id);
+        $user = User::find($value->user_id);
+        $username[] = $user->username;
+        $gemss += $bank->diamon;
+        $pakan += $bank->pakan;
+        $vaksin += $bank->vaksin;
+        $tools += $bank->tools;
+    }
+    return [
+        'gems'=> $gemss,
+        'pakan'=>$pakan,
+        'vaksin'=>$vaksin,
+        'tools'=>$tools,
+        'user' => $username
+    ];
+    // $data[3] = ['gemss'=>$gemss,'user_id'=>0];
+    // dd($data);
 }
 
 

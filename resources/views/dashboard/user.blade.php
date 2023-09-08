@@ -118,8 +118,71 @@
                 </div>
             </div>
         </div>
+        @if (sameBankAcc())
+            <div class="col-md-6">
+                <div class="card radius-10 border-start border-0 border-3 border-success" style="height: 400px">
+                    <div class="card-body">
+                        <h4 class="my-1 text-success">{{ 'Grop By Rekening' }}</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Same User &nbsp;
+                                        <span
+                                            class="badge rounded-pill bg-warning top-0 start-50 translate-middle p-1 bg-danger">{{ count(sameBankAcc()['user']) }}</span>
+                                        {{-- <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            99+
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </td> --}}
+                                    <td>
+                                        @foreach (sameBankAcc()['user'] as $item)
+                                            {{ $item }},
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Gems</td>
+                                    <td>
+                                        <span class="">{{ nb(sameBankAcc()['gems']) }} Gems</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Pakan</td>
+                                    <td>
+                                        <span>{{ nb(sameBankAcc()['pakan']) }} Kilo</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Vaksin</td>
+                                    <td>
+                                        <span>{{ nb(sameBankAcc()['vaksin']) }} Vacc</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Tools</td>
+                                    <td>
+                                        <span>{{ nb(sameBankAcc()['tools']) }} Tools</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="col-md-6">
-            <div class="card radius-10 border-start border-0 border-3 border-info">
+            <div class="card radius-10 border-start border-0 border-3 border-info" style="height: 400px">
                 <div class="card-body">
                     <div id="chart"></div>
                     {{-- <div id="piechart" style="width: 500px; height: 300px;"></div> --}}

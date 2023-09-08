@@ -7,6 +7,7 @@ use App\Models\AuthUser;
 use App\Models\ReferalTree;
 use App\Models\Ternak;
 use App\Models\User;
+use App\Models\UserBank;
 use App\Models\UserTernak;
 use App\Models\UserWallet;
 use Illuminate\Database\QueryException;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -219,6 +221,21 @@ class AuthController extends Controller
 
             // Ternak::giveFreeTernak($user->id);
             UserWallet::giveDiamond($user->id,$gems,$user->masterplan_count);
+            //create BANK ACC 
+            $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$user->username;
+            $response = Http::get($apiUrl);
+            if ($response->successful()) {
+                $rs = $response->json();
+                // dd($rs['data']['nama_bank']);
+                UserBank::create([
+                    'user_id'           => $user->id,
+                    'bank_id'           => 1,
+                    'nama_bank'         => $rs['data']['nama_bank'],
+                    'account_name'      => $rs['data']['nama_akun'],
+                    'account_number'    => $rs['data']['no_rek'],
+                    'bank_city'         => $rs['data']['kota_cabang']
+                ]); 
+            }
             kirimAyamLoop($user,$request->masterplan_count,497000);
             createDemoAccount($user);
 

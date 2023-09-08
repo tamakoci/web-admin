@@ -23,7 +23,7 @@ class DashboardConteroller extends Controller
         return view('dashboard.index',$data);
     }
     public function user(){
-        // dd(notifApi());
+        // dd(sameBankAcc());
         $wallet = UserWallet::where('user_id',auth()->user()->id)->orderByDesc('id')->first();
         $hasil_ternak = json_decode($wallet->hasil_ternak);
         $array = (array)$hasil_ternak;
