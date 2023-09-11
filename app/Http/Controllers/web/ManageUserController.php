@@ -4,9 +4,12 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserBank;
 use App\Models\UserRole;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ManageUserController extends Controller
 {
@@ -108,5 +111,30 @@ class ManageUserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function groupUser(){
+        $userBanks = DB::table('user_banks')
+            ->select('nama_bank', 'account_name', 'account_number', DB::raw('COUNT(account_name) as COUNT'))
+            ->where('nama_bank','!=','BANK DUMMY')
+            ->groupBy('nama_bank', 'account_name', 'account_number')
+            ->havingRaw('COUNT(account_name) > 1')
+            ->get();
+        $table = [];
+        foreach ($userBanks as $key => $value) {
+            $checkSame = UserBank::join('users','user_banks.user_id','=','users.id')->where(['nama_bank'=>$value->nama_bank,'account_name'=>$value->account_name])->orderByDesc('id')->get();
+            $table[$key+1] =[];
+            foreach ($checkSame as $v) {
+                    $table[$key] = [
+                        'username'  => $v->username,
+                        'avatar'    => $v->avatar,
+                        'jml_ternak'=> $v->jml_ternak,
+                        'nama_bank' => $v->nama_bank,
+                        'account_name'=> $v->account_name,
+                        'account_number'=> $v->account_number
+                    ];
+            }
+        }
+        dd($table);
     }
 }

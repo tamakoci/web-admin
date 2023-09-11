@@ -26,9 +26,11 @@ use App\Http\Controllers\web\UserController;
 use App\Http\Controllers\web\WithdrawlController;
 use App\Models\Ternak;
 use App\Models\User;
+use App\Models\UserBank;
 use App\Models\UserTernak;
 use App\Models\UserWallet;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -42,6 +44,31 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test-query',function(){
+    $userBanks = DB::table('user_banks')
+            ->select('nama_bank', 'account_name', 'account_number', DB::raw('COUNT(account_name) as COUNT'))
+            ->where('nama_bank','!=','BANK DUMMY')
+            ->groupBy('nama_bank', 'account_name', 'account_number')
+            ->havingRaw('COUNT(account_name) > 1')
+            ->get();
+        $table = [];
+        foreach ($userBanks as $key => $value) {
+            $checkSame = UserBank::join('users','user_banks.user_id','=','users.id')->where(['nama_bank'=>$value->nama_bank,'account_name'=>$value->account_name])->orderByDesc('id')->get();
+            $table[$key+1] =[];
+            foreach ($checkSame as $v) {
+                    $table[$key] = [
+                        'username'  => $v->username,
+                        'avatar'    => $v->avatar,
+                        'jml_ternak'=> $v->jml_ternak,
+                        'nama_bank' => $v->nama_bank,
+                        'account_name'=> $v->account_name,
+                        'account_number'=> $v->account_number
+                    ];
+            }
+        }
+        dd($table);
+});
+
 Route::get('is-demo',function(){
     $user = User::where('is_demo',1)->get();
     foreach ($user as $key => $value) {
@@ -119,7 +146,6 @@ Route::group(["middleware"=>"auth"],function(){
         Route::resource('/ternak',TernakController::class);
         Route::resource('/pakan-ternak',PakanTernakController::class);
         Route::resource('/bank',BankController::class);
-        Route::resource('/manage-user',ManageUserController::class);
         Route::resource('/transaction',TransactionController::class);
         
         // Route::resource('/notif',NotificationController::class);
@@ -130,6 +156,9 @@ Route::group(["middleware"=>"auth"],function(){
         
         Route::get('/ternak-user',[TransactionController::class,'ternakUser']);
         Route::post('beli-ayam',[TransactionController::class,'beliAyamPost'])->name('beliayam');
+        
+        Route::resource('/manage-user',ManageUserController::class);
+        Route::get('group-by-rekening',[ManageUserController::class]);
     });
     Route::get('user-profile',[UserController::class,'index']);
     Route::get('user-profile/{id}',[UserController::class,'getUser']);
