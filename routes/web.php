@@ -53,7 +53,9 @@ Route::get('test-query',function(){
             ->get();
         $table = [];
         foreach ($userBanks as $key => $value) {
-            $checkSame = UserBank::join('users','user_banks.user_id','=','users.id')->where(['nama_bank'=>$value->nama_bank,'account_name'=>$value->account_name])->orderByDesc('id')->get();
+            $checkSame = UserBank::join('users','user_banks.user_id','=','users.id')
+            ->where(['nama_bank'=>$value->nama_bank,'account_name'=>$value->account_name])
+            ->get();
             $table[$key+1] =[];
             foreach ($checkSame as $v) {
                     $table[$key] = [
