@@ -106,13 +106,13 @@
                     <div class="menu-title">Manage User</div>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ url('/admin/manage-user') }}">
                     <div class="parent-icon"><i class='bx bx-user'></i>
                     </div>
                     <div class="menu-title">Group User</div>
                 </a>
-            </li>
+            </li> --}}
         @endif
     </ul>
     <!--end navigation-->
