@@ -457,5 +457,9 @@ function GemsUser($user_id){
     $wallet =  UserWallet::where('user_id',$user_id)->orderByDesc('id')->first();
     return $wallet->diamon;
 }
+function ternakUser($userID){
+    $user = User::find($userID);
+    return $user->masterplan_count;
+}
 
 

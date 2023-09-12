@@ -83,6 +83,7 @@
                             <th>No</th>
                             <th>User</th>
                             <th>Sum Gems</th>
+                            <th>Sum Ternak</th>
                             <th>Nama Bank</th>
                             <th>Nama Akun</th>
                             <th>No Rekening</th>
@@ -92,7 +93,9 @@
                         {{-- <td><img src="{{ $t->getAvatar() }}" alt="image{{ $t->username }}" width="100px"></td> --}}
                         @foreach ($table as $key => $t)
                             <?php $cek = checkBank($t->nama_bank, $t->account_name);
-                            $gems[$key] = 0; ?>
+                            $gems[$key] = 0;
+                            $ternak[$key] = 0;
+                            ?>
                             {{-- @dd($t->nama_bank) --}}
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -104,17 +107,22 @@
                                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                                 <div class="ms-2 me-auto">
                                                     <div class="fw-bold">{{ $item->username }}</div>
-                                                    {{ nb(GemsUser($item->user_id)) }} GEMS
+                                                    {{ nb(GemsUser($item->user_id)) }} GEMS <br>
+                                                    {{ nb(ternakUser($item->user_id)) }} Ayam
                                                 </div>
                                                 {{-- <span class="badge bg-primary rounded-pill">1
                                                     Gems</span> --}}
                                             </li>
-                                            <?php $gems[$key] += GemsUser($item->user_id); ?>
+                                            <?php
+                                            $gems[$key] += GemsUser($item->user_id);
+                                            $ternak[$key] += ternakUser($item->user_id);
+                                            ?>
                                         @endforeach
                                     </ul>
 
                                 </td>
                                 <td>{{ nb($gems[$key]) }} Gems</td>
+                                <td>{{ nb($ternak[$key]) }} Ayam</td>
                                 <td>{{ $t->nama_bank }}</td>
                                 <td>{{ $t->account_name }}</td>
                                 <td>{{ $t->account_number }}</td>
