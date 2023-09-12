@@ -75,44 +75,63 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ url('/admin/notif') }}">
                     <div class="parent-icon"><i class='bx bx-bell'></i>
                     </div>
                     <div class="menu-title">Notifications</div>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="javascript:;" class="has-arrow">
                     <div class="parent-icon"><i class="bx bx-transfer-alt"></i>
                     </div>
-                    <div class="menu-title">Transaction</div>
+                    <div class="menu-title">Withdraw</div>
                 </a>
                 <ul>
+                    <li>
+                        <a href="{{ url('/admin/withdraw/pending') }}">
+                            <i class="bx bx-right-arrow-alt"></i>Pending Log</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/admin/withdraw/success') }}">
+                            <i class="bx bx-right-arrow-alt"></i>Success Log</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/admin/withdraw/cancel') }}">
+                            <i class="bx bx-right-arrow-alt"></i>Cancel Log</a>
+                    </li>
+
+
+
+                    {{-- <li>
+                        <a href="{{ url('/admin/transaction') }}"><i class="bx bx-right-arrow-alt"></i>Log</a>
+                    </li> --}}
+
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-user"></i>
+                    </div>
+                    <div class="menu-title">Manage User </div>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{ url('/admin/group-by-rekening') }}"><i class="bx bx-right-arrow-alt"></i>Group
+                            By Rekening</a>
+                    </li>
                     <li>
                         <a href="{{ url('/admin/ternak-user') }}">
                             <i class="bx bx-right-arrow-alt"></i>Ternak User</a>
                     </li>
                     <li>
-                        <a href="{{ url('/admin/transaction') }}"><i class="bx bx-right-arrow-alt"></i>Log</a>
+                        <a href="{{ url('/admin/manage-user') }}">
+                            <i class="bx bx-right-arrow-alt"></i>Manage User</a>
                     </li>
 
                 </ul>
             </li>
-            <li>
-                <a href="{{ url('/admin/manage-user') }}">
-                    <div class="parent-icon"><i class='bx bx-user'></i>
-                    </div>
-                    <div class="menu-title">Manage User</div>
-                </a>
-            </li>
-            {{-- <li>
-                <a href="{{ url('/admin/manage-user') }}">
-                    <div class="parent-icon"><i class='bx bx-user'></i>
-                    </div>
-                    <div class="menu-title">Group User</div>
-                </a>
-            </li> --}}
         @endif
     </ul>
     <!--end navigation-->

@@ -160,7 +160,14 @@ Route::group(["middleware"=>"auth"],function(){
         Route::post('beli-ayam',[TransactionController::class,'beliAyamPost'])->name('beliayam');
         
         Route::resource('/manage-user',ManageUserController::class);
-        Route::get('group-by-rekening',[ManageUserController::class]);
+
+        Route::get('group-by-rekening',[ManageUserController::class,'groupUser']);
+
+        Route::get('withdraw/{status}',[WithdrawlController::class,'adminCheck']);
+        Route::post('withdraw/{status}',[WithdrawlController::class,'adminCheckCommit']);
+
+        Route::get('cek-bank',[WithdrawlController::class,'checkBank']);
+
     });
     Route::get('user-profile',[UserController::class,'index']);
     Route::get('user-profile/{id}',[UserController::class,'getUser']);

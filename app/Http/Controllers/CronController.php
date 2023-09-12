@@ -36,6 +36,7 @@ class CronController extends Controller
         $this->mail     = env('KPAYEMAIL');
     }
     public function rekAcc(){
+        DB::table('user_banks')->truncate();
         $user = User::where('is_demo',0)->get();
         foreach ($user as $key => $value) {
             $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$value->username;

@@ -446,4 +446,16 @@ function sameBankAcc(){
     // dd($data);
 }
 
+function checkBank($nama_bank,$account_name){
+    $cek = UserBank::join('users','user_banks.user_id','=','users.id')
+            ->where(['nama_bank'=>$nama_bank,'account_name'=>$account_name])
+            ->get();
+
+    return $cek;
+}
+function GemsUser($user_id){
+    $wallet =  UserWallet::where('user_id',$user_id)->orderByDesc('id')->first();
+    return $wallet->diamon;
+}
+
 

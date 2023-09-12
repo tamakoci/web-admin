@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\UserBank;
 use App\Models\UserWallet;
 use App\Models\Withdrawl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class WithdrawlController extends Controller
 {
@@ -124,5 +127,63 @@ class WithdrawlController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function adminCheck($type){
+       
+        if($type == 'pending'){
+            $status = 1;
+        }else if($type == 'success'){
+            $status = 2;
+        }else{
+            $status = 3 ;
+        }
+        $data['title'] = 'Request Withdraw';
+        $data['table'] = Withdrawl::join('users','withdrawls.user_id','=','users.id')
+                        ->select('withdrawls.*','users.username','users.avatar')
+                        ->where('users.is_demo',0)
+                        ->where('withdrawls.status',$status)
+                        ->orderBy('status', 'asc')
+                        ->orderBy('id', 'desc')
+                        ->get();
+        $data['status'] = $status;
+        return view('admin.withdraw',$data);
+    }
+    public function checkBank(Request $request){
+        if($request->ajax()){
+            $rekening = UserBank::where('user_id',$request->user_id)->first();
+
+            return ['status'=>'success','message'=>'rekening user','data'=>$rekening];
+        }
+    }
+    public function adminCheckCommit(Request $request){
+        if($request->type == 'Reject'){
+            $status = 3;
+        }else{
+            $status = 2;
+        }
+        $wd = Withdrawl::findOrFail($request->wd_id);
+        DB::beginTransaction();
+        try {
+            $wd->withdraw_information = $request->withdraw_information;
+            $wd->status = $status;
+            $wd->save();
+            if($status == 2){
+                $user = User::find($wd->user_id);
+                $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
+                UserWallet::create([
+                    'user_id'=>$wd->user_id,
+                    'diamon'=>$wallet->diamon + $wd->amount,
+                    'pakan'=>$wallet->pakan,
+                    'vaksin'=>$wallet->vaksin,
+                    'tools'=>$wallet->tools,
+                    'hasil_ternak' => $wallet->hasil_ternak
+                ]);
+            }
+            DB::commit();
+            return redirect()->back()->with('success','Withdrawl '.$request->type);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error','Error: '.$th->getMessage());
+        }
     }
 }
