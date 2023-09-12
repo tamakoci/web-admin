@@ -107,7 +107,7 @@
                                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                                 <div class="ms-2 me-auto">
                                                     <div class="fw-bold">{{ $item->username }}</div>
-                                                    {{ nb(GemsUser($item->user_id)) }} GEMS <br>
+                                                    {{ nb(GemsUser($item->user_id)) }} GEMS |
                                                     {{ nb(ternakUser($item->user_id)) }} Ayam
                                                 </div>
                                                 {{-- <span class="badge bg-primary rounded-pill">1
