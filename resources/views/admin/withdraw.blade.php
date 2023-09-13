@@ -136,7 +136,7 @@
             var id = $(this).data('id')
             var total = $(this).data('total')
             $.ajax({
-                url: "{{ url('admin/withdraw') }}",
+                url: "{{ url('admin/cek-bank') }}",
                 data: {
                     user_id: user_id
                 },
