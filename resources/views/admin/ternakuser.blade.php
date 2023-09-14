@@ -29,8 +29,8 @@
                         <tr>
                             <td>No</td>
                             <th>Username</th>
-                            <th>Ternak</th>
-                            <th>Jumlah</th>
+                            <th>Gems</th>
+                            <th>Jumlah Ternak</th>
                             <th>Tanggal Beli</th>
                             <th>Status</th>
                         </tr>
@@ -40,8 +40,8 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $t->username }}</td>
-                                <td>{{ 'Ayam' }}</td>
-                                <td>{{ $t->masterplan_count }}</td>
+                                <td>{{ GemsUser($t->id) . ' GEMS' }}</td>
+                                <td>{{ $t->masterplan_count . ' Ayam' }}</td>
                                 <td>{{ dt($t->created_at) }}</td>
                                 <td>
                                     @if ($t->status == 1)
