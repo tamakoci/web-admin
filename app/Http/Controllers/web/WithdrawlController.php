@@ -58,7 +58,7 @@ class WithdrawlController extends Controller
         // dd(sameBankAcc());
         $wallet = UserWallet::getWallet();
         $user_gems = sameBankAcc()?sameBankAcc()['gems']:$wallet->diamon;
-        if($user_gems - $request->amount <0)return redirect()->back()->with('error','Not Enough Gems');
+        if($user_gems - ($request->amount + wd('charge')) < 0)return redirect()->back()->with('error','Not Enough Gems');
         $user = $request->user();
         // dd($request->all());
         DB::beginTransaction();
@@ -100,13 +100,13 @@ class WithdrawlController extends Controller
                     'user_id'       => auth()->user()->id,
                     'amount'        => $request->amount,
                     'currency'      => 'IDR',
-                    'charge'        => 0,
-                    'final_amount'  => $request->amount,
+                    'charge'        => wd('charge'),
+                    'final_amount'  => $request->amount + wd('charge'),
                     'status'        => 1
                 ]);
                 UserWallet::Create([
                     'user_id'   => $user->id,
-                    'diamon'    => $user_gems - $request->amount,
+                    'diamon'    => $user_gems - ($request->amount + wd('charge')),
                     'pakan'     => $wallet->pakan,
                     'vaksin'     => $wallet->vaksin,
                     'tools'     => $wallet->tools,
@@ -115,35 +115,36 @@ class WithdrawlController extends Controller
                 Transaction::create([
                     'user_id' => auth()->user()->id,
                     'last_amount' => $user_gems,
-                    'trx_amount' => $request->amount,
-                    'final_amount'=> $user_gems - $request->amount,
-                    'trx_type'=>'+',
+                    'trx_amount' => $request->amount + wd('charge'),
+                    'final_amount'=> $user_gems - ($request->amount + wd('charge')),
+                    'trx_type'=>'-',
                     'detail'=>'Withdraw '.$request->amount.' GEMS',
                     'trx_id' => Transaction::trxID('WD')
                 ]);
+
             }else{
                 Withdrawl::create([
                     'user_id'       => auth()->user()->id,
                     'amount'        => $request->amount,
                     'currency'      => 'IDR',
-                    'charge'        => 0,
+                    'charge'        => wd('charge'),
                     'final_amount'  => $request->amount,
                     'status'        => 1
                 ]);
                 UserWallet::Create([
                     'user_id'   => $user->id,
-                    'diamon'    => $wallet->diamon - $request->amount,
+                    'diamon'    => $wallet->diamon - ($request->amount + wd('charge')),
                     'pakan'     => $wallet->pakan,
-                    'vaksin'     => $wallet->vaksin,
+                    'vaksin'    => $wallet->vaksin,
                     'tools'     => $wallet->tools,
                     'hasil_ternak'     => $wallet->hasil_ternak,
                 ]);
                 Transaction::create([
                     'user_id' => auth()->user()->id,
                     'last_amount' => $wallet->diamon,
-                    'trx_amount' => $request->amount,
-                    'final_amount'=> $wallet->diamon - $request->amount,
-                    'trx_type'=>'+',
+                    'trx_amount' =>  ($request->amount + wd('charge')),
+                    'final_amount'=> $wallet->diamon -  ($request->amount + wd('charge')),
+                    'trx_type'=>'-',
                     'detail'=>'Withdraw '.$request->amount.' GEMS',
                     'trx_id' => Transaction::trxID('WD')
                 ]);
@@ -239,7 +240,7 @@ class WithdrawlController extends Controller
             $wd->withdraw_information = $request->withdraw_information;
             $wd->status = $status;
             $wd->save();
-            if($status == 2){
+            if($status == 3){
                 $user = User::find($wd->user_id);
                 $wallet = UserWallet::where('user_id',$user->id)->orderByDesc('id')->first();
                 UserWallet::create([
@@ -249,6 +250,15 @@ class WithdrawlController extends Controller
                     'vaksin'=>$wallet->vaksin,
                     'tools'=>$wallet->tools,
                     'hasil_ternak' => $wallet->hasil_ternak
+                ]);
+                Transaction::create([
+                    'user_id' => auth()->user()->id,
+                    'last_amount' => $wallet->diamon,
+                    'trx_amount' =>  $wd->amount,
+                    'final_amount'=> $wallet->diamon +  $wd->amount,
+                    'trx_type'=>'+',
+                    'detail'=>'Reject Withdraw '.$request->amount.' GEMS',
+                    'trx_id' => Transaction::trxID('RWD')
                 ]);
             }
             DB::commit();

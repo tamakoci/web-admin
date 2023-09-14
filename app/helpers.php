@@ -21,6 +21,17 @@ if(!function_exists('active_user')){
     $user = 'test';
     return $user;
 }
+function wd($type=null){
+    $arr = [
+        'limit_min' => 120000,
+        'limit_max' => 1000000,
+        'charge'    => 10000,
+        'process'   => '1 x 24 Hours',
+        'null'  => null,
+    ];
+    return $arr[$type];
+}
+
 function hargaPasar(){
     $telur = ProdukTelurDaily::orderByDesc('id')->limit(5)->get();
     $telurNow = ProdukTelurDaily::orderByDesc('id')->first();
@@ -467,5 +478,6 @@ function ternakUser($userID){
     $user = User::find($userID);
     return $user->masterplan_count;
 }
+
 
 

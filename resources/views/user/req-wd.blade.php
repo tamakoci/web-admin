@@ -43,17 +43,19 @@
                                     <tr>
                                         <th scope="row">Limit:</th>
 
-                                        <td class="text-success text-end">120.000 - 1.000.000 IDR</td>
+                                        <td class="text-success text-end">{{ nb(wd('limit_min')) }} -
+                                            {{ nb(wd('limit_max')) }}
+                                            IDR</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Charge:</th>
 
-                                        <td class="text-danger text-end">0 IDR + 0%</td>
+                                        <td class="text-danger text-end">{{ nb(wd('charge')) }} IDR</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Processing Time -</th>
 
-                                        <td class="text-primary text-end">1 x 24 Hours</td>
+                                        <td class="text-primary text-end">{{ wd('process') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -95,17 +97,19 @@
                                 <tr>
                                     <th scope="row">Limit:</th>
 
-                                    <td class="text-success text-end">120.000 - 1.000.000 IDR</td>
+                                    <td class="text-success text-end">
+                                        {{ nb(wd('limit_min')) . ' - ' . nb(wd('limit_max')) }}
+                                        IDR</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Charge:</th>
 
-                                    <td class="text-danger text-end">0 IDR + 0%</td>
+                                    <td class="text-danger text-end">{{ nb(wd('charge')) }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Processing Time -</th>
 
-                                    <td class="text-primary text-end">1 x 24 Hours</td>
+                                    <td class="text-primary text-end">{{ wd('process') }}</td>
                                 </tr>
                             </tbody>
                         </table>
