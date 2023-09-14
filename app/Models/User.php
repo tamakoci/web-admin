@@ -77,6 +77,7 @@ class User extends Authenticatable implements JWTSubject
             return asset('avatar.png');
         }
     }
+
     public function getStatus(){
         // return $this->status;
         if ($this->status == 1){
@@ -98,6 +99,9 @@ class User extends Authenticatable implements JWTSubject
     }
     public function tree(){
         return $this->hasMany(ReferalTree::class);
+    }
+    public function user_bank(){
+        return $this->hasOne(UserBank::class);
     }
 
     public static function createLevelUser($userID){

@@ -168,11 +168,8 @@ class TransactionController extends Controller
 
     public function ternakUser(){
         $data['title'] = 'Ternak User';
-        $data['table'] = User::with(['wallet'])->where(['user_role'=>1,'is_demo'=>0])->get();
-        // $data['table'] = UserTernak::with(['user','ternak'])->orderByDesc('id')->get();
+        $data['table'] = User::with(['user_bank'])->where(['user_role'=>1,'is_demo'=>0])->get();
         // dd($data);
-        $data['user']  = User::with(['wallet'])->where('user_role',1)->get();
-        $data['ternak']  = Ternak::where('status',1)->get();
         return view('admin.ternakuser',$data);
     }
     public function beliAyamPost(Request $request){
