@@ -38,7 +38,7 @@
                                     <tr>
                                         <th scope="row">Limit:</th>
 
-                                        <td class="text-success text-end">100.000 - 1.000.000 IDR</td>
+                                        <td class="text-success text-end">120.000 - 1.000.000 IDR</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Charge:</th>
