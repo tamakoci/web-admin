@@ -90,7 +90,7 @@
                                 <tr>
                                     <th scope="row">Limit:</th>
 
-                                    <td class="text-success text-end">100.000 - 1.000.000 IDR</td>
+                                    <td class="text-success text-end">120.000 - 1.000.000 IDR</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Charge:</th>
@@ -116,8 +116,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Withdraw</button>
+                        <button type="submit" class="btn btn-primary"
+                            @if ($diamon < 120000) disabled @endif>Withdraw</button>
                     </div>
                 </form>
             </div>
