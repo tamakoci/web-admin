@@ -524,4 +524,13 @@ class CronController extends Controller
         }
         return 'demo success';
     }
+    public function walletUser(){
+        $user = User::where(['is_demo'=>0,'user_role'=>1])->get();
+        foreach ($user as $key => $value) {
+            $gems = GemsUser($value->id);
+            $value->gems = $gems;
+            $value->save();
+        }
+        return 'done';
+    }
 }

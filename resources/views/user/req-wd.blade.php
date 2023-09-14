@@ -13,7 +13,9 @@
             </nav>
         </div>
     </div>
-
+    @php
+        $user_dm = sameBankAcc() ? sameBankAcc()['gems'] : $diamon;
+    @endphp
     <!--end breadcrumb-->
     <div class="container">
         <div class="main-body">
@@ -22,8 +24,11 @@
                     <div class="card b-radius--10 " style="min-height: 16rem;">
                         <div class="card-body text-center" style="display: table; min-height: 16rem; overflow: hidden;">
                             <div style="display: table-cell; vertical-align: middle;">
-                                <h3>Available Balance</h3>
-                                <h1 class="display-4 font-weight-bold">Rp {{ nb($diamon) }}</h1>
+                                <h3>Available Balance</h3><span
+                                    class="badge rounded-pill bg-secondary">{{ 'AKUMULASI ' . count(sameBankAcc()['user']) . ' USER' }}</span>
+                                <h1 class="display-4 font-weight-bold">Rp
+                                    {{ sameBankAcc() ? nb(sameBankAcc()['gems']) : nb($diamon) }}
+                                </h1>
                             </div>
                         </div>
                     </div>
@@ -85,7 +90,7 @@
                                 <tr>
                                     <th scope="row">Available Balance:</th>
 
-                                    <td class="text-info text-end">{{ nb($diamon) }}</td>
+                                    <td class="text-info text-end">{{ nb($user_dm) }} GEMS</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Limit:</th>
@@ -112,6 +117,7 @@
                                 <div class="col-md-8">
                                     <input type="text" name="amount" id="" class="form-control">
                                 </div>
+                                <input type="hidden" name="samebank" value="{{ sameBankAcc() ? 1 : 0 }}">
                             </div>
                         </div>
                     </div>
@@ -119,7 +125,7 @@
 
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary"
-                            @if ($diamon < 120000) disabled @endif>Withdraw</button>
+                            @if ($user_dm < 120000) disabled @endif>Withdraw</button>
                     </div>
                 </form>
             </div>

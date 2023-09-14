@@ -20,7 +20,7 @@ class DashboardConteroller extends Controller
         $data['vaksin'] = nb(walletUser()['vaksin']);
         $data['tools'] = nb(walletUser()['tools']);
         $data['member'] = User::where(['user_role'=>1,'is_demo'=>0])->count();
-        return view('dashboard.index',$data);
+        return view('dashboard.dashboard-admin',$data);
     }
     public function user(){
         // dd(sameBankAcc());
@@ -36,7 +36,7 @@ class DashboardConteroller extends Controller
         $data['tools'] = $wallet->tools;
         $data['telur'] = $productInWallet;
         // dd($data);
-        return view('dashboard.user',$data);
+        return view('dashboard.dashboard-user',$data);
     }
     public function chart(){
         $data = Chart::countProductUser();

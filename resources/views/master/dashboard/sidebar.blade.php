@@ -101,6 +101,10 @@
                         <a href="{{ url('/admin/withdraw/cancel') }}">
                             <i class="bx bx-right-arrow-alt"></i>Cancel Log</a>
                     </li>
+                    <li>
+                        <a href="{{ url('/admin/standby-withdraw') }}">
+                            <i class="bx bx-right-arrow-alt"></i>StandBy Log</a>
+                    </li>
 
 
 

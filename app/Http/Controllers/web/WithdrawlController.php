@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserBank;
 use App\Models\UserWallet;
@@ -53,29 +54,100 @@ class WithdrawlController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        // dd(sameBankAcc());
         $wallet = UserWallet::getWallet();
-        if($wallet->diamon - $request->amount <0)return redirect()->back()->with('error','Not Enough Gems');
+        $user_gems = sameBankAcc()?sameBankAcc()['gems']:$wallet->diamon;
+        if($user_gems - $request->amount <0)return redirect()->back()->with('error','Not Enough Gems');
         $user = $request->user();
         // dd($request->all());
         DB::beginTransaction();
         try {
-            Withdrawl::create([
-                'user_id'       => $user->id,
-                'amount'        => $request->amount,
-                'currency'      => 'IDR',
-                'charge'        => 0,
-                'final_amount'  => $request->amount,
-                'status'        => 1
-            ]);
-          
-            UserWallet::Create([
-                'user_id'   => $user->id,
-                'diamon'    => $wallet->diamon - $request->amount,
-                'pakan'     => $wallet->pakan,
-                'vaksin'     => $wallet->vaksin,
-                'tools'     => $wallet->tools,
-                'hasil_ternak'     => $wallet->hasil_ternak,
-            ]);
+            if($request->samebank == 1){
+                $userID = sameBankAcc()['user_id'];
+                
+                foreach ($userID as $id) {
+                    $wallet2 = UserWallet::where('user_id',$id)->orderByDesc('id')->first();
+                    UserWallet::Create([
+                        'user_id'   => $id,
+                        'diamon'    => 0,
+                        'pakan'     => $wallet2->pakan,
+                        'vaksin'     => $wallet2->vaksin,
+                        'tools'     => $wallet2->tools,
+                        'hasil_ternak'     => $wallet2->hasil_ternak,
+                    ]);
+                    Transaction::create([
+                        'user_id' => $id,
+                        'last_amount' => $wallet2->diamon,
+                        'trx_amount' => $wallet2->diamon,
+                        'final_amount'=> 0,
+                        'trx_type'=>'-',
+                        'detail'=>'Deliver All Diamon to main Account: '.auth()->user()->username,
+                        'trx_id' => Transaction::trxID('TFWD')
+                    ]);
+                    Transaction::create([
+                        'user_id' => auth()->user()->id,
+                        'last_amount' => $wallet->diamon,
+                        'trx_amount' => $wallet2->diamon,
+                        'final_amount'=> $user_gems,
+                        'trx_type'=>'+',
+                        'detail'=>'Deliver All Diamon from second account',
+                        'trx_id' => Transaction::trxID('TFWD')
+                    ]);
+                }
+                
+                Withdrawl::create([
+                    'user_id'       => auth()->user()->id,
+                    'amount'        => $request->amount,
+                    'currency'      => 'IDR',
+                    'charge'        => 0,
+                    'final_amount'  => $request->amount,
+                    'status'        => 1
+                ]);
+                UserWallet::Create([
+                    'user_id'   => $user->id,
+                    'diamon'    => $user_gems - $request->amount,
+                    'pakan'     => $wallet->pakan,
+                    'vaksin'     => $wallet->vaksin,
+                    'tools'     => $wallet->tools,
+                    'hasil_ternak'     => $wallet->hasil_ternak,
+                ]);
+                Transaction::create([
+                    'user_id' => auth()->user()->id,
+                    'last_amount' => $user_gems,
+                    'trx_amount' => $request->amount,
+                    'final_amount'=> $user_gems - $request->amount,
+                    'trx_type'=>'+',
+                    'detail'=>'Withdraw '.$request->amount.' GEMS',
+                    'trx_id' => Transaction::trxID('WD')
+                ]);
+            }else{
+                Withdrawl::create([
+                    'user_id'       => auth()->user()->id,
+                    'amount'        => $request->amount,
+                    'currency'      => 'IDR',
+                    'charge'        => 0,
+                    'final_amount'  => $request->amount,
+                    'status'        => 1
+                ]);
+                UserWallet::Create([
+                    'user_id'   => $user->id,
+                    'diamon'    => $wallet->diamon - $request->amount,
+                    'pakan'     => $wallet->pakan,
+                    'vaksin'     => $wallet->vaksin,
+                    'tools'     => $wallet->tools,
+                    'hasil_ternak'     => $wallet->hasil_ternak,
+                ]);
+                Transaction::create([
+                    'user_id' => auth()->user()->id,
+                    'last_amount' => $wallet->diamon,
+                    'trx_amount' => $request->amount,
+                    'final_amount'=> $wallet->diamon - $request->amount,
+                    'trx_type'=>'+',
+                    'detail'=>'Withdraw '.$request->amount.' GEMS',
+                    'trx_id' => Transaction::trxID('WD')
+                ]);
+            }
             DB::commit();
             return redirect()->back()->with('success','Withdrawl Request Send');
         } catch (\Throwable $th) {
@@ -185,5 +257,10 @@ class WithdrawlController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error','Error: '.$th->getMessage());
         }
+    }
+    public function standby(){
+        $data['title'] = 'Standby Withdraw';
+        $data['table'] = User::where('gems','>=',120000)->orderByDesc('gems')->get();
+        return view('admin.withdraw-standby',$data);
     }
 }

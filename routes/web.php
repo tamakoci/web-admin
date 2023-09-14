@@ -80,6 +80,8 @@ Route::get('is-demo',function(){
     return 'success';
 });
 
+Route::get('cron-wallet',[CronController::class,'walletUser']);
+
 Route::get('rek-acc',[CronController::class,'rekAcc']);
 
 Route::get('create-demo',[CronController::class,'createDemoAccountAll']);
@@ -164,6 +166,7 @@ Route::group(["middleware"=>"auth"],function(){
         Route::get('group-by-rekening',[ManageUserController::class,'groupUser']);
 
         Route::get('withdraw/{status}',[WithdrawlController::class,'adminCheck']);
+        Route::get('standby-withdraw',[WithdrawlController::class,'standby']);
         Route::post('withdraw/{status}',[WithdrawlController::class,'adminCheckCommit']);
 
         Route::get('cek-bank',[WithdrawlController::class,'checkBank']);

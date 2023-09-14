@@ -426,10 +426,15 @@ function sameBankAcc(){
     $vaksin = 0;
     $tools = 0;
     $username = [];
+    $user_id = [];
     foreach ($checkSame as $key => $value) {
         $bank = UserWallet::getWalletUserId($value->user_id);
         $user = User::find($value->user_id);
         $username[] = $user->username;
+        if(auth()->user()->id != $value->user_id){
+            $user_id[] = $user->id;
+        }
+      
         $gemss += $bank->diamon??0;
         $pakan += $bank->pakan??0;
         $vaksin += $bank->vaksin??0;
@@ -440,7 +445,8 @@ function sameBankAcc(){
         'pakan'=>$pakan,
         'vaksin'=>$vaksin,
         'tools'=>$tools,
-        'user' => $username
+        'user' => $username,
+        'user_id'=>$user_id
     ];
     // $data[3] = ['gemss'=>$gemss,'user_id'=>0];
     // dd($data);
