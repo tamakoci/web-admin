@@ -69,6 +69,7 @@ class CronController extends Controller
                 'account_number'    => $rs['data']['no_rek'],
                 'bank_city'         => $rs['data']['kota_cabang']
             ]);
+            echo $user->username ."success \n";
         }
     }
 
