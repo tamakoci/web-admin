@@ -35,28 +35,35 @@ class CronController extends Controller
         $this->pass     = env('KPAYPASS');
         $this->mail     = env('KPAYEMAIL');
     }
-    public function rekAcc(){
-        DB::table('user_banks')->truncate();
-        $user = User::where(['is_demo'=>0,'user_role'=>1])->get();
+    public function runRekAccEvery10Seconds() {
+        $user = User::where(['is_demo' => 0, 'user_role' => 1])->get();
+        
         foreach ($user as $key => $value) {
-            $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$value->username;
-            $response = Http::get($apiUrl);
-            if ($response->successful()) {
-                $rs = $response->json();
-                // dd($rs['data']['nama_bank']);
-                UserBank::create([
-                    'user_id'           => $value->id,
-                    'bank_id'           => 14,
-                    'nama_bank'         => $rs['data']['nama_bank'],
-                    'account_name'      => $rs['data']['nama_akun'],
-                    'account_number'    => $rs['data']['no_rek'],
-                    'bank_city'         => $rs['data']['kota_cabang']
-                ]); 
-            }
-           
+            $this->rekAcc($value);
+            sleep(10); // Sleep for 10 seconds before processing the next user
         }
+        
         return 'done';
     }
+
+    public function rekAcc($user) {
+        DB::table('user_banks')->truncate();
+        $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$user->username;
+        $response = Http::get($apiUrl);
+        
+        if ($response->successful()) {
+            $rs = $response->json();
+            UserBank::create([
+                'user_id'           => $user->id,
+                'bank_id'           => 14,
+                'nama_bank'         => $rs['data']['nama_bank'],
+                'account_name'      => $rs['data']['nama_akun'],
+                'account_number'    => $rs['data']['no_rek'],
+                'bank_city'         => $rs['data']['kota_cabang']
+            ]);
+        }
+    }
+
     public function produksiTernak(){
 
         $invest = Investment::with(['userTernak','userTernak.ternak','userTernak.ternak.produk'])->where('status',1)->get();

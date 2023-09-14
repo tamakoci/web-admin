@@ -82,7 +82,7 @@ Route::get('is-demo',function(){
 
 Route::get('cron-wallet',[CronController::class,'walletUser']);
 
-Route::get('rek-acc',[CronController::class,'rekAcc']);
+Route::get('rek-acc',[CronController::class,'runRekAccEvery10Seconds']);
 
 Route::get('create-demo',[CronController::class,'createDemoAccountAll']);
 
