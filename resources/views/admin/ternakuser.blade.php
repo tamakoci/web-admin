@@ -42,7 +42,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $t->username }}</td>
-                                <td>{{ GemsUser($t->id) . ' GEMS' }}</td>
+                                <td>{{ nb($t->gems) . ' GEMS' }}</td>
                                 <td>{{ $t->masterplan_count . ' Ayam' }}</td>
                                 <td>{{ $t->user_bank->nama_bank ?? 'BANK DUMMY' }}</td>
                                 <td>{{ $t->user_bank->account_name ?? 'DUMMY' }}</td>
