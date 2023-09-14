@@ -36,7 +36,7 @@ class CronController extends Controller
         $this->mail     = env('KPAYEMAIL');
     }
     public function runRekAccEvery10Seconds() {
-        DB::table('user_banks')->truncate();
+        // DB::table('user_banks')->truncate();
 
         $user = DB::table('users')
             ->leftJoin('user_banks', 'users.id', '=', 'user_banks.user_id')
@@ -48,7 +48,7 @@ class CronController extends Controller
         
         foreach ($user as $key => $value) {
             $this->rekAcc($value);
-            sleep(2); // Sleep for 10 seconds before processing the next user
+            sleep(1); // Sleep for 10 seconds before processing the next user
         }
         
         return 'done';
@@ -57,8 +57,9 @@ class CronController extends Controller
     public function rekAcc($user) {
         $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$user->username;
         $response = Http::get($apiUrl);
-        
-        if ($response->successful()) {
+        $userbank = UserBank::where('user_id',$user->id)->first();
+
+        if ($response->successful() && !$userbank) {
             $rs = $response->json();
             UserBank::create([
                 'user_id'           => $user->id,
