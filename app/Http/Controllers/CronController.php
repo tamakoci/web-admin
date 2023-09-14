@@ -37,7 +37,7 @@ class CronController extends Controller
     }
     public function rekAcc(){
         DB::table('user_banks')->truncate();
-        $user = User::where('is_demo',0)->get();
+        $user = User::where(['is_demo'=>0,'user_role'=>1])->get();
         foreach ($user as $key => $value) {
             $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$value->username;
             $response = Http::get($apiUrl);
