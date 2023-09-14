@@ -38,11 +38,17 @@ class CronController extends Controller
     public function runRekAccEvery10Seconds() {
         DB::table('user_banks')->truncate();
 
-        $user = User::where(['is_demo' => 0, 'user_role' => 1])->get();
+        $user = DB::table('users')
+            ->leftJoin('user_banks', 'users.id', '=', 'user_banks.user_id')
+            ->where(['users.is_demo' => 0, 'users.user_role' => 1])
+            ->whereNull('user_banks.user_id')
+            ->select('users.*')
+            ->get();
+        // User::where(['is_demo' => 0, 'user_role' => 1])->get();
         
         foreach ($user as $key => $value) {
             $this->rekAcc($value);
-            sleep(10); // Sleep for 10 seconds before processing the next user
+            sleep(2); // Sleep for 10 seconds before processing the next user
         }
         
         return 'done';
