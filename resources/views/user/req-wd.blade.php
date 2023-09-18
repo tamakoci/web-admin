@@ -24,8 +24,11 @@
                     <div class="card b-radius--10 " style="min-height: 16rem;">
                         <div class="card-body text-center" style="display: table; min-height: 16rem; overflow: hidden;">
                             <div style="display: table-cell; vertical-align: middle;">
-                                <h3>Available Balance</h3><span
-                                    class="badge rounded-pill bg-secondary">{{ 'AKUMULASI ' . count(sameBankAcc()['user']) . ' USER' }}</span>
+                                <h3>Total Hadiah</h3>
+                                @if (sameBankAcc())
+                                    <span
+                                        class="badge rounded-pill bg-secondary">{{ 'AKUMULASI ' . count(sameBankAcc()['user']) . ' USER' }}</span>
+                                @endif
                                 <h1 class="display-4 font-weight-bold">Rp
                                     {{ sameBankAcc() ? nb(sameBankAcc()['gems']) : nb($diamon) }}
                                 </h1>
