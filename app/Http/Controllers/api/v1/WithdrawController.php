@@ -208,23 +208,31 @@ class WithdrawController extends Controller
 
         DB::beginTransaction();
         try {
-            Withdrawl::create([
-                'user_id'       => $user->id,
-                'amount'        => $request->amount,
-                'currency'      => 'IDR',
-                'charge'        => 0,
-                'final_amount'  => $request->amount,
-                'status'        => 1
-            ]);
-          
-            UserWallet::Create([
-                'user_id'   => $user->id,
-                'diamon'    => $wallet->diamon - $request->amount,
-                'pakan'     => $wallet->pakan,
-                'vaksin'     => $wallet->vaksin,
-                'tools'     => $wallet->tools,
-                'hasil_ternak'     => $wallet->hasil_ternak,
-            ]);
+               Withdrawl::create([
+                    'user_id'       => $user->id,
+                    'amount'        => $request->amount,
+                    'currency'      => 'IDR',
+                    'charge'        => wd('charge'),
+                    'final_amount'  => $request->amount,
+                    'status'        => 1
+                ]);
+                UserWallet::Create([
+                    'user_id'   => $user->id,
+                    'diamon'    => $wallet->diamon - ($request->amount + wd('charge')),
+                    'pakan'     => $wallet->pakan,
+                    'vaksin'    => $wallet->vaksin,
+                    'tools'     => $wallet->tools,
+                    'hasil_ternak'     => $wallet->hasil_ternak,
+                ]);
+                Transaction::create([
+                    'user_id' => $user->id,
+                    'last_amount' => $wallet->diamon,
+                    'trx_amount' =>  ($request->amount + wd('charge')),
+                    'final_amount'=> $wallet->diamon -  ($request->amount + wd('charge')),
+                    'trx_type'=>'-',
+                    'detail'=>'Withdraw '.$request->amount.' GEMS',
+                    'trx_id' => Transaction::trxID('WD')
+                ]);
             DB::commit();
             return response()->json([
                 'status'=> 200,
