@@ -12,6 +12,7 @@ use App\Http\Controllers\api\v1\TransactionController;
 use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\api\v1\WithdrawController;
 use App\Models\Investment;
+use App\Models\Ternak;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,8 @@ Route::group(['prefix'=>'v1'],function(){
     Route::get('trx-details/{id}',[TransactionController::class,'trxDetails']);
     Route::get('grafik-telur',[TernakController::class,'hargaTelur']);
 
+    // Route::get('wd-info',[WithdrawController::class,'infoWd']);
+    Route::get('wd-info',[WithdrawController::class,'infoWd']);
 
     Route::get('reset-activity',function(){
         Investment::where(['user_id'=>72,'status'=>1])->update(['status'=>0]);

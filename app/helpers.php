@@ -23,9 +23,9 @@ if(!function_exists('active_user')){
 }
 function wd($type=null){
     $arr = [
-        'limit_min' => 120000,
+        'limit_min' => 110000,
         'limit_max' => 1000000,
-        'charge'    => 10000,
+        'charge'    => 5000,
         'process'   => '1 x 24 Hours',
         'null'  => null,
     ];

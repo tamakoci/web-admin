@@ -282,6 +282,15 @@ class WithdrawController extends Controller
         curl_close($curl);
         return $response;
     }
+    public function infoWd(){
+        $arr = [
+            'limit_min' => wd('limit_min'),
+            'limit_max' => wd('limit_max'),
+            'charge'    => wd('charge'),
+            'process'   => wd('process'),
+        ];
+        return response()->json(['status'=>200,'message'=>'Withdraw Info','data'=>$arr]);
+    }
 
     
 }
