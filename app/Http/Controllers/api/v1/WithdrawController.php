@@ -196,7 +196,7 @@ class WithdrawController extends Controller
     // }
     public function withdraw(Request $request){
         $validate = Validator::make($request->all(),[
-            'amount'        => 'required|numeric|min:1000',
+            'amount'        => 'required|numeric|min:110000',
         ]);
         if($validate->fails()){
             return response()->json(['status'=>'401','message'=>'Validation Error','errors'=>$validate->getMessageBag()],401);
