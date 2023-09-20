@@ -124,19 +124,8 @@ class UserController extends Controller
         ];
     }
     public function checkRekening(){
+
         $user   = Auth::user();
-        $dataBozgems = [
-                "status"=> 200,
-                "message"=> "Rekening User",
-                "data"=>[
-                    "nama_bank" => "BANK MANDIRI",
-                    "nama_akun" => "Aris waluyo",
-                    "no_rek"    => 1390005339787,
-                    "kota_cabang"=>"Purwokerto"
-                ]
-        ];
-        if($user->username == 'bozgems')return response()->json($dataBozgems);
-        
         $apiUrl = 'https://masterplan.co.id/api/rekening-info/'.$user->username;
         
         $response = Http::get($apiUrl);
