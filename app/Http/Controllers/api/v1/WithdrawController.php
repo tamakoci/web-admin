@@ -213,7 +213,7 @@ class WithdrawController extends Controller
                     'amount'        => $request->amount,
                     'currency'      => 'IDR',
                     'charge'        => wd('charge'),
-                    'final_amount'  => $request->amount,
+                    'final_amount'  => $request->amount - wd('charge'),
                     'status'        => 1
                 ]);
                 UserWallet::Create([

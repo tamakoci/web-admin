@@ -26,13 +26,13 @@
                     <div class="menu-title">Bank Account</div>
                 </a>
             </li> --}}
-            {{-- <li>
+            <li>
                 <a href="{{ url('user/withdrawl') }}">
                     <div class="parent-icon"><i class='bx bx-money'></i>
                     </div>
                     <div class="menu-title">Withdrawal Now</div>
                 </a>
-            </li> --}}
+            </li>
             {{-- <li>
                 <a href="{{ url('user/referal') }}">
                     <div class="parent-icon"><i class='bx bx-money'></i>

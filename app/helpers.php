@@ -420,6 +420,8 @@ function replaceDemo($username){
 
 function sameBankAcc(){
     //user login
+    return false;
+    
     $user = Auth::user();
     if($user->is_demo) return false;
     //bank user
