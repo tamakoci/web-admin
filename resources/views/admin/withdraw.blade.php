@@ -82,7 +82,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $title }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ url('admin/withdraw') }}" method="POST">
+                <form action="{{ url('admin/withdraw-post') }}" method="POST">
                     @csrf
                     <input type="hidden" name="wd_id" id="id">
                     <div class="modal-body">

@@ -3,7 +3,7 @@
 use App\Http\Controllers\api\v1\TransactionController as V1TransactionController;
 use App\Http\Controllers\api\v1\WithdrawController;
 use App\Http\Controllers\CronController;
-use App\Http\Controllers\PaymentGatewayController;
+use App\Http\Controllers\PaymentGatewayController; 
 use App\Http\Controllers\web\AuthController;
 use App\Http\Controllers\web\BankController;
 use App\Http\Controllers\web\DashboardConteroller;
@@ -167,7 +167,8 @@ Route::group(["middleware"=>"auth"],function(){
 
         Route::get('withdraw/{status}',[WithdrawlController::class,'adminCheck']);
         Route::get('standby-withdraw',[WithdrawlController::class,'standby']);
-        Route::post('withdraw/{status}',[WithdrawlController::class,'adminCheckCommit']);
+        // Route::post('withdraw/{status}',[WithdrawlController::class,'adminCheckCommit']);
+        Route::post('withdraw-post',[WithdrawlController::class,'adminCheckCommit']);
 
         Route::get('cek-bank',[WithdrawlController::class,'checkBank']);
 
