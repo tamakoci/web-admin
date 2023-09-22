@@ -29,8 +29,8 @@
                         <tr>
                             <td>No</td>
                             <th>Date</th>
-                            <th>Harga</th>
-                            <th>Presentase</th>
+                            <th class="text-end">Harga /butir</th>
+                            <th class="text-end">Presentase</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -38,10 +38,22 @@
                         @foreach ($table as $t)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $t->date }}</td>
-                                <td>{{ $t->harga }}</td>
-                                <td>{{ $t->percent }}</td>
+                                <td>{{ dt($t->date) }}</td>
+                                <td class="text-end">{{ nb($t->harga) }} IDR</td>
                                 <td class="text-end">
+                                    @if ($t->percent > 0)
+                                        <h6 class="text-success">+{{ $t->percent }} %</h6>
+                                    @elseif($t->percent == 0)
+                                        <h6 class="text-secondary">{{ $t->percent }} %</h6>
+                                    @else
+                                        <h6 class="text-danger">{{ $t->percent }} %</h6>
+                                    @endif
+
+                                </td>
+                                {{-- <td>{!! $t->percent > 0
+                                    ? '<span class=" text-success">+' . $t->percent . '</span>'
+                                    : '<span class=" text-danger">' . $t->percent . '</span>' !!}</td> --}}
+                                <td class="text-center">
                                     <form action="{{ url('admin/telur/' . $t->id) }}" method="POST">
                                         <button type="button" data-id="{{ $t->id }}"
                                             data-harga="{{ $t->harga }}" data-date="{{ $t->date }}"
