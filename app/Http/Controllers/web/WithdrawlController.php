@@ -270,7 +270,7 @@ class WithdrawlController extends Controller
     }
     public function standby(){
         $data['title'] = 'Standby Withdraw';
-        $data['table'] = User::where('gems','>=',120000)->where(['is_demo'=>0,'user_role'=>1])->orderByDesc('gems')->get();
+        $data['table'] = User::where('gems','>=',wd('limit_min'))->where(['is_demo'=>0,'user_role'=>1])->orderByDesc('gems')->get();
         return view('admin.withdraw-standby',$data);
     }
 }
