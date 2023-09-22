@@ -17,7 +17,7 @@ class TelurController extends Controller
     public function index()
     {
         $data['title'] = 'Telur';
-        $data['table'] = ProdukTelurDaily::all();
+        $data['table'] = ProdukTelurDaily::orderByDesc('id')->limit(30)->get();
         return view('masterdata.telur',$data);
     }
 
