@@ -611,7 +611,7 @@ class CronController extends Controller
             $title  = notifMsg($type,$cost,$count)['title'];
             $msg    = notifMsg($type,$cost,$count)['msg'];
 
-            makenotif($value->id,$title,$msg);
+            makenotif($user->id,$title,$msg);
 
         }
 
