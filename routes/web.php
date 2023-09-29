@@ -89,6 +89,7 @@ Route::get('create-demo',[CronController::class,'createDemoAccountAll']);
 Route::get('living-cost',[CronController::class,'livingCost']);
 
 Route::get('jualtelur/',[CronController::class,'jualTelurId']);
+Route::get('peripakanID/',[CronController::class,'PakanTernakId']);
 
 Route::get('beri-pakan-pagi',[CronController::class,'beriPakan']); //9
 Route::get('beri-vaksin',[CronController::class,'beriVaksin']); //1

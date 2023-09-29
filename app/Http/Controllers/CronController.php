@@ -564,4 +564,60 @@ class CronController extends Controller
             'data'=> $data
         ];
     }
+    public function PakanTernakId(Request $request){
+        // dd($request->id1);
+        // dd(10<10);
+        $type=1;
+        $pakan_cost = 89;
+        $data = [];
+        foreach ($request->all() as $key => $value) {
+            $data[] = $value;
+            $user = User::find($value);
+            $ternak= $user->masterplan_count;
+            
+            $cost = $ternak * $pakan_cost;
+            $commision = $ternak;
+            $count = $ternak;
+
+            $wallet = UserWallet::getWalletUserId($value);
+
+            $trxID = Transaction::trxID('BP');
+            Investment::create([
+                'user_id'       => $user->id,
+                'user_ternak'   => 1,
+                'transaction'   => $trxID,
+                'collected'     => 0,
+                'remains'       => 0,
+                'commision'     => $commision,
+                'mark'          => $type,
+                'status'        => 1
+            ]);
+            Transaction::create([
+                'user_id'       => $user->id,
+                'last_amount'   => $wallet->diamon,
+                'trx_amount'    => $cost,
+                'final_amount'  => $wallet->diamon - $cost,
+                'trx_type'=>'-',
+                'detail'=>notifMsg($type,$cost,$count)['title'],
+                'trx_id' => $trxID
+            ]);
+            UserWallet::create([
+                'user_id'=>$user->id,
+                'diamon'=>$wallet->diamon - $cost,
+                'pakan'=>0,
+                'hasil_ternak' => $wallet->hasil_ternak
+            ]);
+            
+            $title  = notifMsg($type,$cost,$count)['title'];
+            $msg    = notifMsg($type,$cost,$count)['msg'];
+
+            makenotif($value->id,$title,$msg);
+
+        }
+
+        return [
+            'msg' => 'success beripakan userid :',
+            'data'=> $data
+        ];
+    }
 }
