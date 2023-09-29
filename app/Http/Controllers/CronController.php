@@ -556,7 +556,7 @@ class CronController extends Controller
         foreach ($request->all() as $key => $value) {
             $data[] = $value;
             // dd($value);
-            jualTelur($request->id1,1);
+            jualTelur($value,1);
 
         }
         return [
