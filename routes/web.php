@@ -79,6 +79,12 @@ Route::get('is-demo',function(){
     }
     return 'success';
 });
+Route::get('jam-server',function(){
+    return [
+        'status' => 'Jam server',
+        'data'  => "The time is " . date("h:i:sa")
+    ];
+});
 
 Route::get('cron-wallet',[CronController::class,'walletUser']);
 
