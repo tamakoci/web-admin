@@ -213,8 +213,8 @@ function jualTelur($user_id,$productRequest=1){
     $wallet = UserWallet::getWalletUserId($user_id);
     $hasil_ternak = json_decode($wallet->hasil_ternak);
     $array = (array)$hasil_ternak;
-    $productInWallet = $array[1]->qty;
-    $productRequest = $productInWallet;
+    $productInWallet = $array[1]->qty; //10
+    $productRequest = $productInWallet; //10
     
     if($productInWallet < $productRequest && $productInWallet == 0){
         return false;

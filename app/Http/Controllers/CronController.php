@@ -549,4 +549,19 @@ class CronController extends Controller
         }
         return 'done';
     }
+    public function jualTelurId(Request $request){
+        // dd($request->id1);
+        // dd(10<10);
+        $data = [];
+        foreach ($request->all() as $key => $value) {
+            $data[] = $value;
+            // dd($value);
+            jualTelur($request->id1,1);
+
+        }
+        return [
+            'msg' => 'success',
+            'data'=> $data
+        ];
+    }
 }
